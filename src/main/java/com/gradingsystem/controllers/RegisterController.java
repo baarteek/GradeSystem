@@ -1,5 +1,6 @@
 package com.gradingsystem.controllers;
 
+import com.gradingsystem.utils.Validator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,8 @@ public class RegisterController {
     @FXML
     private TextField emailTextField;
     @FXML
+    private TextField peselTextField;
+    @FXML
     private TextField phoneNumberTextField;
     @FXML
     private PasswordField passwordField;
@@ -36,9 +39,34 @@ public class RegisterController {
     private Scene loginScene;
     private Parent root;
 
+    public boolean checkDataValidity() {
+        if(nameTextField.getText().isEmpty() || surnameTextField.getText().isEmpty()) {
+            errorLabel.setText("Fill in all fields");
+            return false;
+        }
+        if(!Validator.validateEmail(emailTextField.getText())) {
+            errorLabel.setText("Invalid E-mail");
+            return false;
+        }
+        if(!Validator.validatePassword(passwordField.getText())) {
+            errorLabel.setText("Password must be between 9 and 20 characters long, contain at least\none number, one capital letter and one special characterl");
+            return false;
+        }
+        if(!Validator.validatePESEL(peselTextField.getText())) {
+            errorLabel.setText("Incorrect PESEL");
+            return false;
+        }
+        if(!Validator.validatePhoneNumber(phoneNumberTextField.getText())) {
+            errorLabel.setText("Incorrect phone number");
+            return false;
+        }
+        return true;
+    }
+
     public void addNewUser(ActionEvent event) {
-        errorLabel.setText("something wrong");
-        //rejestracja uzytkownika
+        if(checkDataValidity()) {
+
+        }
     }
 
     public void switchToLoginScene(ActionEvent event) throws IOException {
