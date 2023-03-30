@@ -28,11 +28,24 @@ public class LoginController {
     @FXML
     private RadioButton radioButtonTeacher;
     private Stage stage;
+    private Stage teacherStage;
     private Scene registerScene;
+    private Scene teacherScene;
     private Parent root;
 
     public void login(ActionEvent event) {
         errorLabel.setText("Incorrect login or password");
+        try {
+            root = FXMLLoader.load(getClass().getResource("/com/gradingsystem/views/teacher-view.fxml"));
+            teacherStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            teacherScene = new Scene(root, 1600, 800);
+            teacherScene.getStylesheets().add(getClass().getResource("/com/gradingsystem/css/teacher-style.css").toExternalForm());
+            teacherStage.setScene(teacherScene);
+            teacherStage.show();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
 
         //dodac obsluge logowania
     }
@@ -42,6 +55,7 @@ public class LoginController {
             root = FXMLLoader.load(getClass().getResource("/com/gradingsystem/views/register-view.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             registerScene = new Scene(root, 1600, 800);
+            registerScene.getStylesheets().add(getClass().getResource("/com/gradingsystem/css/login-style.css").toExternalForm());
             stage.setScene(registerScene);
             stage.show();
         } catch (Exception e) {

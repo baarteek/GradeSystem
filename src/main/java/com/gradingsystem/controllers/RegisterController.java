@@ -30,7 +30,7 @@ public class RegisterController {
     @FXML
     private PasswordField passwordField;
     @FXML
-    private Button registerButton;
+    private Button register2Button;
     @FXML
     private Button backButton;
     @FXML
@@ -74,6 +74,7 @@ public class RegisterController {
             root = FXMLLoader.load(getClass().getResource("/com/gradingsystem/views/login-view.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             loginScene = new Scene(root, 1600, 800);
+            loginScene.getStylesheets().add(getClass().getResource("/com/gradingsystem/css/login-style.css").toExternalForm());
             stage.setScene(loginScene);
             stage.show();
         } catch (Exception e) {

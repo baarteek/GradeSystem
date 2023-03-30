@@ -100,7 +100,7 @@
                   <Insets />
                </FlowPane.margin>
             </HBox>
-            <TextField fx:id="loginTextField" alignment="CENTER" promptText="USERNAME" style="-fx-background-color: #545252; -fx-text-fill: #FFFFFF;">
+            <TextField fx:id="loginTextField" alignment="CENTER" promptText="USERNAME">
                <FlowPane.margin>
                   <Insets bottom="40.0" top="30.0" />
                </FlowPane.margin>
@@ -114,7 +114,7 @@
                   <DropShadow />
                </effect>
             </TextField>
-            <PasswordField fx:id="passwordField" alignment="TOP_CENTER" promptText="PASSWORD" style="-fx-background-color: #545252; -fx-text-fill: #FFFFFF;">
+            <PasswordField fx:id="passwordField" alignment="TOP_CENTER" promptText="PASSWORD">
                <font>
                   <Font size="20.0" />
                </font>
@@ -125,7 +125,7 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </PasswordField>
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="44.0" prefWidth="400.0" style="-fx-background-color: #4679f0;" text="LOGIN" textFill="WHITE">
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="44.0" prefWidth="400.0" text="LOGIN" textFill="WHITE">
                <FlowPane.margin>
                   <Insets top="40.0" />
                </FlowPane.margin>
@@ -155,7 +155,7 @@
                   <BoxBlur height="0.0" iterations="3" width="60.0" />
                </effect>
             </Separator>
-            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#switchToRegisterScene" prefHeight="25.0" prefWidth="400.0" style="-fx-background-color: #354875;" text="CREATE NEW ACCOUNT" textFill="WHITE">
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#switchToRegisterScene" prefHeight="25.0" prefWidth="400.0" text="CREATE NEW ACCOUNT" textFill="WHITE">
                <FlowPane.margin>
                   <Insets top="30.0" />
                </FlowPane.margin>
