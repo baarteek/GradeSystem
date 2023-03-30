@@ -1,0 +1,134 @@
+#gradeManagementHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#gradeManagementHBox:hover > #gradeManagementImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#gradeManagementHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#gradeOverviewHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#gradeOverviewHBox:hover > #gradeOverviewImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#gradeOverviewHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#statisticsHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#statisticsHBox:hover > #statisticsImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#statisticsHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#studentProfilesHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#studentProfilesHBox:hover > #studentProfilesImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#studentProfilesHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#classManagementHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#classManagementHBox:hover > #classManagementImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#classManagementHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#subjectManagementHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#subjectManagementHBox:hover > #subjectManagementImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#subjectManagementHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#notificationsHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#notificationsHBox:hover > #notificationsImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#notificationsHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#messagesHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#messagesHBox:hover > #messagesImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#messagesHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#settingsHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#settingsHBox:hover > #settingsImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#settingsHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#logoutHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#logoutHBox:hover > #logoutImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#logoutHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#settingsImageView:hover {
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
