@@ -1,3 +1,35 @@
+.text-field, .password-field {
+    -fx-background-color: #545252;
+    -fx-text-fill: #FFFFFF;
+}
+
+.text-field:hover, .password-field:hover {
+    -fx-background-color: #808587;
+}
+
+.radio-button {
+    -fx-text-fill: #FFFFFF;
+}
+
+.radio-button:hover {
+    -fx-curosr: hand
+}
+
+
+#changePasswordButton, #editMyAccountButton {
+    -fx-background-color:  #3548ff;
+    -fx-text-fill: #FFFFFF;
+}
+
+#changePasswordButton:hover, #editMyAccountButton:hover {
+    -fx-background-color:  #1C32FA;
+}
+
+.button:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
 #gradeManagementHBox:hover {
     -fx-background-color: #333333;
 }
@@ -132,3 +164,9 @@
     -fx-scale-x: 1.2;
     -fx-scale-y: 1.2;
 }
+
+#subjectsMyAccountHBox:hover, #classesMyAccountHBox:hover, #phoneNumberMyAccountHBox:hover, #emailMyAccountHBox:hover, #peselMyAccountHBox:hover, #suenameMyAccountHBox:hover, #nameMyAccountHBox:hover {
+    -fx-background-color: #333333;
+}
+
+

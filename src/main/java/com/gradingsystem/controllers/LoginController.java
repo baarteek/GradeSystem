@@ -33,19 +33,9 @@ public class LoginController {
     private Scene teacherScene;
     private Parent root;
 
-    public void login(ActionEvent event) {
+    public void login(ActionEvent event) throws IOException {
         errorLabel.setText("Incorrect login or password");
-        try {
-            root = FXMLLoader.load(getClass().getResource("/com/gradingsystem/views/teacher-view.fxml"));
-            teacherStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            teacherScene = new Scene(root, 1600, 800);
-            teacherScene.getStylesheets().add(getClass().getResource("/com/gradingsystem/css/teacher-style.css").toExternalForm());
-            teacherStage.setScene(teacherScene);
-            teacherStage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();
-        }
+        switchToTeacherrScene(event);
 
         //dodac obsluge logowania
     }
@@ -58,6 +48,20 @@ public class LoginController {
             registerScene.getStylesheets().add(getClass().getResource("/com/gradingsystem/css/login-style.css").toExternalForm());
             stage.setScene(registerScene);
             stage.show();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void switchToTeacherrScene(ActionEvent event) throws IOException {
+        try {
+            root = FXMLLoader.load(getClass().getResource("/com/gradingsystem/views/teacher-view.fxml"));
+            teacherStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            teacherScene = new Scene(root, 1600, 800);
+            teacherScene.getStylesheets().add(getClass().getResource("/com/gradingsystem/css/teacher-style.css").toExternalForm());
+            teacherStage.setScene(teacherScene);
+            teacherStage.show();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
