@@ -18,11 +18,11 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" style="-fx-background-color: #222222;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gradingsystem.controllers.LoginController">
+<FlowPane fx:id="mainFlowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" style="-fx-background-color: #222222;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gradingsystem.controllers.LoginController">
    <children>
-      <FlowPane prefHeight="158.0" prefWidth="1601.0">
+      <FlowPane fx:id="titleFlowPane" prefHeight="158.0" prefWidth="1601.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="160.0" prefWidth="1602.0" text="Electronic Grading System">
+            <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="1602.0" text="Electronic Grading System">
                <font>
                   <Font name="Frank Ruehl CLM Bold" size="80.0" />
                </font>
@@ -50,10 +50,10 @@
             </Label>
          </children>
       </FlowPane>
-      <Separator prefHeight="0.0" prefWidth="1600.0" />
-      <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="637.0" prefWidth="1602.0">
+      <Separator fx:id="mainSeparator" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="1600.0" />
+      <FlowPane fx:id="loginFlowPane" alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="637.0" prefWidth="1602.0">
          <children>
-            <Label prefHeight="66.0" prefWidth="400.0" text="LOGIN TO ACCONT" textFill="WHITE">
+            <Label fx:id="loginTitleLabel" prefHeight="66.0" prefWidth="400.0" text="LOGIN TO ACCONT" textFill="WHITE">
                <font>
                   <Font size="45.0" />
                </font>
@@ -61,12 +61,12 @@
                   <Insets top="30.0" />
                </FlowPane.margin>
             </Label>
-            <Separator prefWidth="200.0">
+            <Separator fx:id="loginSeparator" prefWidth="200.0">
                <effect>
                   <BoxBlur height="3.0" iterations="3" width="255.0" />
                </effect>
             </Separator>
-            <HBox alignment="CENTER">
+            <HBox fx:id="loginAsHBox" alignment="CENTER">
                <padding>
                   <Insets top="30.0" />
                </padding>
@@ -153,7 +153,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <Separator prefWidth="200.0">
+            <Separator fx:id="registerSeparator" prefWidth="200.0">
                <FlowPane.margin>
                   <Insets top="30.0" />
                </FlowPane.margin>

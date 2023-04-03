@@ -1,9 +1,12 @@
 package com.gradingsystem.controllers;
 
 import com.gradingsystem.utils.Validator;
+import com.gradingsystem.utils.ViewSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,12 +14,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import javax.security.auth.PrivateCredentialPermission;
 import java.io.IOException;
 import java.nio.Buffer;
+import java.util.PrimitiveIterator;
+import java.util.concurrent.Flow;
 
 public class RegisterController {
+    @FXML
+    private FlowPane mainFlowPane;
+    @FXML
+    private FlowPane titleFlowPane;
+    @FXML
+    private FlowPane registerFlowPane;
+    @FXML
+    private HBox registerHBox;
     @FXML
     private TextField nameTextField;
     @FXML
@@ -34,10 +50,21 @@ public class RegisterController {
     @FXML
     private Button backButton;
     @FXML
+    private Label titleLabel;
+    @FXML
     private Label errorLabel;
     private Stage stage;
     private Scene loginScene;
     private Parent root;
+
+    @FXML
+    private void initialize() {
+        mainFlowPane.setPrefWidth(Double.MAX_VALUE);
+        mainFlowPane.setPrefHeight(Double.MAX_VALUE);
+        mainFlowPane.setAlignment(Pos.CENTER);
+        mainFlowPane.setPadding(new Insets(50, 100, 50, 100));
+
+    }
 
     public boolean checkDataValidity() {
         if(nameTextField.getText().isEmpty() || surnameTextField.getText().isEmpty()) {
@@ -70,16 +97,6 @@ public class RegisterController {
     }
 
     public void switchToLoginScene(ActionEvent event) throws IOException {
-        try {
-            root = FXMLLoader.load(getClass().getResource("/com/gradingsystem/views/login-view.fxml"));
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            loginScene = new Scene(root, 1600, 800);
-            loginScene.getStylesheets().add(getClass().getResource("/com/gradingsystem/css/login-style.css").toExternalForm());
-            stage.setScene(loginScene);
-            stage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();
-        }
+        ViewSwitcher.switchScene(event, root, stage, loginScene, "login-view", "login-style", this);
     }
 }

@@ -19,7 +19,7 @@ public class HelloApplication extends Application {
             stage.setTitle("Electronic Grading System");
             stage.getIcons().add(new Image(getClass().getResourceAsStream("icons/icon.png")));
             stage.setScene(loginScene);
-            stage.setResizable(false);
+            //stage.setResizable(false);
             stage.show();
         }
         catch (Exception e) {

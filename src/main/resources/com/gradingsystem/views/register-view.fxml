@@ -16,11 +16,11 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" style="-fx-background-color: #222222;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gradingsystem.controllers.RegisterController">
+<FlowPane fx:id="mainFlowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" style="-fx-background-color: #222222;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gradingsystem.controllers.RegisterController">
    <children>
-      <FlowPane prefHeight="158.0" prefWidth="1601.0">
+      <FlowPane fx:id="titleFlowPane" prefHeight="158.0" prefWidth="1601.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="160.0" prefWidth="1602.0" text="Electronic Grading System">
+            <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="160.0" prefWidth="1602.0" text="Electronic Grading System">
                <font>
                   <Font name="Frank Ruehl CLM Bold" size="80.0" />
                </font>
@@ -49,7 +49,7 @@
          </children>
       </FlowPane>
       <Separator prefHeight="0.0" prefWidth="1600.0" />
-      <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="637.0" prefWidth="1602.0">
+      <FlowPane fx:id="registerFlowPane" alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="637.0" prefWidth="1602.0">
          <children>
             <Label prefHeight="66.0" prefWidth="500.0" text="CREATE NEW ACCOUNT" textFill="WHITE">
                <font>
@@ -64,7 +64,7 @@
                   <BoxBlur height="3.0" iterations="3" width="255.0" />
                </effect>
             </Separator>
-            <HBox alignment="CENTER" prefHeight="72.0" prefWidth="500.0">
+            <HBox fx:id="registerHBox" alignment="CENTER" prefHeight="72.0" prefWidth="500.0">
                <children>
                   <TextField fx:id="nameTextField" alignment="CENTER" prefHeight="44.0" prefWidth="250.0" promptText="NAME">
                      <font>

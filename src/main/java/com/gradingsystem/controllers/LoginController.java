@@ -1,18 +1,43 @@
 package com.gradingsystem.controllers;
 
 import com.gradingsystem.utils.Validator;
+import com.gradingsystem.utils.ViewSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import java.io.IOException;
+import javafx.scene.layout.HBox;
 
 
 public class LoginController {
+    @FXML
+    private FlowPane mainFlowPane;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Separator mainSeparator;
+    @FXML
+    private FlowPane loginFlowPane;
+    @FXML
+    private FlowPane titleFlowPane;
+    @FXML
+    private Label loginTitleLabel;
+    @FXML
+    private Separator loginSeparator;
+    @FXML
+    private HBox loginAsHBox;
+    @FXML
+    private Separator registerSeparator;
     @FXML
     private TextField loginTextField;
     @FXML
@@ -33,39 +58,30 @@ public class LoginController {
     private Scene teacherScene;
     private Parent root;
 
+
+    public void initialize() {
+        mainFlowPane.setAlignment(Pos.TOP_CENTER);
+        loginFlowPane.setPrefWrapLength(200);
+        mainFlowPane.setMargin(titleLabel, new Insets(20, 0, 20, 0));
+        mainFlowPane.setMargin(loginFlowPane, new Insets(0, 0, 20, 0));
+        mainFlowPane.setMargin(loginButton, new Insets(40, 0, 10, 0));
+        mainFlowPane.setMargin(registerButton, new Insets(40, 0, 10, 0));
+        mainFlowPane.setMargin(errorLabel, new Insets(10, 0, 0, 0));
+        titleLabel.setMaxWidth(Double.MAX_VALUE);
+        titleFlowPane.setHgap(Double.MAX_VALUE);
+    }
+
+
     public void login(ActionEvent event) throws IOException {
         errorLabel.setText("Incorrect login or password");
-        switchToTeacherrScene(event);
+        ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "teacher-view", "teacher-style", this);
 
         //dodac obsluge logowania
     }
 
     public void switchToRegisterScene(ActionEvent event) throws IOException {
-        try {
-            root = FXMLLoader.load(getClass().getResource("/com/gradingsystem/views/register-view.fxml"));
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            registerScene = new Scene(root, 1600, 800);
-            registerScene.getStylesheets().add(getClass().getResource("/com/gradingsystem/css/login-style.css").toExternalForm());
-            stage.setScene(registerScene);
-            stage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();
-        }
+        ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "register-view", "login-style", this);
     }
 
-    public void switchToTeacherrScene(ActionEvent event) throws IOException {
-        try {
-            root = FXMLLoader.load(getClass().getResource("/com/gradingsystem/views/teacher-view.fxml"));
-            teacherStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            teacherScene = new Scene(root, 1600, 800);
-            teacherScene.getStylesheets().add(getClass().getResource("/com/gradingsystem/css/teacher-style.css").toExternalForm());
-            teacherStage.setScene(teacherScene);
-            teacherStage.show();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
 }
