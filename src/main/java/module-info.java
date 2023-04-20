@@ -1,6 +1,7 @@
 module com.gradingsystem {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens com.gradingsystem to javafx.fxml;
