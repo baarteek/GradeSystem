@@ -94,6 +94,22 @@ public class Database {
                 "    FOREIGN KEY (ocena_id) REFERENCES ocena(ocena_id)\n" +
                 ");\n";
 
+        String konwersacja = "CREATE TABLE IF NOT EXISTS konwersacje (\n" +
+                "    id_konwersacji INTEGER PRIMARY KEY,\n" +
+                "    typ_nadawcy_student BOOL,\n" +
+                "    typ_odbiorcy_student BOOL,\n" +
+                "    id_nadawcy INTEGER,\n" +
+                "    id_odbiorcy INTEGER\n" +
+                ");\n";
+
+        String wiadomosc = "CREATE TABLE IF NOT EXISTS wiadomosc (\n" +
+                "    id_wiadomosci INTEGER PRIMARY KEY,\n" +
+                "    data DATETIME,\n" +
+                "    id_konwersacji INTEGER,\n" +
+                "    tresc TEXT,\n" +
+                "    FOREIGN KEY (id_konwersacji) REFERENCES konwersacje(id_konwersacji)\n" +
+                ");\n";
+
         create_table(klasa);
         create_table(uczen);
         create_table(nauczyciel);
@@ -102,6 +118,8 @@ public class Database {
         create_table(zajecia_uczen);
         create_table(ocena);
         create_table(oceny_uczniow_na_zajeciach);
+        create_table(konwersacja);
+        create_table(wiadomosc);
     }
 
     private static void create_table(String sql) {
