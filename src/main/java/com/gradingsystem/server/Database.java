@@ -132,7 +132,7 @@ public class Database {
         String insertKlasa = "INSERT INTO klasa (nazwa) VALUES (?)";
         try {
             PreparedStatement stmtKlasa = conn.prepareStatement(insertKlasa);
-            stmtKlasa.setString(2, nazwa);
+            stmtKlasa.setString(1, nazwa);
             stmtKlasa.executeUpdate();
 
         } catch (SQLException e) {
@@ -200,11 +200,11 @@ public class Database {
         }
     }
 
-    public static void add_zajecia_uczen() {
+    public static void add_zajecia_uczen(int uczen_id, int zajecia_id) {
         try {
             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO zajecia_uczen (uczen_id, zajecia_id) VALUES (?, ?)");
-            pstmt.setNull(1, java.sql.Types.INTEGER);
-            pstmt.setInt(2, 1);
+            pstmt.setInt(1, uczen_id);
+            pstmt.setInt(2, zajecia_id);
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -262,5 +262,43 @@ public class Database {
         } catch (SQLException e) {
             System.out.println("Insert into wiadomosc error");
         }
+    }
+
+    public static void add_test_data() {
+        add_klasa("3A");
+        add_klasa("3B");
+        add_klasa("3C");
+
+        add_uczen(1, "Jan", "Kowalski", "12345678901", "jan.kowalski@school.com", "123456789", "password1");
+        add_uczen(1, "Anna", "Nowak", "12345678902", "anna.nowak@school.com", "234567890", "password2");
+        add_uczen(2, "Piotr", "Kowalski", "12345678903", "piotr.kowalski@school.com", "345678901", "password3");
+        add_uczen(2, "Maria", "Kowalczyk", "12345678904", "maria.kowalczyk@school.com", "456789012", "password4");
+
+        add_nauczyciel("Adam", "Nowak", "12345678905", "adam.nowak@school.com", "567890123", "password5");
+        add_nauczyciel("Katarzyna", "Kowalska", "12345678906", "katarzyna.kowalska@school.com", "678901234", "password6");
+
+        add_przedmiot("matematyka");
+        add_przedmiot("j. polski");
+        add_przedmiot("historia");
+
+        add_zajecia(1, 1);
+        add_zajecia(1, 2);
+        add_zajecia(2, 3);
+
+        add_zajecia_uczen(1, 1);
+        add_zajecia_uczen(2, 1);
+        add_zajecia_uczen(1, 2);
+        add_zajecia_uczen(2, 2);
+
+        add_ocena(4, 1);
+        add_ocena(5, 2);
+        add_ocena(3, 1);
+
+        add_oceny_uczniow_na_zajeciach(1, 1, "2023-05-01");
+        add_oceny_uczniow_na_zajeciach(1, 2, "2023-05-01");
+        add_oceny_uczniow_na_zajeciach(2, 3, "2023-05-01");
+
+        add_konwersacje(false, true, 1, 2);
+        add_konwersacje(true, false, 2, 1);
     }
 }
