@@ -11,20 +11,21 @@ public class Database {
         try {
             Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection("jdbc:sqlite:grading_system.db");
-            System.out.println("Połączenie z bazą danych SQLite zostało nawiązane.");
+            System.out.println("Connected with database.");
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
+    }
+
+    public static void disconnect() {
+        try {
+            if (conn != null) {
+                conn.close();
             }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
