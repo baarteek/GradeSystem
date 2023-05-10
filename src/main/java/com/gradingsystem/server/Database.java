@@ -266,32 +266,38 @@ public class Database {
         }
     }
 
-    public static Map<String, Object> getAllKlasaFields() {
+    public static Map<String, Object> getAllFieldsFromTable(String tableName) {
         Map<String, Object> result = new HashMap<>();
 
         try {
             Statement statement = conn.createStatement();
+            DatabaseMetaData metaData = conn.getMetaData();
+            ResultSet tables = metaData.getTables(null, null, tableName, null);
 
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM klasa");
-
-            if (resultSet.next()) {
-                ResultSetMetaData metaData = resultSet.getMetaData();
-                int columnCount = metaData.getColumnCount();
-                for (int i = 1; i <= columnCount; i++) {
-                    String columnName = metaData.getColumnName(i);
-                    Object columnValue = resultSet.getObject(i);
-                    result.put(columnName, columnValue);
+            if (tables.next()) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+                if (resultSet.next()) {
+                    ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+                    int columnCount = resultSetMetaData.getColumnCount();
+                    for (int i = 1; i <= columnCount; i++) {
+                        String columnName = resultSetMetaData.getColumnName(i);
+                        Object columnValue = resultSet.getObject(i);
+                        result.put(columnName, columnValue);
+                    }
+                } else {
+                    System.out.println("Table " + tableName + " is empty.");
                 }
+                statement.close();
+            } else {
+                System.out.println("Table " + tableName + " doesn't exist.");
             }
-
-            statement.close();
         } catch (SQLException e) {
-            System.out.println("getAllKlasaFields");
+            System.out.println("Cannot fetch from " + tableName);
+            e.printStackTrace();
         }
 
         return result;
     }
-
 
     public static void add_test_data() {
         add_klasa("3A");

@@ -31,7 +31,7 @@ public class Main {
                         OutputStream outputStream = clientSocket.getOutputStream();
                         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
-                        Map<String, Object> klasaFields = Database.getAllKlasaFields();
+                        Map<String, Object> klasaFields = Database.getAllFieldsFromTable("klasa");
                         System.out.println(klasaFields);
 
                         objectOutputStream.writeObject(klasaFields);
