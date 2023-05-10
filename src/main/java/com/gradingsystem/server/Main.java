@@ -2,9 +2,12 @@ package com.gradingsystem.server;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,14 +23,18 @@ public class Main {
                 Thread thread = new Thread(() -> {
                     try {
                         InputStream inputStream = clientSocket.getInputStream();
-                        OutputStream outputStream = clientSocket.getOutputStream();
                         byte[] buffer = new byte[1024];
                         int bytesRead = inputStream.read(buffer);
                         String message = new String(buffer, 0, bytesRead);
                         System.out.println("Received message: " + message);
 
-                        String response = "Hello client!";
-                        outputStream.write(response.getBytes());
+                        OutputStream outputStream = clientSocket.getOutputStream();
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+
+                        Map<String, Object> klasaFields = Database.getAllKlasaFields();
+                        System.out.println(klasaFields);
+
+                        objectOutputStream.writeObject(klasaFields);
 
                         clientSocket.close();
                     } catch (IOException e) {

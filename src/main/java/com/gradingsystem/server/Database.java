@@ -1,6 +1,8 @@
 package com.gradingsystem.server;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Database {
     private static Connection conn = null;
@@ -263,6 +265,33 @@ public class Database {
             System.out.println("Insert into wiadomosc error");
         }
     }
+
+    public static Map<String, Object> getAllKlasaFields() {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            Statement statement = conn.createStatement();
+
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM klasa");
+
+            if (resultSet.next()) {
+                ResultSetMetaData metaData = resultSet.getMetaData();
+                int columnCount = metaData.getColumnCount();
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = metaData.getColumnName(i);
+                    Object columnValue = resultSet.getObject(i);
+                    result.put(columnName, columnValue);
+                }
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("getAllKlasaFields");
+        }
+
+        return result;
+    }
+
 
     public static void add_test_data() {
         add_klasa("3A");
