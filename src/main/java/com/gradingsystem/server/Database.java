@@ -299,6 +299,33 @@ public class Database {
         return result;
     }
 
+    public static String checkCredentials(String login, String password) {
+        String selectUczen = "SELECT * FROM uczen WHERE email = ? AND haslo = ?";
+        String selectNauczyciel = "SELECT * FROM nauczyciel WHERE email = ? AND haslo = ?";
+
+        try {
+            PreparedStatement stmtUczen = conn.prepareStatement(selectUczen);
+            stmtUczen.setString(1, login);
+            stmtUczen.setString(2, password);
+            ResultSet rsUczen = stmtUczen.executeQuery();
+
+            PreparedStatement stmtNauczyciel = conn.prepareStatement(selectNauczyciel);
+            stmtNauczyciel.setString(1, login);
+            stmtNauczyciel.setString(2, password);
+            ResultSet rsNauczyciel = stmtNauczyciel.executeQuery();
+
+            if (rsUczen.next()) {
+                return "LOGIN_SUCCESS|STUDENT";
+            } else if(rsNauczyciel.next()) {
+                return "LOGIN_SUCCESS|TEACHER";
+            }
+        } catch (SQLException e) {
+            System.out.println("Error during checking credentials");
+            e.printStackTrace();
+        }
+        return "LOGIN_FAILURE|ST";
+    }
+
     public static void add_test_data() {
         add_klasa("3A");
         add_klasa("3B");

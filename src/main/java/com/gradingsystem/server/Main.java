@@ -1,11 +1,9 @@
 package com.gradingsystem.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +13,7 @@ public class Main {
         Database.create_tables();
 
         try {
-            int port = 1000;
+            int port = 1025;
             ServerSocket serverSocket = new ServerSocket(port);
 
             while (true) {
@@ -29,12 +27,20 @@ public class Main {
                         System.out.println("Received message: " + message);
 
                         OutputStream outputStream = clientSocket.getOutputStream();
-                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+                        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+                        BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
 
-                        Map<String, Object> klasaFields = Database.getAllFieldsFromTable("klasa");
-                        System.out.println(klasaFields);
+                        String[] parts = message.split("\\|");
+                        String operationCode = parts[0];
 
-                        objectOutputStream.writeObject(klasaFields);
+                        if(operationCode.equals("LOGIN")) {
+                            String email = parts[1];
+                            String password = parts[2];
+                            String loginResult = Database.checkCredentials(email, password);
+                            System.out.println(loginResult);
+                            bufferedWriter.write(loginResult);
+                            bufferedWriter.flush();
+                        }
 
                         clientSocket.close();
                     } catch (IOException e) {

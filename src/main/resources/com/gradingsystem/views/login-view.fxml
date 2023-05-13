@@ -55,7 +55,7 @@
          <children>
             <Label fx:id="loginTitleLabel" prefHeight="66.0" prefWidth="400.0" text="LOGIN TO ACCONT" textFill="WHITE">
                <font>
-                  <Font size="45.0" />
+                  <Font size="42.0" />
                </font>
                <FlowPane.margin>
                   <Insets top="30.0" />

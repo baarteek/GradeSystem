@@ -1,5 +1,7 @@
 package com.gradingsystem.controllers;
 
+import com.gradingsystem.server.Database;
+import com.gradingsystem.utils.ServerConnection;
 import com.gradingsystem.utils.Validator;
 import com.gradingsystem.utils.ViewSwitcher;
 import javafx.event.ActionEvent;
@@ -16,6 +18,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.scene.layout.HBox;
 
 
@@ -73,15 +78,56 @@ public class LoginController {
 
 
     public void login(ActionEvent event) throws IOException {
-        errorLabel.setText("Incorrect login or password");
-        ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "teacher-view", "teacher-style", this);
+        //ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "teacher-view", "teacher-style", this);
+        if(checkLoginValidity()) {
+            String email = loginTextField.getText();
+            String password = passwordField.getText();
 
-        //dodac obsluge logowania
+            ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+            serverConnection.connect();
+            String requset = "LOGIN|" + email + "|" + password;
+            String response = serverConnection.sendRequest(requset);
+            serverConnection.disconnect();
+
+            String[] loginResult = response.split("\\|");
+
+            if(loginResult[0].equals("LOGIN_SUCCESS")) {
+                if(loginResult[1].equals("TEACHER")) {
+                    if(radioButtonTeacher.isSelected()) {
+                        ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "teacher-view", "teacher-style", this);
+                    } else {
+                        errorLabel.setText("You can not log in as a student");
+                    }
+                } else if (loginResult[1].equals("STUDENT")) {
+                    if(radioButtonStudent.isSelected()) {
+                        System.out.println("zalogowano ucznia");
+                    } else {
+                        errorLabel.setText("You can not log in as a teacher");
+                    }
+                }
+            } else if(loginResult[0].equals("LOGIN_FAILURE")) {
+                errorLabel.setText("Incorrect login or password!");
+            }
+        }
+    }
+
+    private boolean checkLoginValidity() {
+        if(loginTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+            errorLabel.setText("Fill in all fields");
+            return false;
+        }
+        if(!radioButtonStudent.isSelected() && !radioButtonTeacher.isSelected()) {
+            errorLabel.setText("Choose: Teacher or Student login");
+            return false;
+        }
+        if(!Validator.validateEmail(loginTextField.getText())) {
+            errorLabel.setText("Incorrect login or password");
+            return false;
+        }
+        return true;
     }
 
     public void switchToRegisterScene(ActionEvent event) throws IOException {
         ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "register-view", "login-style", this);
     }
-
-
 }

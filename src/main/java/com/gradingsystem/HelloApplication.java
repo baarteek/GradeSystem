@@ -1,5 +1,6 @@
 package com.gradingsystem;
 
+import com.gradingsystem.server.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +20,7 @@ public class HelloApplication extends Application {
         // test connection client-server -- start
         try {
             String host = "localhost";
-            int port = 1000;
+            int port = 1025;
             Socket socket = new Socket(host, port);
 
             // sending msg
@@ -32,6 +33,7 @@ public class HelloApplication extends Application {
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             Map<String, Object> receivedUserValues = (Map<String, Object>) objectInputStream.readObject();
             System.out.println(receivedUserValues);
+
 
             socket.close();
         } catch (IOException e) {
@@ -50,7 +52,7 @@ public class HelloApplication extends Application {
             stage.setTitle("Electronic Grading System");
             stage.getIcons().add(new Image(getClass().getResourceAsStream("icons/icon.png")));
             stage.setScene(loginScene);
-            //stage.setResizable(false);
+            stage.setResizable(false);
             stage.show();
         }
         catch (Exception e) {
