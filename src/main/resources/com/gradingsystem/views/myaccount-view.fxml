@@ -593,7 +593,7 @@
                                         </Separator>
                                         <HBox fx:id="classesMyAccountHBox" alignment="CENTER_LEFT">
                                             <children>
-                                                <Label prefWidth="249.0" text="Conducted classes: " textFill="WHITE">
+                                                <Label prefHeight="30.0" prefWidth="271.0" text="Conducted classes: " textFill="WHITE">
                                                     <font>
                                                         <Font size="25.0" />
                                                     </font>
@@ -601,7 +601,7 @@
                                                         <Insets left="40.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <Label text="Class 1, Class 2, Class 3" textFill="WHITE">
+                                                <Label fx:id="subjectTaught" text="Class 1, Class 2, Class 3" textFill="WHITE">
                                                     <font>
                                                         <Font size="25.0" />
                                                     </font>
@@ -736,7 +736,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER">
                                             <children>
-                                                <Button fx:id="changePasswordButton" disable="true" mnemonicParsing="false" prefHeight="32.0" prefWidth="202.0" text="Change Password">
+                                                <Button fx:id="changePasswordButton" disable="true" mnemonicParsing="false" onAction="#changePassword" prefHeight="32.0" prefWidth="202.0" text="Change Password">
                                                     <font>
                                                         <Font name="System Bold" size="18.0" />
                                                     </font>
@@ -846,7 +846,7 @@
                                                 <Insets top="25.0" />
                                             </VBox.margin>
                                             <children>
-                                                <Button fx:id="editMyAccountButton" disable="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="113.0" text="Edit">
+                                                <Button fx:id="editMyAccountButton" disable="true" mnemonicParsing="false" onAction="#changeUserData" prefHeight="30.0" prefWidth="113.0" text="Edit">
                                                     <font>
                                                         <Font name="System Bold" size="18.0" />
                                                     </font>

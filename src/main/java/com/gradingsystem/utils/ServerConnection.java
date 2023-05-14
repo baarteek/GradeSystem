@@ -1,5 +1,7 @@
 package com.gradingsystem.utils;
 
+import com.gradingsystem.controllers.LoginController;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -50,4 +52,5 @@ public class ServerConnection {
         }
         return response;
     }
+    
 }

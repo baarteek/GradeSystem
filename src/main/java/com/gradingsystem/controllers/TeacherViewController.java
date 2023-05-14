@@ -1,10 +1,9 @@
 package com.gradingsystem.controllers;
 
+import com.gradingsystem.utils.ServerConnection;
+import com.gradingsystem.utils.UserDataProvider;
 import com.gradingsystem.utils.ViewSwitcher;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -50,16 +49,42 @@ public class TeacherViewController {
     private Parent root;
     private Stage loginStage;
     private Scene loginScene;
+    private String name;
+    private String surname;
+    private String pesel;
+    private String phoneNumber;
+    private String email;
 
+    public void initialize() {
+        String[] userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+        if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
+            name = userData[2];
+            surname = userData[3];
+            pesel = userData[4];
+            email = userData[5];
+            phoneNumber = userData[6];
+            updateUserFields();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText("USER DATA");
+            alert.setContentText("Failed to fetch user data");
+            alert.showAndWait();
+        }
+    }
 
+    public void updateUserFields() {
+        userNameLabel.setText(name + " " + surname);
+        emailLabel.setText(email);
+    }
 
     public void logout(MouseEvent event) throws IOException {
         ViewSwitcher.switchScene(event, root, loginStage, loginScene, "login-view", "login-style", this);
-
-        // mechanizm wylogowania uzytkownika
+        LoginController.userID = -1;
     }
 
     public void gradeManagementClick() {
+        System.out.println(LoginController.userID);
     }
 
     public void gradeOverviewClick() {

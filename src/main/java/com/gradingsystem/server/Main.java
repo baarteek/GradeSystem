@@ -67,6 +67,46 @@ public class Main {
                             String mess = "REGISTER_" + registerResult;
                             bufferedWriter.write(mess);
                             bufferedWriter.flush();
+                        } else if(operationCode.equals("GET_USER_DATA")) {
+                            int userID = Integer.parseInt(parts[2]);
+                            String findUserResult = new String();
+                            if(parts[1].equals("TEACHER")) {
+                                findUserResult = Database.getUserDataById("nauczyciel", userID);
+                            } else if (parts[1].equals("STUDENT")) {
+                                findUserResult = Database.getUserDataById("uczen", userID);
+                            }
+                            String mess = new String();
+                            if(findUserResult == null) {
+                                mess = "GET_USER_DATA_FAILURE";
+                            } else {
+                                mess = "GET_USER_DATA_SUCCESS|" + findUserResult;
+                            }
+                            System.out.println(mess);
+                            bufferedWriter.write(mess);
+                            bufferedWriter.flush();
+                        } else if (operationCode.equals("CHANGE_USER_DATA")) {
+                            int userID = Integer.parseInt(parts[3]);
+                            String column = parts[2];
+                            String value = parts[4];
+                            String changeUserDataResult = new String();
+                            if(parts[1].equals("TEACHER")) {
+                                changeUserDataResult = Database.changeUserData("nauczyciel", userID, column, value);
+                            } else if (parts[1].equals("STUDENT")) {
+                                changeUserDataResult = Database.changeUserData("uczen", userID, column, value);
+                            }
+                            bufferedWriter.write(changeUserDataResult);
+                            bufferedWriter.flush();
+                        } else if(operationCode.equals("CHECK_DATA_EXISTT")){
+                            String userDataResult = new String();
+                            String columnNames = parts[2];
+                            String values = parts[3];
+                            if(parts[1].equals("TEACHER")) {
+                                userDataResult = Database.checkIfDataExists("nauczyciel", new String[]{columnNames}, new String[]{values});
+                            } else if (parts[1].equals("STUDENT")) {
+                                userDataResult = Database.checkIfDataExists("uczen", new String[]{columnNames}, new String[]{values});
+                            }
+                            bufferedWriter.write(userDataResult);
+                            bufferedWriter.flush();
                         }
 
                         clientSocket.close();

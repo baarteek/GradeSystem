@@ -315,9 +315,9 @@ public class Database {
             ResultSet rsNauczyciel = stmtNauczyciel.executeQuery();
 
             if (rsUczen.next()) {
-                return "LOGIN_SUCCESS|STUDENT";
+                return "LOGIN_SUCCESS|STUDENT|" + rsUczen.getInt("uczen_id");
             } else if(rsNauczyciel.next()) {
-                return "LOGIN_SUCCESS|TEACHER";
+                return "LOGIN_SUCCESS|TEACHER|" + rsNauczyciel.getInt("nauczyciel_id");
             }
         } catch (SQLException e) {
             System.out.println("Error during checking credentials");
@@ -347,7 +347,70 @@ public class Database {
         return "SUCCESS";
     }
 
-    public static void add_test_data() {
+    public static String getUserDataById(String tableName, int userId) {
+        String selectQuery = "SELECT * FROM " + tableName + " WHERE " + tableName + "_id = ?";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = conn.prepareStatement(selectQuery);
+            statement.setInt(1, userId);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                StringBuilder userData = new StringBuilder();
+                int columnCount = resultSet.getMetaData().getColumnCount();
+                for (int i = 1; i <= columnCount; i++) {
+                    userData.append(resultSet.getString(i));
+                    if (i < columnCount) {
+                        userData.append("|");
+                    }
+                }
+                return userData.toString();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static String changeUserData(String tableName, int userID, String column, String value) {
+        String updateQuery = "UPDATE " + tableName + " SET " + column + " = ? WHERE " + tableName + "_id = ?";
+        int rowsAffected = 0;
+
+        try (PreparedStatement statement = conn.prepareStatement(updateQuery)) {
+
+            statement.setString(1, value);
+            statement.setInt(2, userID);
+
+            rowsAffected = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (rowsAffected > 0) {
+            return "CHANGE_USER_DATA_SUCCESS";
+        } else {
+            return "CHANGE_USER_DATA_FAILURE";
+        }
+    }
+
+        public static void add_test_data() {
         add_klasa("3A");
         add_klasa("3B");
         add_klasa("3C");

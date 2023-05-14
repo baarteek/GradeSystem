@@ -63,6 +63,8 @@ public class LoginController {
     private Scene teacherScene;
     private Parent root;
 
+    public static int userID;
+
 
     public void initialize() {
         mainFlowPane.setAlignment(Pos.TOP_CENTER);
@@ -92,6 +94,8 @@ public class LoginController {
             String[] loginResult = response.split("\\|");
 
             if(loginResult[0].equals("LOGIN_SUCCESS")) {
+                errorLabel.setText("");
+                userID = Integer.parseInt(loginResult[2]);
                 if(loginResult[1].equals("TEACHER")) {
                     if(radioButtonTeacher.isSelected()) {
                         ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "teacher-view", "teacher-style", this);
