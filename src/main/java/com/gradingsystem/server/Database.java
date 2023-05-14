@@ -326,6 +326,27 @@ public class Database {
         return "LOGIN_FAILURE|ST";
     }
 
+    public static String checkIfDataExists(String tableName, String[] columnNames, String[] values) {
+        if (columnNames.length != values.length) {
+            throw new IllegalArgumentException("The number of column names must be equal to the number of values");
+        }
+
+        for (int i = 0; i < columnNames.length; i++) {
+            String query = "SELECT * FROM " + tableName + " WHERE " + columnNames[i] + " = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, values[i]);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {;
+                        return "FAILURE|"+columnNames[i].toUpperCase();
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("An error occurred while checking data: " + e.getMessage());
+            }
+        }
+        return "SUCCESS";
+    }
+
     public static void add_test_data() {
         add_klasa("3A");
         add_klasa("3B");

@@ -34,7 +34,6 @@ public class HelloApplication extends Application {
             Map<String, Object> receivedUserValues = (Map<String, Object>) objectInputStream.readObject();
             System.out.println(receivedUserValues);
 
-
             socket.close();
         } catch (IOException e) {
             System.out.println("IOException.");

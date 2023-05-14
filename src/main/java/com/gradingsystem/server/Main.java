@@ -40,6 +40,33 @@ public class Main {
                             System.out.println(loginResult);
                             bufferedWriter.write(loginResult);
                             bufferedWriter.flush();
+                        } else if (operationCode.equals("REGISTER_TEACHER") || operationCode.equals("REGISTER_STUDENT")) {
+                            String name = parts[1];
+                            String surname = parts[2];
+                            String email = parts[3];
+                            String password = parts[4];
+                            String pesel = parts[5];
+                            String phoneNumber = parts[6];
+                            String[] columnNames = {"pesel", "email", "telefon"};
+                            String[] values = {pesel, email, phoneNumber};
+                            String registerResult = new String();
+                            if(operationCode.equals("REGISTER_TEACHER")) {
+                                String tableName = "nauczyciel";
+                                registerResult = Database.checkIfDataExists(tableName, columnNames, values);
+                                if(registerResult.equals("SUCCESS")) {
+                                    Database.add_nauczyciel(name, surname, pesel, email, phoneNumber, password);
+                                }
+                            }
+                            if(operationCode.equals("REGISTER_STUDENT")) {
+                                String tableName = "uczen";
+                                registerResult = Database.checkIfDataExists(tableName, columnNames, values);
+                                if(registerResult.equals("SUCCESS")) {
+                                    Database.add_uczen(1, name, surname, pesel, email, phoneNumber, password);
+                                }
+                            }
+                            String mess = "REGISTER_" + registerResult;
+                            bufferedWriter.write(mess);
+                            bufferedWriter.flush();
                         }
 
                         clientSocket.close();
