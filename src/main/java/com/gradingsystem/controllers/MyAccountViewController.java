@@ -126,6 +126,7 @@ public class MyAccountViewController {
     private void updateUserFields() {
         userNameLabel.setText(name + " " + surname);
         emailLabel.setText(email);
+        emailMyAccount.setText(email);
         nameMyAccount.setText(name);
         surnameMyAccount.setText(surname);
         peselMyAccount.setText(pesel);
@@ -332,7 +333,8 @@ public class MyAccountViewController {
     public void studentProfilesClick() {
     }
 
-    public void classManagementClick() {
+    public void classManagementClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "class-management-view", "teacher-style", this);
     }
 
     public void subjectManagementClick() {
