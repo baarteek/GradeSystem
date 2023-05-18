@@ -1,8 +1,7 @@
 package com.gradingsystem.server;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Database {
     private static Connection conn = null;
@@ -31,12 +30,12 @@ public class Database {
 
     public static void create_tables() {
         String klasa = "CREATE TABLE IF NOT EXISTS klasa (\n"
-                + " klasa_id integer AUTO_INCREMENT PRIMARY KEY,\n"
+                + " klasa_id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " nazwa text NOT NULL\n"
                 + ");";
 
         String uczen = "CREATE TABLE IF NOT EXISTS uczen (\n" +
-                "    uczen_id INTEGER AUTO_INCREMENT PRIMARY KEY,\n" +
+                "    uczen_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    klasa_id INTEGER,\n" +
                 "    imie TEXT,\n" +
                 "    nazwisko TEXT,\n" +
@@ -47,8 +46,9 @@ public class Database {
                 "    FOREIGN KEY (klasa_id) REFERENCES klasa(klasa_id)\n" +
                 ");\n";
 
+
         String nauczyciel = "CREATE TABLE IF NOT EXISTS nauczyciel (\n" +
-                "    nauczyciel_id INTEGER AUTO_INCREMENT PRIMARY KEY,\n" +
+                "    nauczyciel_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    imie TEXT,\n" +
                 "    nazwisko TEXT,\n" +
                 "    pesel TEXT,\n" +
@@ -58,12 +58,12 @@ public class Database {
                 ");\n";
 
         String przedmiot = "CREATE TABLE IF NOT EXISTS przedmiot (\n" +
-                "    przedmiot_id INTEGER AUTO_INCREMENT PRIMARY KEY,\n" +
+                "    przedmiot_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    nazwa TEXT\n" +
                 ");\n";
 
         String zajecia = "CREATE TABLE IF NOT EXISTS zajecia (\n" +
-                "    zajecia_id INTEGER AUTO_INCREMENT PRIMARY KEY,\n" +
+                "    zajecia_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    nauczyciel_id INTEGER,\n" +
                 "    przedmiot_id INTEGER,\n" +
                 "    FOREIGN KEY(nauczyciel_id) REFERENCES nauczyciel(nauczyciel_id),\n" +
@@ -71,7 +71,7 @@ public class Database {
                 ");\n";
 
         String zajecia_uczen = "CREATE TABLE IF NOT EXISTS zajecia_uczen (\n" +
-                "    zajecia_uczen_id INTEGER AUTO_INCREMENT PRIMARY KEY,\n" +
+                "    zajecia_uczen_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    uczen_id INTEGER,\n" +
                 "    zajecia_id INTEGER,\n" +
                 "    FOREIGN KEY (uczen_id) REFERENCES uczen(uczen_id),\n" +
@@ -79,13 +79,13 @@ public class Database {
                 ");\n";
 
         String ocena = "CREATE TABLE IF NOT EXISTS ocena (\n" +
-                "    ocena_id INTEGER AUTO_INCREMENT PRIMARY KEY,\n" +
+                "    ocena_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    ocena INTEGER,\n" +
                 "    waga INTEGER\n" +
                 ");\n";
 
         String oceny_uczniow_na_zajeciach = "CREATE TABLE IF NOT EXISTS oceny_uczniow_na_zajeciach (\n" +
-                "    oceny_ucz_na_zaj INTEGER AUTO_INCREMENT PRIMARY KEY,\n" +
+                "    oceny_ucz_na_zaj INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    zajecia_uczen_id INTEGER,\n" +
                 "    ocena_id INTEGER,\n" +
                 "    data TEXT,\n" +
@@ -94,7 +94,7 @@ public class Database {
                 ");\n";
 
         String konwersacja = "CREATE TABLE IF NOT EXISTS konwersacje (\n" +
-                "    id_konwersacji INTEGER AUTO_INCREMENT PRIMARY KEY,\n" +
+                "    id_konwersacji INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    typ_nadawcy_student BOOL,\n" +
                 "    typ_odbiorcy_student BOOL,\n" +
                 "    id_nadawcy INTEGER,\n" +
@@ -102,7 +102,7 @@ public class Database {
                 ");\n";
 
         String wiadomosc = "CREATE TABLE IF NOT EXISTS wiadomosc (\n" +
-                "    id_wiadomosci INTEGER AUTO_INCREMENT PRIMARY KEY,\n" +
+                "    id_wiadomosci INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    data DATETIME,\n" +
                 "    id_konwersacji INTEGER,\n" +
                 "    tresc TEXT,\n" +
@@ -142,21 +142,20 @@ public class Database {
         }
     }
 
-    public static void add_uczen(int klasa_id, String imie, String nazwisko, String pesel, String email, String telefon, String haslo) {
-        String insertUczen = "INSERT INTO uczen (klasa_id, imie, nazwisko, pesel, email, telefon, haslo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public static void add_uczen(String imie, String nazwisko, String pesel, String email, String telefon, String haslo) {
+        String insertUczen = "INSERT INTO uczen (imie, nazwisko, pesel, email, telefon, haslo) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmtUczen = conn.prepareStatement(insertUczen);
-            stmtUczen.setInt(1, klasa_id);
-            stmtUczen.setString(2, imie);
-            stmtUczen.setString(3, nazwisko);
-            stmtUczen.setString(4, pesel);
-            stmtUczen.setString(5, email);
-            stmtUczen.setString(6, telefon);
-            stmtUczen.setString(7, haslo);
+            stmtUczen.setString(1, imie);
+            stmtUczen.setString(2, nazwisko);
+            stmtUczen.setString(3, pesel);
+            stmtUczen.setString(4, email);
+            stmtUczen.setString(5, telefon);
+            stmtUczen.setString(6, haslo);
             stmtUczen.executeUpdate();
-
         } catch (SQLException e) {
             System.out.println("Insert into uczen error");
+            e.printStackTrace();
         }
     }
 
@@ -266,8 +265,8 @@ public class Database {
         }
     }
 
-    public static Map<String, Object> getAllFieldsFromTable(String tableName) {
-        Map<String, Object> result = new HashMap<>();
+    public static List<String> getAllFieldsFromTable(String tableName) {
+        List<String> results = new ArrayList<>();
 
         try {
             Statement statement = conn.createStatement();
@@ -276,17 +275,20 @@ public class Database {
 
             if (tables.next()) {
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
-                if (resultSet.next()) {
-                    ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-                    int columnCount = resultSetMetaData.getColumnCount();
+                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+                int columnCount = resultSetMetaData.getColumnCount();
+
+                while (resultSet.next()) {
+                    StringBuilder result = new StringBuilder();
                     for (int i = 1; i <= columnCount; i++) {
-                        String columnName = resultSetMetaData.getColumnName(i);
-                        Object columnValue = resultSet.getObject(i);
-                        result.put(columnName, columnValue);
+                        result.append(resultSet.getObject(i));
+                        if(i != columnCount) {
+                            result.append(",");
+                        }
                     }
-                } else {
-                    System.out.println("Table " + tableName + " is empty.");
+                    results.add(result.toString());
                 }
+
                 statement.close();
             } else {
                 System.out.println("Table " + tableName + " doesn't exist.");
@@ -296,8 +298,61 @@ public class Database {
             e.printStackTrace();
         }
 
-        return result;
+        return Collections.singletonList(String.join("|", results));
     }
+
+    public static boolean updateField(String tableName, String fieldName, String newValue, String condition) {
+        String updateQuery = "UPDATE " + tableName + " SET " + fieldName + " = ? WHERE " + condition;
+        PreparedStatement statement = null;
+
+        try {
+            statement = conn.prepareStatement(updateQuery);
+            statement.setString(1, newValue);
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public static List<Map<String, Object>> getStudentsWithoutClass() {
+        List<Map<String, Object>> students = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM uczen WHERE klasa_id IS NULL OR klasa_id = 0";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                Map<String, Object> uczen = new HashMap<>();
+                uczen.put("uczen_id", resultSet.getInt("uczen_id"));
+                uczen.put("imie", resultSet.getString("imie"));
+                uczen.put("nazwisko", resultSet.getString("nazwisko"));
+                uczen.put("pesel", resultSet.getString("pesel"));
+                uczen.put("email", resultSet.getString("email"));
+                uczen.put("telefon", resultSet.getString("telefon"));
+                students.add(uczen);
+            }
+        } catch (SQLException e) {
+            System.out.println("Cannot fetch uczniowie bez klasy");
+            e.printStackTrace();
+        }
+        return students;
+    }
+
 
     public static String checkCredentials(String login, String password) {
         String selectUczen = "SELECT * FROM uczen WHERE email = ? AND haslo = ?";
@@ -389,6 +444,49 @@ public class Database {
         return null;
     }
 
+    public static String getUserDataByName(String tableName, String fieldName, String searchedName) {
+        String selectQuery = "SELECT * FROM " + tableName + " WHERE "+ fieldName + " = ?";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = conn.prepareStatement(selectQuery);
+            statement.setString(1, searchedName);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                StringBuilder userData = new StringBuilder();
+                int columnCount = resultSet.getMetaData().getColumnCount();
+                for (int i = 1; i <= columnCount; i++) {
+                    userData.append(resultSet.getString(i));
+                    if (i < columnCount) {
+                        userData.append("|");
+                    }
+                }
+                return userData.toString();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+
     public static String changeUserData(String tableName, int userID, String column, String value) {
         String updateQuery = "UPDATE " + tableName + " SET " + column + " = ? WHERE " + tableName + "_id = ?";
         int rowsAffected = 0;
@@ -410,15 +508,72 @@ public class Database {
         }
     }
 
-        public static void add_test_data() {
+    public static boolean deleteRecordById(String tableName, int id, String fieldName) {
+        PreparedStatement statement = null;
+
+        try {
+            String deleteQuery = "DELETE FROM " + tableName + " WHERE "+ fieldName + " = ?";
+            statement = conn.prepareStatement(deleteQuery);
+            statement.setInt(1, id);
+
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("A row was deleted successfully!");
+                return true;
+            } else {
+                System.out.println("No row was deleted.");
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while deleting the row.");
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    public static String getTableData(String tableName, String columns, String conditions) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            String query = "SELECT " + columns + " FROM " + tableName + " WHERE " + conditions;
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                String[] columnList = columns.split(",");
+                for (String column : columnList) {
+                    sb.append(resultSet.getString(column.trim()));
+                    sb.append(",");
+                }
+                sb.setLength(sb.length() - 1);
+                sb.append("|");
+            }
+            if (sb.length() > 0) {
+                sb.setLength(sb.length() - 1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Cannot fetch data from " + tableName);
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
+
+    public static void add_test_data() {
         add_klasa("3A");
         add_klasa("3B");
         add_klasa("3C");
 
-        add_uczen(1, "Jan", "Kowalski", "12345678901", "jan.kowalski@school.com", "123456789", "password1");
-        add_uczen(1, "Anna", "Nowak", "12345678902", "anna.nowak@school.com", "234567890", "password2");
-        add_uczen(2, "Piotr", "Kowalski", "12345678903", "piotr.kowalski@school.com", "345678901", "password3");
-        add_uczen(2, "Maria", "Kowalczyk", "12345678904", "maria.kowalczyk@school.com", "456789012", "password4");
+        add_uczen( "Jan", "Kowalski", "12345678901", "jan.kowalski@school.com", "123456789", "password1");
+        add_uczen( "Anna", "Nowak", "12345678902", "anna.nowak@school.com", "234567890", "password2");
+        add_uczen( "Piotr", "Kowalski", "12345678903", "piotr.kowalski@school.com", "345678901", "password3");
+        add_uczen( "Maria", "Kowalczyk", "12345678904", "maria.kowalczyk@school.com", "456789012", "password4");
 
         add_nauczyciel("Adam", "Nowak", "12345678905", "adam.nowak@school.com", "567890123", "password5");
         add_nauczyciel("Katarzyna", "Kowalska", "12345678906", "katarzyna.kowalska@school.com", "678901234", "password6");

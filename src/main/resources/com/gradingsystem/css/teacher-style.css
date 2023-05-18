@@ -15,6 +15,74 @@
     -fx-curosr: hand
 }
 
+.button {
+    -fx-background-color:  #3548ff;
+    -fx-text-fill: #FFFFFF;
+}
+
+.button:hover {
+    -fx-background-color:  #1C32FA;
+}
+
+.list-view {
+    -fx-background-color: #545252;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-alignment: center;
+}
+
+.list-view .list-cell {
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #545255;
+    -fx-border-color: #000000;
+    -fx-border-width: 1px;
+    -fx-alignment: center;
+}
+
+.list-view .list-cell:filled:selected {
+    -fx-background-color: #87DB76;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 1px;
+}
+
+.tab-pane {
+    -fx-text-fill: #FFFFFF
+}
+
+.tab-pane .tab-header-area .headers-region {
+    -fx-background-color: #545252;
+    -fx-text-fill: #FFFFFF;
+}
+
+.tab-pane .tab-header-area {
+    -fx-padding: 5;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: #6E6E6E;
+    -fx-text-fill: #FFFFFF;
+    -fx-alignment: center;
+    -fx-border-color: #333333;
+    -fx-border-width: 1px;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab : hover{
+    -fx-background-color: #616161;
+    -fx-cursor: hand;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab .text {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+
 
 #changePasswordButton, #editMyAccountButton {
     -fx-background-color:  #3548ff;

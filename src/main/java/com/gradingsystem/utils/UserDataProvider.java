@@ -1,7 +1,11 @@
 package com.gradingsystem.utils;
 
 import com.gradingsystem.controllers.LoginController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+
+import java.util.*;
 
 public class UserDataProvider {
     public static String[] getUserData(String tableName, int userID) {
@@ -43,13 +47,157 @@ public class UserDataProvider {
         ServerConnection serverConnection= new ServerConnection("localhost", 1025);
         serverConnection.connect();
         String requset = new String();
-        if(tableName.equals("nauczyciel")) {
-            requset = "CHECK_DATA_EXISTT|TEACHER|" + column +  "|" + value;
-        } else if(tableName.equals("uczen")) {
-            requset = "CHECK_DATA_EXISTT|STUDENT|" + column + "|"  + value;
-        }
+        requset = "CHECK_DATA_EXISTT|" + tableName.toUpperCase() + "|" + column + "|"  + value;
         String response = serverConnection.sendRequest(requset);
         serverConnection.disconnect();
         return !response.equals("SUCCESS");
     }
+
+    public static String addNewClass(String calssName) {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String requset = new String();
+        requset = "ADD_CLASS|" + calssName;
+        String response = serverConnection.sendRequest(requset);
+        serverConnection.disconnect();
+        return response;
+    }
+
+    public static String addStudentToClass(String className, String studentID) {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String requset = new String();
+        requset = "ADD_STUIDENT_TO_CLASS|" + className + "|" + studentID;
+        String response = serverConnection.sendRequest(requset);
+        serverConnection.disconnect();
+        return response;
+    }
+
+    public static ObservableList<String> getStudentsWithoutClass() {
+        ServerConnection serverConnection = new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String request = "GET_STUDENTS_WITHOUT_CLASS";
+        String response = serverConnection.sendRequest(request);
+        serverConnection.disconnect();
+
+        String[] userData = response.split("\\|");
+
+        if (userData[0].equals("GET_STUDENTS_WITHOUT_CLASS_SUCCESS")) {
+            ObservableList<String> observableStudentsData = FXCollections.observableArrayList();
+            String studentsDataString = userData[1].substring(1, userData[1].length()-1);
+            String[] studentsDataArray = studentsDataString.split("}, \\{");
+
+
+            for (int i = 0; i < studentsDataArray.length; i++) {
+                String studentDataString = studentsDataArray[i];
+                 if (studentDataString.isEmpty()) {
+                     return null;
+                 }
+
+                String[] studentAttributes = studentDataString.split(", ");
+                StringBuilder studentData = new StringBuilder();
+
+
+                for (String attribute : studentAttributes) {
+                    String[] keyValue = attribute.split("=");
+                    String attributeName = keyValue[0].trim();
+                    String attributeValue = keyValue[1].trim();
+                    studentData.append("\t").append(getAttributeString(attributeName, attributeValue));
+
+                }
+                if (studentData.charAt(studentData.length() - 1) == '}') {
+                    studentData.deleteCharAt(studentData.length() - 1);
+                }
+                observableStudentsData.add(studentData.toString());
+            }
+            return observableStudentsData;
+        }
+        return null;
+    }
+
+    public static ObservableList<String> getAllFieldsFromClass(String tableName) {
+        ServerConnection serverConnection = new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String request = "GET_ALL_DATA_FROM_TABLE|"+ tableName;
+        String response = serverConnection.sendRequest(request);
+        serverConnection.disconnect();
+
+        if(!response.isEmpty()) {
+            String[] items = response.split("\\|");
+
+            ObservableList<String> listItems = FXCollections.observableArrayList();
+            for (int i = 2; i < items.length; i++) {
+                String[] itemParts = items[i].split(",");
+                if (itemParts.length == 2) {
+                    String id = itemParts[0];
+                    String name = itemParts[1];
+                    listItems.add("ID: " + id + "\tName: " + name);
+                }
+            }
+            return listItems;
+        }
+        return null;
+    }
+
+    private static String getAttributeString(String attributeName, String attributeValue) {
+        switch (attributeName) {
+            case "uczen_id":
+            case "{uczen_id":
+                return "ID: " + attributeValue;
+            case "imie":
+                return "Name: " + attributeValue;
+            case "nazwisko":
+                return "Surname: " + attributeValue;
+            case "telefon":
+                return "Phone number: " + attributeValue;
+            case "pesel":
+                return "Pesel: " + attributeValue;
+            case "email":
+                return "E-mail: " + attributeValue;
+            default:
+                return "";
+        }
+    }
+
+    public static boolean updateField(String tableName, String fieldName, String newValue, String conditionField, String conditionValue) {
+        ServerConnection serverConnection = new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String condition = conditionField + " = " + conditionValue;
+        String request = "UPDATE_FIELDS|"+ tableName + "|" + fieldName + "|" + newValue + "|" + condition;
+        String response = serverConnection.sendRequest(request);
+        serverConnection.disconnect();
+
+        if(response.equals("UPDATE_FIELDS_SUCCESS")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean deleteRecordById(String tableName, String id, String fieldName) {
+        ServerConnection serverConnection = new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String request = "DELETE_RECORD|"+ tableName + "|" + id + "|" + fieldName;
+        String response = serverConnection.sendRequest(request);
+        serverConnection.disconnect();
+
+        if(response.equals("DELETE_RECORD_SUCCESS")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static String getTableData(String tableName, String column, String condition) {
+        ServerConnection serverConnection = new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String request = "GET_TABLE_DATA|"+ tableName + "|" + column + "|" + condition;
+        String response = serverConnection.sendRequest(request);
+        serverConnection.disconnect();
+
+        if(response.equals("GET_TABLE_DATA_FAILURE")) {
+            return null;
+        } else {
+            return response;
+        }
+    }
+
 }
