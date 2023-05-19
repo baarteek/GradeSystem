@@ -1,7 +1,6 @@
 package com.gradingsystem.controllers;
 
 import com.gradingsystem.utils.UserDataProvider;
-import com.gradingsystem.utils.Validator;
 import com.gradingsystem.utils.ViewSwitcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,14 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.*;
 
 public class ClassManagementController {
     @FXML
@@ -346,7 +341,8 @@ public class ClassManagementController {
     public void studentProfilesClick() {
     }
 
-    public void subjectManagementClick() {
+    public void subjectManagementClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "subject-management-view", "teacher-style", this);
     }
 
     public void notificationsClick() {

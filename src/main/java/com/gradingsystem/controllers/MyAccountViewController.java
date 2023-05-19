@@ -337,7 +337,8 @@ public class MyAccountViewController {
         ViewSwitcher.switchScene(event, root, stage, scene, "class-management-view", "teacher-style", this);
     }
 
-    public void subjectManagementClick() {
+    public void subjectManagementClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "subject-management-view", "teacher-style", this);
     }
 
     public void notificationsClick() {

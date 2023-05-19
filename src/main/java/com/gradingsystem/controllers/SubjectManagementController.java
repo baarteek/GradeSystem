@@ -1,7 +1,10 @@
 package com.gradingsystem.controllers;
 
 import com.gradingsystem.utils.UserDataProvider;
+import com.gradingsystem.utils.Validator;
 import com.gradingsystem.utils.ViewSwitcher;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,46 +16,40 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.*;
 
-public class TeacherViewController {
-    @FXML
-    private AnchorPane mainAnchorPane;
-    @FXML
-    private AnchorPane sideAnchorePane;
+public class SubjectManagementController {
     @FXML
     private Label userNameLabel;
     @FXML
-    private ImageView settingsImageView;
-    @FXML
     private Label emailLabel;
     @FXML
-    private HBox gradeManagementHBox;
+    private TextField subjectNameTextField;
     @FXML
-    private HBox gradeOverviewHBox;
+    private TextField renameSubjectTextField;
     @FXML
-    private HBox statisticsHBox;
+    private ListView subjectsToRenameListView;
     @FXML
-    private HBox studentProfilesHBox;
+    private ListView subjectsToDelinkListView;
     @FXML
-    private HBox classManagementHBox;
+    private ListView classesToDelinkListView;
     @FXML
-    private HBox subjectManagementHBox;
+    private ListView subjectsToLinkListView;
     @FXML
-    private HBox notificationsHBox;
+    private ListView classesToLinkListView;
     @FXML
-    private HBox messagesHBox;
+    private ListView classesListView;
     @FXML
-    private HBox settingsHBox;
-    @FXML
-    private HBox logoutHBox;
+    private ListView subjectToRemoveListView;
     private Parent root;
-    private Stage loginStage;
-    private Scene loginScene;
+    private Stage stage;
+    private Scene scene;
     private String name;
     private String surname;
     private String pesel;
     private String phoneNumber;
     private String email;
+    private String password;
 
     public void initialize() {
         String[] userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
@@ -62,6 +59,7 @@ public class TeacherViewController {
             pesel = userData[4];
             email = userData[5];
             phoneNumber = userData[6];
+            password = userData[7];
             updateUserFields();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -70,20 +68,19 @@ public class TeacherViewController {
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
         }
+
     }
 
-    public void updateUserFields() {
+    private void updateUserFields() {
         userNameLabel.setText(name + " " + surname);
         emailLabel.setText(email);
     }
 
     public void logout(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "login-view", "login-style", this);
-        LoginController.userID = -1;
+        ViewSwitcher.switchScene(event, root, stage, scene, "login-view", "login-style", this);
     }
 
     public void gradeManagementClick() {
-        System.out.println(LoginController.userID);
     }
 
     public void gradeOverviewClick() {
@@ -96,20 +93,20 @@ public class TeacherViewController {
     }
 
     public void classManagementClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "class-management-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "class-management-view", "teacher-style", this);
     }
 
-    public void subjectManagementClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "subject-management-view", "teacher-style", this);
+    public void subjectManagementClick() {
     }
 
     public void notificationsClick() {
     }
 
-    public void messagesClick() {
+    public void messagesClick(MouseEvent event) throws IOException {
     }
 
     public void settingsClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "myaccount-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "myaccount-view", "teacher-style", this);
     }
+
 }
