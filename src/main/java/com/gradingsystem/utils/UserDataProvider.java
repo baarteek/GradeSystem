@@ -63,6 +63,26 @@ public class UserDataProvider {
         return response;
     }
 
+    public static String addNewSubjcet(String subjectName) {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String requset = new String();
+        requset = "ADD_SUBJECT|" + subjectName;
+        String response = serverConnection.sendRequest(requset);
+        serverConnection.disconnect();
+        return response;
+    }
+
+    public static String addLinkBetweenClassAndSubject(String classID, String subjectID) {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String requset = new String();
+        requset = "ADD_LINK|" + classID + "|" + subjectID;
+        String response = serverConnection.sendRequest(requset);
+        serverConnection.disconnect();
+        return response;
+    }
+
     public static String addStudentToClass(String className, String studentID) {
         ServerConnection serverConnection= new ServerConnection("localhost", 1025);
         serverConnection.connect();

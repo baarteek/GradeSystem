@@ -503,7 +503,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="50.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="300.0" text="Load Classes">
+                                                      <Button mnemonicParsing="false" onAction="#loadClassesInAddSubject" prefHeight="20.0" prefWidth="300.0" text="Load Classes">
                                                          <font>
                                                             <Font size="15.0" />
                                                          </font>
@@ -520,7 +520,7 @@
                                                       <Insets top="30.0" />
                                                    </VBox.margin>
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="300.0" text="Add New Subject">
+                                                      <Button mnemonicParsing="false" onAction="#addSubject" prefHeight="51.0" prefWidth="300.0" text="Add New Subject">
                                                          <font>
                                                             <Font size="20.0" />
                                                          </font>
@@ -550,7 +550,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="44.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Load Subjects">
+                                                      <Button mnemonicParsing="false" onAction="#loadSubjectsInRemove" prefHeight="30.0" prefWidth="300.0" text="Load Subjects">
                                                          <font>
                                                             <Font size="15.0" />
                                                          </font>
@@ -564,7 +564,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="128.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" text="Remove Subject">
+                                                      <Button mnemonicParsing="false" onAction="#removeSubject" prefHeight="60.0" prefWidth="300.0" text="Remove Subject">
                                                          <font>
                                                             <Font size="20.0" />
                                                          </font>
@@ -597,7 +597,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="42.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefWidth="300.0" text="Load Subjects">
+                                                      <Button mnemonicParsing="false" onAction="#loadSubjectInLink" prefWidth="300.0" text="Load Subjects">
                                                          <font>
                                                             <Font size="15.0" />
                                                          </font>
@@ -623,7 +623,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="46.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefWidth="300.0" text="Load Classes">
+                                                      <Button mnemonicParsing="false" onAction="#loadClassesInLink" prefWidth="300.0" text="Load Classes">
                                                          <font>
                                                             <Font size="15.0" />
                                                          </font>
@@ -670,7 +670,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="42.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefWidth="300.0" text="Load Subjects">
+                                                      <Button mnemonicParsing="false" onAction="#loadSubjectsInDelink" prefWidth="300.0" text="Load Subjects">
                                                          <font>
                                                             <Font size="15.0" />
                                                          </font>
@@ -696,7 +696,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="46.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefWidth="300.0" text="Load Classes">
+                                                      <Button mnemonicParsing="false" onAction="#loadClassesInDelink" prefWidth="300.0" text="Load Classes">
                                                          <font>
                                                             <Font size="15.0" />
                                                          </font>
@@ -743,7 +743,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="42.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefWidth="300.0" text="Load Subjects">
+                                                      <Button mnemonicParsing="false" onAction="#loadSubjectInRename" prefWidth="300.0" text="Load Subjects">
                                                          <font>
                                                             <Font size="15.0" />
                                                          </font>
@@ -773,7 +773,7 @@
                                                       <Insets top="30.0" />
                                                    </VBox.margin>
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" text=" Rename Subject">
+                                                      <Button mnemonicParsing="false" onAction="#renameSubject" prefHeight="60.0" prefWidth="300.0" text=" Rename Subject">
                                                          <font>
                                                             <Font size="20.0" />
                                                          </font>

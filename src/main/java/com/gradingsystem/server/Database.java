@@ -109,6 +109,15 @@ public class Database {
                 "    FOREIGN KEY (id_konwersacji) REFERENCES konwersacje(id_konwersacji)\n" +
                 ");\n";
 
+        String klasa_przedmiot = "CREATE TABLE IF NOT EXISTS klasa_przedmiot (\n" +
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    klasa_id INTEGER,\n" +
+                "    przedmiot_id INTEGER,\n" +
+                "    FOREIGN KEY (klasa_id) REFERENCES klasa(klasa_id),\n" +
+                "    FOREIGN KEY (przedmiot_id) REFERENCES przedmiot(przedmiot_id)\n" +
+                ");\n";
+
+
         create_table(klasa);
         create_table(uczen);
         create_table(nauczyciel);
@@ -119,6 +128,7 @@ public class Database {
         create_table(oceny_uczniow_na_zajeciach);
         create_table(konwersacja);
         create_table(wiadomosc);
+        create_table(klasa_przedmiot);
     }
 
     private static void create_table(String sql) {
@@ -224,6 +234,19 @@ public class Database {
             System.out.println("Insert into ocena error");
         }
     }
+
+    public static void add_klasa_przedmiot(int klasa_id, int przedmiot_id) {
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO klasa_przedmiot (klasa_id, przedmiot_id) VALUES (?, ?)");
+            pstmt.setInt(1, klasa_id);
+            pstmt.setInt(2, przedmiot_id);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Insert into klasa_przedmiot error");
+        }
+    }
+
 
     public static void add_oceny_uczniow_na_zajeciach(int zajecia_uczen_id, int ocena_id, String data) {
         try {
@@ -601,5 +624,9 @@ public class Database {
 
         add_konwersacje(false, true, 1, 2);
         add_konwersacje(true, false, 2, 1);
+
+        add_klasa_przedmiot(1, 3);
+        add_klasa_przedmiot(2, 2);
+        add_klasa_przedmiot(3, 1);
     }
 }

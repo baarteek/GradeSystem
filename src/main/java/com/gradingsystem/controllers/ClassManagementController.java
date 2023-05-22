@@ -1,5 +1,6 @@
 package com.gradingsystem.controllers;
 
+import com.gradingsystem.utils.DataPresenter;
 import com.gradingsystem.utils.UserDataProvider;
 import com.gradingsystem.utils.ViewSwitcher;
 import javafx.collections.FXCollections;
@@ -87,7 +88,7 @@ public class ClassManagementController {
         } else {
             String data = selectedItems.toString();
             data = data.replace("[", "").replace("]", "");
-            String classID = getIDFromString(data);
+            String classID = DataPresenter.getIDFromString(data);
             UserDataProvider.updateField("uczen", "klasa_id", "0", "klasa_id", classID);
             if(UserDataProvider.deleteRecordById("klasa", classID, "klasa_id")) {
                 alert.setContentText("Class removed");
@@ -117,7 +118,7 @@ public class ClassManagementController {
             } else {
                 String data = selectedItems.toString();
                 data = data.replace("[", "").replace("]", "");
-                String classID = getIDFromString(data);
+                String classID = DataPresenter.getIDFromString(data);
                 if(UserDataProvider.isDataInDatabase("klasa", "nazwa", newName)) {
                     alert.setContentText("There is a class with that name");
                     alert.showAndWait();
@@ -131,19 +132,6 @@ public class ClassManagementController {
                     }
                 }
             }
-        }
-    }
-
-    public void loadClasses(ListView listView) {
-        ObservableList<String> listItems = UserDataProvider.getAllFieldsFromClass("klasa");
-        if(listItems == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText(null);
-            alert.setContentText("No data");
-            alert.showAndWait();
-        }else {
-            listView.setItems(listItems);
         }
     }
 
@@ -199,39 +187,12 @@ public class ClassManagementController {
     private void addStudentsToClass(ListView listView, String className) {
         ObservableList<String> selectedItems = listView.getSelectionModel().getSelectedItems();
         for (String item : selectedItems) {;
-            if(!getIDFromString(item).equals("No ID found")) {
-                String studentID = getIDFromString(item);
+            if(!DataPresenter.getIDFromString(item).equals("No ID found")) {
+                String studentID = DataPresenter.getIDFromString(item);
                 UserDataProvider.addStudentToClass(className, studentID);
             }
         }
     }
-
-    public static String getIDFromString(String inputString) {
-        String[] attributes = inputString.split("\t");
-        for (String attribute : attributes) {
-            String[] keyValue = attribute.split(":");
-            if (keyValue[0].trim().equals("ID")) {
-                return keyValue[1].trim();
-            }
-        }
-        return "No ID found";
-    }
-
-
-
-    public void loadStudentData(ListView listView) {
-        ObservableList<String> studentsWithoutClass = UserDataProvider.getStudentsWithoutClass();
-        if(studentsWithoutClass == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText(null);
-            alert.setContentText("There are no students with no classes assigned to them");
-            alert.showAndWait();
-        } else {
-            listView.setItems(studentsWithoutClass);
-        }
-    }
-
     public void removeStudentsFromClass() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
@@ -245,10 +206,10 @@ public class ClassManagementController {
         } else {
             String dataClass = selectedClass.toString();
             dataClass = dataClass.replace("[", "").replace("]", "");
-            String classID = getIDFromString(dataClass);
+            String classID =DataPresenter.getIDFromString(dataClass);
             String dataStudent = selectedStudents.toString();
             dataStudent = dataStudent.replace("[", "").replace("]", "");
-            String studentID = getIDFromString(dataStudent);
+            String studentID = DataPresenter.getIDFromString(dataStudent);
 
             String condition = classID + " AND uczen_id=" + studentID;
 
@@ -263,27 +224,27 @@ public class ClassManagementController {
     }
 
     public void loadStudentDataAction() {
-        loadStudentData(studentsListView);
+        DataPresenter.loadStudentWithoutClassDataToListView(studentsListView);
     }
 
     public void loadStudentDataAction2() {
-        loadStudentData(studentsToAddList);
+        DataPresenter.loadStudentWithoutClassDataToListView(studentsToAddList);
     }
 
     public void loadClassesToRemove() {
-        loadClasses(classesList);
+        DataPresenter.loadClassesDataToListView(classesList);
     }
 
     public void loadClassesToEdit() {
-        loadClasses(classToAddList);
+        DataPresenter.loadClassesDataToListView(classToAddList);
     }
 
     public void loadClassesToRename() {
-        loadClasses(classToRenameList);
+        DataPresenter.loadClassesDataToListView(classToRenameList);
     }
 
     public void loadClassesAct() {
-        loadClasses(classToRemoveList);
+        DataPresenter.loadClassesDataToListView(classToRemoveList);
     }
 
     public void loadStudentsToRemoveFromClass() {
@@ -298,7 +259,7 @@ public class ClassManagementController {
         } else {
             String data = selectedClass.toString();
             data = data.replace("[", "").replace("]", "");
-            String classID = getIDFromString(data);
+            String classID = DataPresenter.getIDFromString(data);
             String condition = "klasa_id=" + classID;
             String result = UserDataProvider.getTableData("uczen", "uczen_id, imie, nazwisko, email, pesel, telefon", condition);
             if(result == null) {

@@ -1,5 +1,7 @@
 package com.gradingsystem.server;
 
+import com.gradingsystem.utils.DataPresenter;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.gradingsystem.server.Database.add_test_data;
 import static com.gradingsystem.server.Database.getStudentsWithoutClass;
 
 public class Main {
     public static void main(String[] args) {
         Database.connect();
         Database.create_tables();
-
 
         try {
             int port = 1025;
@@ -60,6 +62,9 @@ public class Main {
                             case "ADD_CLASS":
                                 response = handleAddClass(parts[1]);
                                 break;
+                            case "ADD_SUBJECT":
+                                response = handleAddSubjcect(parts[1]);
+                                break;
                             case "ADD_STUIDENT_TO_CLASS":
                                 response = handlAddStudentToClass(parts[1].toUpperCase(), parts[2]);
                                 break;
@@ -74,6 +79,9 @@ public class Main {
                                 break;
                             case "GET_TABLE_DATA":
                                 response = handleGetTableData(parts[1], parts[2], parts[3]);
+                                break;
+                            case "ADD_LINK":
+                                response = handleAddLink(parts[1], parts[2]);
                                 break;
                         }
 
@@ -91,6 +99,29 @@ public class Main {
             throw new RuntimeException(e);
         } finally {
             Database.disconnect();
+        }
+    }
+
+    private static String handleAddLink(String classID, String subjectID) {
+        String condition = "klasa_id='" + classID + "' AND przedmiot_id='" + subjectID + "'";
+        String result = Database.getTableData("klasa_przedmiot", "id", condition);
+        if(result.isEmpty()) {
+            int idClass = Integer.parseInt(classID);
+            int idSubject = Integer.parseInt(subjectID);
+            Database.add_klasa_przedmiot(idClass, idSubject);
+            return "ADD_LINK_SUCCESS";
+        } else {
+            return "ADD_LINK_FAILURE";
+        }
+    }
+
+    private static String handleAddSubjcect(String subjectName) {
+        String result = Database.checkIfDataExists("przedmiot", new String[]{"nazwa"}, new String[]{subjectName});
+        if(result.equals("SUCCESS")) {
+            Database.add_przedmiot(subjectName);
+            return "ADD_SUBJECT_SUCCESS";
+        } else {
+            return "ADD_SUBJECT_FAILURE";
         }
     }
 
@@ -121,7 +152,7 @@ public class Main {
 
     private static String handleGetAllDataFromTable(String tableName) {
         tableName.toLowerCase();
-        List<String> data = Database.getAllFieldsFromTable("klasa");
+        List<String> data = Database.getAllFieldsFromTable(tableName);
         String result = data.toString();
         result =  result.substring(1, result.length() - 1);
         return "GET_ALL_DATA_FROM_TABLE|SUCCESS|" + result;
