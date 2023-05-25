@@ -72,6 +72,8 @@ public class SubjectManagementController {
         }
 
         classesListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        classesToLinkListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        classesToDelinkListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     private void updateUserFields() {
@@ -184,6 +186,112 @@ public class SubjectManagementController {
         }
     }
 
+    public void linkSubjectWithClass() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        ObservableList<String> selectedSubject = subjectsToLinkListView.getSelectionModel().getSelectedItems();
+        ObservableList<String> selectedClasses = classesToLinkListView.getSelectionModel().getSelectedItems();
+        if(selectedSubject.isEmpty() || selectedClasses.isEmpty()) {
+            alert.setContentText("Choose subject and classes");
+            alert.showAndWait();
+        } else {
+            String dataSubject = selectedSubject.toString();
+            dataSubject = dataSubject.replace("[", "").replace("]", "");
+            String subjectID = DataPresenter.getIDFromString(dataSubject);
+            String result = new String();
+            for(String item : selectedClasses) {
+                String dataClass = item.toString();
+                dataClass = dataClass.replace("[", "").replace("]", "");
+                String ClassID = DataPresenter.getIDFromString(dataClass);
+
+                result = UserDataProvider.addLinkBetweenClassAndSubject(ClassID, subjectID);
+                if(result.equals("ADD_LINK_FAILURE")) {
+                    break;
+                }
+            }
+            if(result.equals("ADD_LINK_FAILURE")) {
+                alert.setContentText("Failed to link subject to classs");
+                alert.showAndWait();
+            } else {
+                alert.setContentText("Linked subject to classes");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    public void delinkSubjectWithClass() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        ObservableList<String> selectedSubject = subjectsToDelinkListView.getSelectionModel().getSelectedItems();
+        ObservableList<String> selectedClasses = classesToDelinkListView.getSelectionModel().getSelectedItems();
+        if(selectedSubject.isEmpty() || selectedClasses.isEmpty()) {
+            alert.setContentText("Choose subject and classes");
+            alert.showAndWait();
+        } else {
+            String dataSubject = selectedSubject.toString();
+            dataSubject = dataSubject.replace("[", "").replace("]", "");
+            String subjectID = DataPresenter.getIDFromString(dataSubject);
+            boolean isDelated = true;
+            for(String item : selectedClasses) {
+                String dataClass = item.toString();
+                dataClass = dataClass.replace("[", "").replace("]", "");
+                String classID = DataPresenter.getIDFromString(dataClass);
+
+                String condition = "klasa_id=" + classID + " AND przedmiot_id= " + subjectID;
+                String removeID = UserDataProvider.getTableData("klasa_przedmiot", "id", condition);
+
+                if(!UserDataProvider.deleteRecordById("klasa_przedmiot", removeID, "id")) {
+                    isDelated = false;
+                    break;
+                }
+            }
+            if(isDelated) {
+                alert.setContentText("Delinked subject to classes");
+                alert.showAndWait();
+            } else {
+                alert.setContentText("Failed to delink subject to class");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    public void loadClassesAssociatedWithSubject() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        ObservableList<String> selectedSubject = subjectsToDelinkListView.getSelectionModel().getSelectedItems();
+        if(selectedSubject.isEmpty()) {
+            alert.setContentText("Choose a subject");
+            alert.showAndWait();
+        } else {
+            String data = selectedSubject.toString();
+            data = data.replace("[", "").replace("]", "");
+            String subjectID = DataPresenter.getIDFromString(data);
+
+            DataPresenter.loadClassesLinkedWithSubjectDataToListView(classesToDelinkListView, subjectID);
+        }
+    }
+
+    public void loadClassesInLink() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+
+        ObservableList<String> selectedSubject = subjectsToLinkListView.getSelectionModel().getSelectedItems();;
+        if(selectedSubject.isEmpty()) {
+            alert.setContentText("Choose a subject");
+            alert.showAndWait();
+        } else {
+            String dataSubject = selectedSubject.toString();
+            dataSubject = dataSubject.replace("[", "").replace("]", "");
+            String subjectID = DataPresenter.getIDFromString(dataSubject);
+
+            DataPresenter.loadClassesNotLinkedWithSubjectDataToListView(classesToLinkListView, subjectID);
+        }
+    }
+
     public void loadClassesInAddSubject() {
         DataPresenter.loadClassesDataToListView(classesListView);
     }
@@ -196,12 +304,8 @@ public class SubjectManagementController {
         DataPresenter.loadSubjectsDataToLisView(subjectsToLinkListView);
     }
 
-    public void loadClassesInLink() {
-        DataPresenter.loadClassesDataToListView(classesToLinkListView);
-    }
-
     public void loadSubjectsInDelink() {
-
+        DataPresenter.loadSubjectsDataToLisView(subjectsToDelinkListView);
     }
 
     public void loadClassesInDelink() {

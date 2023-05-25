@@ -640,7 +640,7 @@
                                                       <Insets top="30.0" />
                                                    </VBox.margin>
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" text="Link">
+                                                      <Button mnemonicParsing="false" onAction="#linkSubjectWithClass" prefHeight="60.0" prefWidth="300.0" text="Link">
                                                          <font>
                                                             <Font size="20.0" />
                                                          </font>
@@ -696,7 +696,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="46.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" onAction="#loadClassesInDelink" prefWidth="300.0" text="Load Classes">
+                                                      <Button mnemonicParsing="false" onAction="#loadClassesAssociatedWithSubject" prefWidth="300.0" text="Load Classes">
                                                          <font>
                                                             <Font size="15.0" />
                                                          </font>
@@ -713,7 +713,7 @@
                                                       <Insets top="30.0" />
                                                    </VBox.margin>
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="300.0" text="Delink">
+                                                      <Button mnemonicParsing="false" onAction="#delinkSubjectWithClass" prefHeight="60.0" prefWidth="300.0" text="Delink">
                                                          <font>
                                                             <Font size="20.0" />
                                                          </font>
