@@ -1,5 +1,6 @@
 package com.gradingsystem.controllers;
 
+import com.gradingsystem.userinfo.User;
 import com.gradingsystem.utils.UserDataProvider;
 import com.gradingsystem.utils.Validator;
 import com.gradingsystem.utils.ViewSwitcher;
@@ -105,7 +106,14 @@ public class MyAccountViewController {
     private String password;
 
     public void initialize() {
-        String[] userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+        String[] userData;
+        if (User.getType() == "teacher") {
+            userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+        }
+        else {
+            userData = UserDataProvider.getUserData("uczen", LoginController.userID);
+        }
+
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[2];
             surname = userData[3];
@@ -121,6 +129,7 @@ public class MyAccountViewController {
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
         }
+
     }
 
     private void updateUserFields() {

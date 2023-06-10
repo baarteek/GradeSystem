@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import com.gradingsystem.userinfo.User;
 
 import javafx.scene.layout.HBox;
 
@@ -59,8 +60,10 @@ public class LoginController {
     private RadioButton radioButtonTeacher;
     private Stage stage;
     private Stage teacherStage;
+    private Stage studentStage;
     private Scene registerScene;
     private Scene teacherScene;
+    private Scene studentScene;
     private Parent root;
 
     public static int userID;
@@ -98,13 +101,15 @@ public class LoginController {
                 userID = Integer.parseInt(loginResult[2]);
                 if(loginResult[1].equals("TEACHER")) {
                     if(radioButtonTeacher.isSelected()) {
+                        User.setType("teacher");
                         ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "teacher-view", "teacher-style", this);
                     } else {
                         errorLabel.setText("You can not log in as a student");
                     }
                 } else if (loginResult[1].equals("STUDENT")) {
                     if(radioButtonStudent.isSelected()) {
-                        System.out.println("zalogowano ucznia");
+                        User.setType("student");
+                        ViewSwitcher.switchScene(event, root, studentStage, studentScene, "student-view", "teacher-style", this);
                     } else {
                         errorLabel.setText("You can not log in as a teacher");
                     }
