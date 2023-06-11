@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -98,6 +99,16 @@ public class MyAccountViewController {
     @FXML
     private Separator accountDetailsSeparator;
     @FXML
+    private Separator menuSeparator2;
+    @FXML
+    private Separator menuSeparator4;
+    @FXML
+    private Separator menuSeparator5;
+    @FXML
+    private Separator menuSeparator6;
+    @FXML
+    private VBox accountMenuVBox;
+    @FXML
     private Parent root;
     private Stage stage;
     private Scene scene;
@@ -118,6 +129,21 @@ public class MyAccountViewController {
             classesMyAccountHBox.setVisible(false);
             subjectsMyAccountHBox.setVisible(false);
             accountDetailsSeparator.setVisible(false);
+
+            accountMenuVBox.getChildren().remove(classesMyAccountHBox);
+            accountMenuVBox.getChildren().remove(subjectsMyAccountHBox);
+            accountMenuVBox.getChildren().remove(accountDetailsSeparator);
+            accountMenuVBox.getChildren().remove(accountDetailsSeparator);
+            accountMenuVBox.getChildren().remove(gradeManagementHBox);
+            accountMenuVBox.getChildren().remove(menuSeparator2);
+            accountMenuVBox.getChildren().remove(studentProfilesHBox);
+            accountMenuVBox.getChildren().remove(menuSeparator4);
+            accountMenuVBox.getChildren().remove(classManagementHBox);
+            accountMenuVBox.getChildren().remove(subjectManagementHBox);
+            accountMenuVBox.getChildren().remove(menuSeparator5);
+            accountMenuVBox.getChildren().remove(menuSeparator6);
+
+            accountMenuVBox.requestLayout();
         }
 
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
