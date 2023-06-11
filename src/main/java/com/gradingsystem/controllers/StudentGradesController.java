@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StudentViewController {
+public class StudentGradesController {
     @FXML
     private AnchorPane mainAnchorPane;
     @FXML

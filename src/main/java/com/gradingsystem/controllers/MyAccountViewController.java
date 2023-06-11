@@ -132,8 +132,6 @@ public class MyAccountViewController {
 
             accountMenuVBox.getChildren().remove(classesMyAccountHBox);
             accountMenuVBox.getChildren().remove(subjectsMyAccountHBox);
-            accountMenuVBox.getChildren().remove(accountDetailsSeparator);
-            accountMenuVBox.getChildren().remove(accountDetailsSeparator);
             accountMenuVBox.getChildren().remove(gradeManagementHBox);
             accountMenuVBox.getChildren().remove(menuSeparator2);
             accountMenuVBox.getChildren().remove(studentProfilesHBox);
@@ -375,7 +373,10 @@ public class MyAccountViewController {
     public void gradeManagementClick() {
     }
 
-    public void gradeOverviewClick() {
+    public void gradeOverviewClick(MouseEvent event) throws IOException  {
+        if (User.getType() == "student") {
+            ViewSwitcher.switchScene(event, root, stage, scene, "student-grades-view", "teacher-style", this);
+        }
     }
 
     public void statisticsClick() {
