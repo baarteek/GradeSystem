@@ -90,6 +90,7 @@ public class LoginController {
 
             ServerConnection serverConnection= new ServerConnection("localhost", 1025);
             serverConnection.connect();
+
             String requset = "LOGIN|" + email + "|" + password;
             String response = serverConnection.sendRequest(requset);
             serverConnection.disconnect();

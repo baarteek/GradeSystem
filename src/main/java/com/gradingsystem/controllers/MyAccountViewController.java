@@ -92,9 +92,12 @@ public class MyAccountViewController {
     @FXML
     private Label phoneNumberMyAccount;
     @FXML
-    private Label conductedClasses;
+    private HBox classesMyAccountHBox;
     @FXML
-    private Label subjectTaught;
+    private HBox subjectsMyAccountHBox;
+    @FXML
+    private Separator accountDetailsSeparator;
+    @FXML
     private Parent root;
     private Stage stage;
     private Scene scene;
@@ -112,15 +115,28 @@ public class MyAccountViewController {
         }
         else {
             userData = UserDataProvider.getUserData("uczen", LoginController.userID);
+            classesMyAccountHBox.setVisible(false);
+            subjectsMyAccountHBox.setVisible(false);
+            accountDetailsSeparator.setVisible(false);
         }
 
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
-            name = userData[2];
-            surname = userData[3];
-            pesel = userData[4];
-            email = userData[5];
-            phoneNumber = userData[6];
-            password = userData[7];
+            if (User.getType() == "teacher") {
+                name = userData[2];
+                surname = userData[3];
+                pesel = userData[4];
+                email = userData[5];
+                phoneNumber = userData[6];
+                password = userData[7];
+            }
+            else {
+                name = userData[3];
+                surname = userData[4];
+                pesel = userData[5];
+                email = userData[6];
+                phoneNumber = userData[7];
+                password = userData[8];
+            }
             updateUserFields();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
