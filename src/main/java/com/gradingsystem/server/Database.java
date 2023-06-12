@@ -587,6 +587,38 @@ public class Database {
         return sb.toString();
     }
 
+    public static String getStudentSubjects(String userId) {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            String query = "SELECT p.nazwa, ocena.ocena " +
+                    "FROM przedmiot p " +
+                    "JOIN zajecia ON zajecia.przedmiot_id = p.przedmiot_id " +
+                    "JOIN zajecia_uczen ON zajecia_uczen.zajecia_id = zajecia.zajecia_id " +
+                    "JOIN uczen u ON u.uczen_id = zajecia_uczen.uczen_id " +
+                    "JOIN oceny_uczniow_na_zajeciach ounz ON ounz.zajecia_uczen_id = zajecia_uczen.zajecia_uczen_id " +
+                    "JOIN ocena ON ocena.ocena_id = ounz.ocena_id " +
+                    "WHERE u.uczen_id = " + userId;
+
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                String subject = resultSet.getString("nazwa");
+                String grade = resultSet.getString("ocena");
+                sb.append(subject.toUpperCase()).append(grade).append("|");
+            }
+
+            if (sb.length() > 0) {
+                sb.setLength(sb.length() - 1);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Cannot fetch data from: " + e.getMessage());
+        }
+
+        return sb.toString();
+    }
 
     public static void add_test_data() {
         add_klasa("3A");

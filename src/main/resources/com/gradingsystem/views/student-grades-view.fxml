@@ -419,11 +419,11 @@
       </Separator>
       <AnchorPane layoutX="277.0" layoutY="-42.0" minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="1376.0">
          <children>
-            <VBox layoutY="12.0" prefHeight="806.0" prefWidth="1326.0">
+            <VBox layoutY="14.0" prefHeight="806.0" prefWidth="1326.0">
                <children>
                   <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="128.0" prefWidth="1322.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="1320.0" text="Main view" textAlignment="CENTER" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="1320.0" text="Grades" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="50.0" />
                            </font>
@@ -433,22 +433,14 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Separator prefWidth="200.0">
-                     <effect>
-                        <Lighting>
-                           <bumpInput>
-                              <Shadow />
-                           </bumpInput>
-                           <light>
-                              <Light.Distant>
-                                 <color>
-                                    <Color red="0.27450981736183167" green="0.4745098054409027" blue="0.9411764740943909" />
-                                 </color>
-                              </Light.Distant>
-                           </light>
-                        </Lighting>
-                     </effect>
-                  </Separator>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="subjectsList" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </HBox.margin></ListView>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

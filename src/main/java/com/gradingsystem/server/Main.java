@@ -83,6 +83,9 @@ public class Main {
                             case "ADD_LINK":
                                 response = handleAddLink(parts[1], parts[2]);
                                 break;
+                            case "GET_STUDENT_SUBJECTS":
+                                response = handleGetStudentSubjects(parts[1]);
+                                break;
                         }
 
                         bufferedWriter.write(response);
@@ -253,5 +256,16 @@ public class Main {
         String userDataResult = "";
         userDataResult = Database.checkIfDataExists(tableName, new String[]{columnNames}, new String[]{values});
         return userDataResult;
+    }
+
+    private static String handleGetStudentSubjects(String userId) {
+        String subjects = Database.getStudentSubjects(userId);
+
+        if (subjects == null) {
+            return "GET_STUDENT_SUBJECTS_DATA_FAILURE";
+        }
+        else {
+            return "GET_STUDENT_SUBJECTS_DATA_SUCCESS|" + subjects;
+        }
     }
 }

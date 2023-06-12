@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,6 +17,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StudentGradesController {
     @FXML
@@ -62,6 +67,8 @@ public class StudentGradesController {
     private Separator menuSeparator6;
     @FXML
     private VBox accountMenuVBox;
+    @FXML
+    private ListView subjectsList;
 
 
     private Parent root;
@@ -75,6 +82,8 @@ public class StudentGradesController {
 
     public void initialize() {
         String[] userData = UserDataProvider.getUserData("uczen", LoginController.userID);
+        String[] gradesData = UserDataProvider.getStudentSubjects();
+
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[3];
             surname = userData[4];
@@ -101,6 +110,55 @@ public class StudentGradesController {
             alert.setHeaderText("USER DATA");
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
+        }
+
+        if (!gradesData[0].equals("GET_STUDENT_SUBJECTS_DATA_FAILURE")) {
+            renderGrades(gradesData);
+        }
+    }
+
+    private void renderGrades(String[] gradesData) {
+        Map<String, List<Integer>> subjectMap = extractSubjectGrades(gradesData);
+        displaySubjectGrades(subjectMap);
+    }
+
+    private Map<String, List<Integer>> extractSubjectGrades(String[] gradesData) {
+        Map<String, List<Integer>> subjectMap = new HashMap<>();
+
+        for (int i = 1; i < gradesData.length; i++) {
+            String subject = gradesData[i].substring(0, gradesData[i].length() - 1);
+            int grade = Integer.parseInt(gradesData[i].substring(gradesData[i].length() - 1));
+
+            if (subjectMap.containsKey(subject)) {
+                List<Integer> grades = subjectMap.get(subject);
+                grades.add(grade);
+            } else {
+                List<Integer> grades = new ArrayList<>();
+                grades.add(grade);
+                subjectMap.put(subject, grades);
+            }
+        }
+
+        return subjectMap;
+    }
+
+    private void displaySubjectGrades(Map<String, List<Integer>> subjectMap) {
+        for (Map.Entry<String, List<Integer>> entry : subjectMap.entrySet()) {
+            String subject = entry.getKey();
+            List<Integer> grades = entry.getValue();
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(subject).append(": ");
+
+            for (int i = 0; i < grades.size(); i++) {
+                sb.append(grades.get(i));
+
+                if (i < grades.size() - 1) {
+                    sb.append(", ");
+                }
+            }
+
+            subjectsList.getItems().add(sb.toString());
         }
     }
 

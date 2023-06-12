@@ -220,5 +220,21 @@ public class UserDataProvider {
         }
     }
 
+    public static String[] getStudentSubjects() {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+
+        String request = "GET_STUDENT_SUBJECTS|" + LoginController.userID;
+        String response = serverConnection.sendRequest(request);
+
+        serverConnection.disconnect();
+
+        String[] userData = response.split("\\|");
+
+        if(userData[0].equals("GET_STUDENT_SUBJECTS_DATA_SUCCESS")) {
+            return userData;
+        }
+        return new String[]{"GET_STUDENT_SUBJECTS_DATA_FAILURE"};
+    }
 
 }
