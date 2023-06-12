@@ -220,11 +220,11 @@ public class UserDataProvider {
         }
     }
 
-    public static String[] getStudentSubjects() {
+    public static String[] getStudentSubjectsAndGrades() {
         ServerConnection serverConnection= new ServerConnection("localhost", 1025);
         serverConnection.connect();
 
-        String request = "GET_STUDENT_SUBJECTS|" + LoginController.userID;
+        String request = "GET_STUDENT_SUBJECTS_AND_GRADES|" + LoginController.userID;
         String response = serverConnection.sendRequest(request);
 
         serverConnection.disconnect();

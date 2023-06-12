@@ -82,7 +82,7 @@ public class StudentGradesController {
 
     public void initialize() {
         String[] userData = UserDataProvider.getUserData("uczen", LoginController.userID);
-        String[] gradesData = UserDataProvider.getStudentSubjects();
+        String[] gradesData = UserDataProvider.getStudentSubjectsAndGrades();
 
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[3];
@@ -126,16 +126,24 @@ public class StudentGradesController {
         Map<String, List<Integer>> subjectMap = new HashMap<>();
 
         for (int i = 1; i < gradesData.length; i++) {
-            String subject = gradesData[i].substring(0, gradesData[i].length() - 1);
-            int grade = Integer.parseInt(gradesData[i].substring(gradesData[i].length() - 1));
+            String gradeString = gradesData[i].substring(gradesData[i].length() - 1);
 
-            if (subjectMap.containsKey(subject)) {
-                List<Integer> grades = subjectMap.get(subject);
-                grades.add(grade);
-            } else {
-                List<Integer> grades = new ArrayList<>();
-                grades.add(grade);
-                subjectMap.put(subject, grades);
+            if (!Character.isDigit(gradeString.charAt(0))) {
+                String subject = gradesData[i].substring(0, gradesData[i].length() );
+                subjectMap.put(subject, null);
+            }
+            else {
+                String subject = gradesData[i].substring(0, gradesData[i].length() - 1);
+                int grade = Integer.parseInt(gradeString);
+
+                if (subjectMap.containsKey(subject)) {
+                    List<Integer> grades = subjectMap.get(subject);
+                    grades.add(grade);
+                } else {
+                    List<Integer> grades = new ArrayList<>();
+                    grades.add(grade);
+                    subjectMap.put(subject, grades);
+                }
             }
         }
 
@@ -150,17 +158,20 @@ public class StudentGradesController {
 
             sb.append(subject).append(": ");
 
-            for (int i = 0; i < grades.size(); i++) {
-                sb.append(grades.get(i));
+            if (grades != null) {
+                for (int i = 0; i < grades.size(); i++) {
+                    sb.append(grades.get(i));
 
-                if (i < grades.size() - 1) {
-                    sb.append(", ");
+                    if (i < grades.size() - 1) {
+                        sb.append(", ");
+                    }
                 }
             }
 
             subjectsList.getItems().add(sb.toString());
         }
     }
+
 
     public void updateUserFields() {
         userNameLabel.setText(name + " " + surname);

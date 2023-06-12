@@ -587,7 +587,7 @@ public class Database {
         return sb.toString();
     }
 
-    public static String getStudentSubjects(String userId) {
+    public static String getStudentSubjectsAndGrades(String userId) {
         StringBuilder sb = new StringBuilder();
 
         try {
@@ -596,8 +596,8 @@ public class Database {
                     "JOIN zajecia ON zajecia.przedmiot_id = p.przedmiot_id " +
                     "JOIN zajecia_uczen ON zajecia_uczen.zajecia_id = zajecia.zajecia_id " +
                     "JOIN uczen u ON u.uczen_id = zajecia_uczen.uczen_id " +
-                    "JOIN oceny_uczniow_na_zajeciach ounz ON ounz.zajecia_uczen_id = zajecia_uczen.zajecia_uczen_id " +
-                    "JOIN ocena ON ocena.ocena_id = ounz.ocena_id " +
+                    "LEFT JOIN oceny_uczniow_na_zajeciach ounz ON ounz.zajecia_uczen_id = zajecia_uczen.zajecia_uczen_id " +
+                    "LEFT JOIN ocena ON ocena.ocena_id = ounz.ocena_id " +
                     "WHERE u.uczen_id = " + userId;
 
             PreparedStatement pstmt = conn.prepareStatement(query);
@@ -606,8 +606,15 @@ public class Database {
             while (resultSet.next()) {
                 String subject = resultSet.getString("nazwa");
                 String grade = resultSet.getString("ocena");
-                sb.append(subject.toUpperCase()).append(grade).append("|");
+                sb.append(subject.toUpperCase());
+
+                if (grade != null) {
+                    sb.append(grade);
+                }
+
+                sb.append("|");
             }
+            sb.append("|");
 
             if (sb.length() > 0) {
                 sb.setLength(sb.length() - 1);
@@ -619,6 +626,7 @@ public class Database {
 
         return sb.toString();
     }
+
 
     public static void add_test_data() {
         add_klasa("3A");
