@@ -17,10 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StudentGradesController {
     @FXML
@@ -118,22 +116,32 @@ public class StudentGradesController {
     }
 
     private void renderGrades(String[] gradesData) {
-        Map<String, List<Integer>> subjectMap = extractSubjectGrades(gradesData);
-        displaySubjectGrades(subjectMap);
+        Map<String, Map<String, List<Integer>>>  yearMap = extractSubjectGrades(gradesData);
+        displaySubjectGrades(yearMap);
     }
 
-    private Map<String, List<Integer>> extractSubjectGrades(String[] gradesData) {
-        Map<String, List<Integer>> subjectMap = new HashMap<>();
+    private Map<String, Map<String, List<Integer>>> extractSubjectGrades(String[] gradesData) {
+        Map<String, Map<String, List<Integer>>> yearMap = new HashMap<>();
 
         for (int i = 1; i < gradesData.length; i++) {
+            int startIndex = gradesData[i].indexOf("(") + 1;
+            int endIndex = gradesData[i].indexOf(")");
+            String year = gradesData[i].substring(startIndex, endIndex);
+
+            if (!yearMap.containsKey(year)) {
+                yearMap.put(year, new HashMap<>());
+            }
+
+            Map<String, List<Integer>> subjectMap = yearMap.get(year);
+
             String gradeString = gradesData[i].substring(gradesData[i].length() - 1);
 
             if (!Character.isDigit(gradeString.charAt(0))) {
-                String subject = gradesData[i].substring(0, gradesData[i].length() );
+                String subject = gradesData[i].substring(0, startIndex - 2);
                 subjectMap.put(subject, null);
             }
             else {
-                String subject = gradesData[i].substring(0, gradesData[i].length() - 1);
+                String subject = gradesData[i].substring(0, startIndex - 2);
                 int grade = Integer.parseInt(gradeString);
 
                 if (subjectMap.containsKey(subject)) {
@@ -145,33 +153,44 @@ public class StudentGradesController {
                     subjectMap.put(subject, grades);
                 }
             }
+
+            yearMap.put(year, subjectMap);
         }
 
-        return subjectMap;
+        return yearMap;
     }
 
-    private void displaySubjectGrades(Map<String, List<Integer>> subjectMap) {
-        for (Map.Entry<String, List<Integer>> entry : subjectMap.entrySet()) {
-            String subject = entry.getKey();
-            List<Integer> grades = entry.getValue();
-            StringBuilder sb = new StringBuilder();
+    private void displaySubjectGrades(Map<String, Map<String, List<Integer>>> yearMap) {
+        for (Map.Entry<String, Map<String, List<Integer>>> yearEntry : yearMap.entrySet()) {
+            String year = yearEntry.getKey();
+            Map<String, List<Integer>> subjectMap = yearEntry.getValue();
 
-            sb.append(subject).append(": ");
+            subjectsList.getItems().add("Rok " + year);
 
-            if (grades != null) {
-                for (int i = 0; i < grades.size(); i++) {
-                    sb.append(grades.get(i));
+            for (Map.Entry<String, List<Integer>> subjectEntry : subjectMap.entrySet()) {
+                String subject = subjectEntry.getKey();
+                List<Integer> grades = subjectEntry.getValue();
 
-                    if (i < grades.size() - 1) {
-                        sb.append(", ");
+                StringBuilder sb = new StringBuilder();
+
+                sb.append(subject).append(": ");
+
+                if (grades != null) {
+                    for (int i = 0; i < grades.size(); i++) {
+                        sb.append(grades.get(i));
+
+                        if (i < grades.size() - 1) {
+                            sb.append(", ");
+                        }
                     }
                 }
+
+                subjectsList.getItems().add(sb.toString());
             }
 
-            subjectsList.getItems().add(sb.toString());
+            subjectsList.getItems().add("");
         }
     }
-
 
     public void updateUserFields() {
         userNameLabel.setText(name + " " + surname);

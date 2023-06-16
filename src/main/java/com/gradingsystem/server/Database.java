@@ -74,9 +74,11 @@ public class Database {
                 "    zajecia_uczen_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    uczen_id INTEGER,\n" +
                 "    zajecia_id INTEGER,\n" +
+                "    rok TEXT,\n" +
                 "    FOREIGN KEY (uczen_id) REFERENCES uczen(uczen_id),\n" +
                 "    FOREIGN KEY (zajecia_id) REFERENCES zajecia(zajecia_id)\n" +
                 ");\n";
+
 
         String ocena = "CREATE TABLE IF NOT EXISTS ocena (\n" +
                 "    ocena_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -211,11 +213,12 @@ public class Database {
         }
     }
 
-    public static void add_zajecia_uczen(int uczen_id, int zajecia_id) {
+    public static void add_zajecia_uczen(int uczen_id, int zajecia_id, String rok) {
         try {
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO zajecia_uczen (uczen_id, zajecia_id) VALUES (?, ?)");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO zajecia_uczen (uczen_id, zajecia_id, rok) VALUES (?, ?, ?)");
             pstmt.setInt(1, uczen_id);
             pstmt.setInt(2, zajecia_id);
+            pstmt.setString(3, rok);
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -591,22 +594,29 @@ public class Database {
         StringBuilder sb = new StringBuilder();
 
         try {
-            String query = "SELECT p.nazwa, ocena.ocena " +
+            String query = "SELECT p.nazwa, ocena.ocena, zu.rok " +
                     "FROM przedmiot p " +
                     "JOIN zajecia ON zajecia.przedmiot_id = p.przedmiot_id " +
-                    "JOIN zajecia_uczen ON zajecia_uczen.zajecia_id = zajecia.zajecia_id " +
-                    "JOIN uczen u ON u.uczen_id = zajecia_uczen.uczen_id " +
-                    "LEFT JOIN oceny_uczniow_na_zajeciach ounz ON ounz.zajecia_uczen_id = zajecia_uczen.zajecia_uczen_id " +
+                    "JOIN zajecia_uczen zu ON zu.zajecia_id = zajecia.zajecia_id " +
+                    "JOIN uczen u ON u.uczen_id = zu.uczen_id " +
+                    "LEFT JOIN oceny_uczniow_na_zajeciach ounz ON ounz.zajecia_uczen_id = zu.zajecia_uczen_id " +
                     "LEFT JOIN ocena ON ocena.ocena_id = ounz.ocena_id " +
-                    "WHERE u.uczen_id = " + userId;
+                    "WHERE u.uczen_id = ?";
 
             PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, userId);
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
                 String subject = resultSet.getString("nazwa");
                 String grade = resultSet.getString("ocena");
+                String year = resultSet.getString("rok");
+
                 sb.append(subject.toUpperCase());
+
+                if (year != null) {
+                    sb.append(" (").append(year).append(")");
+                }
 
                 if (grade != null) {
                     sb.append(grade);
@@ -626,7 +636,6 @@ public class Database {
 
         return sb.toString();
     }
-
 
     public static void add_test_data() {
         add_klasa("3A");
@@ -649,10 +658,10 @@ public class Database {
         add_zajecia(1, 2);
         add_zajecia(2, 3);
 
-        add_zajecia_uczen(1, 1);
-        add_zajecia_uczen(2, 1);
-        add_zajecia_uczen(1, 2);
-        add_zajecia_uczen(2, 2);
+        add_zajecia_uczen(1, 1, "2023");
+        add_zajecia_uczen(2, 1, "2023");
+        add_zajecia_uczen(2, 2, "2023");
+        add_zajecia_uczen(1, 2, "2022");
 
         add_ocena(4, 1);
         add_ocena(5, 2);
@@ -660,7 +669,7 @@ public class Database {
 
         add_oceny_uczniow_na_zajeciach(1, 1, "2023-05-01");
         add_oceny_uczniow_na_zajeciach(1, 2, "2023-05-01");
-        add_oceny_uczniow_na_zajeciach(2, 3, "2023-05-01");
+        add_oceny_uczniow_na_zajeciach(3, 3, "2023-05-01");
 
         add_konwersacje(false, true, 1, 2);
         add_konwersacje(true, false, 2, 1);
