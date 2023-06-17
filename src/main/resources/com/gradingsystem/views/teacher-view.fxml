@@ -193,37 +193,6 @@
                         <ColorAdjust brightness="-0.7" />
                      </effect>
                   </Separator>
-                  <HBox fx:id="subjectManagementHBox" alignment="CENTER_LEFT" onMouseClicked="#subjectManagementClick" prefHeight="70.0" prefWidth="200.0">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <children>
-                        <ImageView fx:id="subjectManagementImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/books.png" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="37.0" prefWidth="220.0" text="Subject Management" textFill="WHITE">
-                           <HBox.margin>
-                              <Insets left="15.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </HBox>
-                  <Separator prefWidth="200.0">
-                     <effect>
-                        <ColorAdjust brightness="-0.7" />
-                     </effect>
-                  </Separator>
                   <HBox fx:id="notificationsHBox" alignment="CENTER_LEFT" onMouseClicked="#notificationsClick" prefHeight="70.0" prefWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />

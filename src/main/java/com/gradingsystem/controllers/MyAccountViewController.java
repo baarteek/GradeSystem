@@ -126,6 +126,7 @@ public class MyAccountViewController {
             userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
             accountMenuVBox.getChildren().remove(classManagementHBox);
             accountMenuVBox.getChildren().remove(studentProfilesHBox);
+            accountMenuVBox.getChildren().remove(subjectsMyAccountHBox);
             accountMenuVBox.getChildren().remove(menuSeparator5);
             accountMenuVBox.getChildren().remove(menuSeparator6);
         } else if (User.getType() == "admin") {
