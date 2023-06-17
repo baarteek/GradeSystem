@@ -1,5 +1,6 @@
 package com.gradingsystem.controllers;
 
+import com.gradingsystem.userinfo.User;
 import com.gradingsystem.utils.DataPresenter;
 import com.gradingsystem.utils.UserDataProvider;
 import com.gradingsystem.utils.ViewSwitcher;
@@ -50,7 +51,12 @@ public class ClassManagementController {
     private String password;
 
     public void initialize() {
-        String[] userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+        String[] userData = new String[10];
+        if (User.getType() == "teacher") {
+            userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+        } else if (User.getType() == "admin") {
+            userData = UserDataProvider.getUserData("admin", LoginController.userID);
+        }
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[2];
             surname = userData[3];
@@ -59,7 +65,8 @@ public class ClassManagementController {
             phoneNumber = userData[6];
             password = userData[7];
             updateUserFields();
-        } else {
+        } 
+        else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information");
             alert.setHeaderText("USER DATA");
@@ -300,11 +307,11 @@ public class ClassManagementController {
     }
 
     public void studentProfilesClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, scene, "student-profiles-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "student-profiles-view", User.getCssFileName(), this);
     }
 
     public void subjectManagementClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, scene, "subject-management-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "subject-management-view", User.getCssFileName(), this);
     }
 
     public void notificationsClick() {
@@ -314,7 +321,7 @@ public class ClassManagementController {
     }
 
     public void settingsClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, scene, "myaccount-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "myaccount-view", User.getCssFileName(), this);
     }
 
 }

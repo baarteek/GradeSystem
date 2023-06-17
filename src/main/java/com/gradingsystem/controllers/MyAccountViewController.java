@@ -121,8 +121,15 @@ public class MyAccountViewController {
 
     public void initialize() {
         String[] userData;
+        String cssType;
         if (User.getType() == "teacher") {
             userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+            accountMenuVBox.getChildren().remove(classManagementHBox);
+            accountMenuVBox.getChildren().remove(studentProfilesHBox);
+            accountMenuVBox.getChildren().remove(menuSeparator5);
+            accountMenuVBox.getChildren().remove(menuSeparator6);
+        } else if (User.getType() == "admin") {
+            userData = UserDataProvider.getUserData("admin", LoginController.userID);
         }
         else {
             userData = UserDataProvider.getUserData("uczen", LoginController.userID);
@@ -145,7 +152,7 @@ public class MyAccountViewController {
         }
 
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
-            if (User.getType() == "teacher") {
+            if (User.getType() == "teacher" || User.getType() == "admin") {
                 name = userData[2];
                 surname = userData[3];
                 pesel = userData[4];
@@ -238,7 +245,16 @@ public class MyAccountViewController {
             alert.setHeaderText("PASSWORD");
 
             String newPassword = newPasswordField.getText();
-            String changeDataResult = UserDataProvider.changeUserData("nauczyciel", LoginController.userID, "haslo", newPassword);
+
+            String changeDataResult = "";
+            if(User.getType().equals("student")) {
+                changeDataResult = UserDataProvider.changeUserData("uczen", LoginController.userID, "haslo", newPassword);
+            } else if (User.getType().equals("teacher")) {
+                changeDataResult = UserDataProvider.changeUserData("nauczyciel", LoginController.userID, "haslo", newPassword);
+            } else if(User.getType().equals("admin")) {
+                changeDataResult = UserDataProvider.changeUserData("admin", LoginController.userID, "haslo", newPassword);
+            }
+
             if(changeDataResult.equals("CHANGE_USER_DATA_SUCCESS")) {
                 alert.setContentText("Password has been changed");
                 alert.showAndWait();
@@ -260,7 +276,17 @@ public class MyAccountViewController {
         alert.setTitle("Information");
         alert.setHeaderText("USER DATA");
 
-        String changeDataResult = UserDataProvider.changeUserData("nauczyciel", userID, column, value);
+        String tableName= "";
+        if(User.getType().equals("student")) {
+            tableName = "uczen";
+        } else if (User.getType().equals("teacher")) {
+            tableName = "nauczyciel";
+        } else if(User.getType().equals("admin")) {
+            tableName = "admin";
+        }
+
+        String changeDataResult = UserDataProvider.changeUserData(tableName, userID, column, value);
+
         if(changeDataResult.equals("CHANGE_USER_DATA_SUCCESS")) {
             alert.setContentText("Field has been changed");
             alert.showAndWait();
@@ -279,6 +305,15 @@ public class MyAccountViewController {
 
         String value = valueMyAccountTestField.getText();
 
+        String tableName= "";
+        if(User.getType().equals("student")) {
+            tableName = "uczen";
+        } else if (User.getType().equals("teacher")) {
+            tableName = "nauczyciel";
+        } else if(User.getType().equals("admin")) {
+            tableName = "admin";
+        }
+
         if(nameMyAccountRadioButton.isSelected()) {
             if(processUserDataChange("imie", LoginController.userID, value)) {
                 name = value;
@@ -293,7 +328,7 @@ public class MyAccountViewController {
             }
         }else if(peselMyAccountRadioButton.isSelected()) {
             if(Validator.validatePESEL(value)) {
-                if(UserDataProvider.isDataInDatabase("nauczyciel", "pesel", value)) {
+                if(UserDataProvider.isDataInDatabase(tableName, "pesel", value)) {
                     alert.setContentText("There is already a user with this pesel");
                     alert.showAndWait();
                 } else {
@@ -308,7 +343,7 @@ public class MyAccountViewController {
             }
         }else if(emailMyAccountRadioButton.isSelected()) {
             if(Validator.validateEmail(value)) {
-                if(UserDataProvider.isDataInDatabase("nauczyciel", "email", value)) {
+                if(UserDataProvider.isDataInDatabase(tableName, "email", value)) {
                     alert.setContentText("There is already a user with this E-mail");
                     alert.showAndWait();
                 } else {
@@ -323,7 +358,7 @@ public class MyAccountViewController {
             }
         } else if(phoneNumberMyAccountRadioButton.isSelected()) {
             if(Validator.validatePhoneNumber(value)) {
-                if(UserDataProvider.isDataInDatabase("nauczyciel", "telefon", value)) {
+                if(UserDataProvider.isDataInDatabase(tableName, "telefon", value)) {
                     alert.setContentText("There is already a user with this phone number");
                     alert.showAndWait();
                 } else {
@@ -375,7 +410,7 @@ public class MyAccountViewController {
 
     public void gradeOverviewClick(MouseEvent event) throws IOException  {
         if (User.getType() == "student") {
-            ViewSwitcher.switchScene(event, root, stage, scene, "student-grades-view", "teacher-style", this);
+            ViewSwitcher.switchScene(event, root, stage, scene, "student-grades-view", User.getCssFileName(), this);
         }
     }
 
@@ -383,15 +418,15 @@ public class MyAccountViewController {
     }
 
     public void studentProfilesClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, scene, "student-profiles-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "student-profiles-view", User.getCssFileName(), this);
     }
 
     public void classManagementClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, scene, "class-management-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "class-management-view", User.getCssFileName(), this);
     }
 
     public void subjectManagementClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, scene, "subject-management-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "subject-management-view", User.getCssFileName(), this);
     }
 
     public void notificationsClick() {

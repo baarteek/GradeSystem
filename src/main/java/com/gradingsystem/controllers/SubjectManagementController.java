@@ -1,6 +1,7 @@
 package com.gradingsystem.controllers;
 
 import com.gradingsystem.server.Database;
+import com.gradingsystem.userinfo.User;
 import com.gradingsystem.utils.DataPresenter;
 import com.gradingsystem.utils.UserDataProvider;
 import com.gradingsystem.utils.Validator;
@@ -15,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -43,6 +45,16 @@ public class SubjectManagementController {
     private ListView classesListView;
     @FXML
     private ListView subjectToRemoveListView;
+    @FXML
+    private VBox accountMenuVBox;
+    @FXML
+    private HBox classManagementHBox;
+    @FXML
+    private HBox studentProfilesHBox;
+    @FXML
+    private Separator menuSeparator6;
+    @FXML
+    private Separator menuSeparator5;
     private Parent root;
     private Stage stage;
     private Scene scene;
@@ -54,7 +66,16 @@ public class SubjectManagementController {
     private String password;
 
     public void initialize() {
-        String[] userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+        String[] userData = new String[10];
+        if (User.getType() == "teacher") {
+            userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+            accountMenuVBox.getChildren().remove(classManagementHBox);
+            accountMenuVBox.getChildren().remove(studentProfilesHBox);
+            accountMenuVBox.getChildren().remove(menuSeparator5);
+            accountMenuVBox.getChildren().remove(menuSeparator6);
+        } else if (User.getType() == "admin") {
+            userData = UserDataProvider.getUserData("admin", LoginController.userID);
+        }
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[2];
             surname = userData[3];
@@ -330,11 +351,11 @@ public class SubjectManagementController {
     }
 
     public void studentProfilesClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, scene, "student-profiles-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "student-profiles-view", User.getCssFileName(), this);
     }
 
     public void classManagementClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, scene, "class-management-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "class-management-view", User.getCssFileName(), this);
     }
 
     public void subjectManagementClick() {
@@ -347,7 +368,7 @@ public class SubjectManagementController {
     }
 
     public void settingsClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, scene, "myaccount-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, stage, scene, "myaccount-view", User.getCssFileName(), this);
     }
 
 }

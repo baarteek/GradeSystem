@@ -119,6 +119,17 @@ public class Database {
                 "    FOREIGN KEY (przedmiot_id) REFERENCES przedmiot(przedmiot_id)\n" +
                 ");\n";
 
+        String admin = "CREATE TABLE IF NOT EXISTS admin (\n" +
+                "    admin_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    imie TEXT,\n" +
+                "    nazwisko TEXT,\n" +
+                "    pesel TEXT,\n" +
+                "    email TEXT,\n" +
+                "    telefon TEXT,\n" +
+                "    haslo TEXT\n" +
+                ");\n";
+
+
 
         create_table(klasa);
         create_table(uczen);
@@ -131,6 +142,7 @@ public class Database {
         create_table(konwersacja);
         create_table(wiadomosc);
         create_table(klasa_przedmiot);
+        create_table(admin);
     }
 
     private static void create_table(String sql) {
@@ -167,6 +179,23 @@ public class Database {
             stmtUczen.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Insert into uczen error");
+            e.printStackTrace();
+        }
+    }
+
+    public static void add_admin(String imie, String nazwisko, String pesel, String email, String telefon, String haslo) {
+        String insertAdmin = "INSERT INTO admin (imie, nazwisko, pesel, email, telefon, haslo) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement stmtAdmin = conn.prepareStatement(insertAdmin);
+            stmtAdmin.setString(1, imie);
+            stmtAdmin.setString(2, nazwisko);
+            stmtAdmin.setString(3, pesel);
+            stmtAdmin.setString(4, email);
+            stmtAdmin.setString(5, telefon);
+            stmtAdmin.setString(6, haslo);
+            stmtAdmin.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Insert into admin error");
             e.printStackTrace();
         }
     }
@@ -383,6 +412,7 @@ public class Database {
     public static String checkCredentials(String login, String password) {
         String selectUczen = "SELECT * FROM uczen WHERE email = ? AND haslo = ?";
         String selectNauczyciel = "SELECT * FROM nauczyciel WHERE email = ? AND haslo = ?";
+        String selectAdmin = "SELECT * FROM admin WHERE email = ? AND haslo = ?";
 
         try {
             PreparedStatement stmtUczen = conn.prepareStatement(selectUczen);
@@ -395,10 +425,17 @@ public class Database {
             stmtNauczyciel.setString(2, password);
             ResultSet rsNauczyciel = stmtNauczyciel.executeQuery();
 
+            PreparedStatement stmtAdmin = conn.prepareStatement(selectAdmin);
+            stmtAdmin.setString(1, login);
+            stmtAdmin.setString(2, password);
+            ResultSet rsAdmin = stmtAdmin.executeQuery();
+
             if (rsUczen.next()) {
                 return "LOGIN_SUCCESS|STUDENT|" + rsUczen.getInt("uczen_id");
             } else if(rsNauczyciel.next()) {
                 return "LOGIN_SUCCESS|TEACHER|" + rsNauczyciel.getInt("nauczyciel_id");
+            } else if(rsAdmin.next()) {
+                return "LOGIN_SUCCESS|ADMIN|" + rsAdmin.getInt("admin_id");
             }
         } catch (SQLException e) {
             System.out.println("Error during checking credentials");
@@ -406,6 +443,7 @@ public class Database {
         }
         return "LOGIN_FAILURE|ST";
     }
+
 
     public static String checkIfDataExists(String tableName, String[] columnNames, String[] values) {
         if (columnNames.length != values.length) {
@@ -713,6 +751,8 @@ public class Database {
     }
 
     public static void add_test_data() {
+        add_admin("Adam", "Adminowski", "12345676543", "admin", "102222222", "admin");
+
         add_klasa("3A");
         add_klasa("3B");
         add_klasa("3C");

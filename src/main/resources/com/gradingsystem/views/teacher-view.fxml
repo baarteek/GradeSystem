@@ -193,65 +193,6 @@
                         <ColorAdjust brightness="-0.7" />
                      </effect>
                   </Separator>
-                  <HBox fx:id="studentProfilesHBox" alignment="CENTER_LEFT" onMouseClicked="#studentProfilesClick" prefHeight="70.0" prefWidth="200.0">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <children>
-                        <ImageView fx:id="studentProfilesImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/user.png" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="31.0" prefWidth="220.0" text="Student Profiles" textFill="WHITE">
-                           <HBox.margin>
-                              <Insets left="15.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </HBox>
-                  <Separator prefWidth="200.0">
-                     <effect>
-                        <ColorAdjust brightness="-0.7" />
-                     </effect>
-                  </Separator>
-                  <HBox fx:id="classManagementHBox" alignment="CENTER_LEFT" onMouseClicked="#classManagementClick" prefHeight="70.0" prefWidth="200.0">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                     <children>
-                        <ImageView fx:id="classManagementImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/class.png" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="40.0" prefWidth="222.0" text="Class Management" textFill="WHITE">
-                           <HBox.margin>
-                              <Insets left="15.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </HBox>
-                  <Separator prefWidth="200.0">
-                     <effect>
-                        <ColorAdjust brightness="-0.7" />
-                     </effect>
-                  </Separator>
                   <HBox fx:id="subjectManagementHBox" alignment="CENTER_LEFT" onMouseClicked="#subjectManagementClick" prefHeight="70.0" prefWidth="200.0">
                      <VBox.margin>
                         <Insets />

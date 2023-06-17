@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.gradingsystem.server.Database.add_test_data;
-import static com.gradingsystem.server.Database.getStudentsWithoutClass;
+import static com.gradingsystem.server.Database.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -247,7 +246,10 @@ public class Main {
             findUserResult = Database.getUserDataById("nauczyciel", userID);
         } else if (parts[1].equals("STUDENT")) {
             findUserResult = Database.getUserDataById("uczen", userID);
+        } else if (parts[1].equals("ADMIN")) {
+            findUserResult = Database.getUserDataById("admin", userID);
         }
+
         if (findUserResult == null) {
             return "GET_USER_DATA_FAILURE";
         } else {
@@ -264,6 +266,8 @@ public class Main {
             changeUserDataResult = Database.changeUserData("nauczyciel", userID, column, value);
         } else if (parts[1].equals("STUDENT")) {
             changeUserDataResult = Database.changeUserData("uczen", userID, column, value);
+        } else if(parts[1].equals("ADMIN")) {
+            changeUserDataResult = Database.changeUserData("admin", userID, column, value);
         }
         return changeUserDataResult;
     }

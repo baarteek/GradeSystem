@@ -1,5 +1,6 @@
 package com.gradingsystem.controllers;
 
+import com.gradingsystem.userinfo.User;
 import com.gradingsystem.utils.UserDataProvider;
 import com.gradingsystem.utils.ViewSwitcher;
 import javafx.fxml.FXML;
@@ -207,7 +208,7 @@ public class StudentGradesController {
     }
 
     public void gradeOverviewClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "student-grades-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "student-grades-view", User.getCssFileName(), this);
     }
 
     public void statisticsClick() {
@@ -217,11 +218,11 @@ public class StudentGradesController {
     }
 
     public void classManagementClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "class-management-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "class-management-view", User.getCssFileName(), this);
     }
 
     public void subjectManagementClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "subject-management-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "subject-management-view", User.getCssFileName(), this);
     }
 
     public void notificationsClick() {
@@ -231,6 +232,6 @@ public class StudentGradesController {
     }
 
     public void settingsClick(MouseEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "myaccount-view", "teacher-style", this);
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "myaccount-view", User.getCssFileName(), this);
     }
 }

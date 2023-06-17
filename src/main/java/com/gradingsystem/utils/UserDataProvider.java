@@ -16,6 +16,8 @@ public class UserDataProvider {
             requset = "GET_USER_DATA|TEACHER|" + LoginController.userID;
         } else if(tableName.equals("uczen")) {
             requset = "GET_USER_DATA|STUDENT|" + LoginController.userID;
+        } else if(tableName.equals("admin")) {
+            requset = "GET_USER_DATA|ADMIN|" + LoginController.userID;
         }
         String response = serverConnection.sendRequest(requset);
         serverConnection.disconnect();
@@ -36,6 +38,8 @@ public class UserDataProvider {
             requset = "CHANGE_USER_DATA|TEACHER|" + column + "|" + LoginController.userID + "|" + value;
         } else if(tableName.equals("uczen")) {
             requset = "CHANGE_USER_DATA|STUDENT|" + column + "|" + LoginController.userID + "|" + value;
+        } else if (tableName.equals("admin")) {
+            requset = "CHANGE_USER_DATA|ADMIN|" + column + "|" + LoginController.userID + "|" + value;
         }
         String response = serverConnection.sendRequest(requset);
         serverConnection.disconnect();

@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class TeacherViewController {
+public class AdminViewController {
     @FXML
     private AnchorPane mainAnchorPane;
     @FXML
@@ -56,7 +56,7 @@ public class TeacherViewController {
     private String email;
 
     public void initialize() {
-        String[] userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+        String[] userData = UserDataProvider.getUserData("admin", LoginController.userID);
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[2];
             surname = userData[3];
@@ -84,6 +84,7 @@ public class TeacherViewController {
     }
 
     public void gradeManagementClick() {
+        System.out.println(LoginController.userID);
     }
 
     public void gradeOverviewClick() {
@@ -92,6 +93,13 @@ public class TeacherViewController {
     public void statisticsClick() {
     }
 
+    public void studentProfilesClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "student-profiles-view", User.getCssFileName(), this);
+    }
+
+    public void classManagementClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "class-management-view", User.getCssFileName(), this);
+    }
 
     public void subjectManagementClick(MouseEvent event) throws IOException {
         ViewSwitcher.switchScene(event, root, loginStage, loginScene, "subject-management-view", User.getCssFileName(), this);

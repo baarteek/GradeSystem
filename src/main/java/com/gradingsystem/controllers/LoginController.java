@@ -58,12 +58,16 @@ public class LoginController {
     private RadioButton radioButtonStudent;
     @FXML
     private RadioButton radioButtonTeacher;
+    @FXML
+    private RadioButton radioButtonAdmin;
     private Stage stage;
     private Stage teacherStage;
     private Stage studentStage;
     private Scene registerScene;
     private Scene teacherScene;
     private Scene studentScene;
+    private Stage adminStage;
+    private Scene adminScene;
     private Parent root;
 
     public static int userID;
@@ -83,7 +87,6 @@ public class LoginController {
 
 
     public void login(ActionEvent event) throws IOException {
-        //ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "teacher-view", "teacher-style", this);
         if(checkLoginValidity()) {
             String email = loginTextField.getText();
             String password = passwordField.getText();
@@ -95,6 +98,7 @@ public class LoginController {
             String response = serverConnection.sendRequest(requset);
             serverConnection.disconnect();
 
+
             String[] loginResult = response.split("\\|");
 
             if(loginResult[0].equals("LOGIN_SUCCESS")) {
@@ -103,6 +107,7 @@ public class LoginController {
                 if(loginResult[1].equals("TEACHER")) {
                     if(radioButtonTeacher.isSelected()) {
                         User.setType("teacher");
+                        User.setCssFileName("teacher-style");
                         ViewSwitcher.switchScene(event, root, teacherStage, teacherScene, "teacher-view", "teacher-style", this);
                     } else {
                         errorLabel.setText("You can not log in as a student");
@@ -110,9 +115,18 @@ public class LoginController {
                 } else if (loginResult[1].equals("STUDENT")) {
                     if(radioButtonStudent.isSelected()) {
                         User.setType("student");
+                        User.setCssFileName("student-style");
                         ViewSwitcher.switchScene(event, root, studentStage, studentScene, "student-view", "teacher-style", this);
                     } else {
                         errorLabel.setText("You can not log in as a teacher");
+                    }
+                } else if (loginResult[1].equals("ADMIN")) {
+                    if(radioButtonAdmin.isSelected()) {
+                        User.setType("admin");
+                        User.setCssFileName("admin-style");
+                        ViewSwitcher.switchScene(event, root, adminStage, adminScene, "admin-view", "teacher-style", this);
+                    } else {
+                        errorLabel.setText("You can not log in as a student or teacher");
                     }
                 }
             } else if(loginResult[0].equals("LOGIN_FAILURE")) {
@@ -121,13 +135,14 @@ public class LoginController {
         }
     }
 
+
     private boolean checkLoginValidity() {
         if(loginTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
             errorLabel.setText("Fill in all fields");
             return false;
         }
-        if(!radioButtonStudent.isSelected() && !radioButtonTeacher.isSelected()) {
-            errorLabel.setText("Choose: Teacher or Student login");
+        if(!radioButtonStudent.isSelected() && !radioButtonTeacher.isSelected() && !radioButtonAdmin.isSelected()) {
+            errorLabel.setText("Choose: Teacher, Student or Admin login");
             return false;
         }
         if(!Validator.validateEmail(loginTextField.getText())) {

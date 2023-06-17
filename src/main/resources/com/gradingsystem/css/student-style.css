@@ -1,0 +1,240 @@
+.text-field, .password-field {
+    -fx-background-color: #545252;
+    -fx-text-fill: #FFFFFF;
+}
+
+.text-field:hover, .password-field:hover {
+    -fx-background-color: #808587;
+}
+
+.radio-button {
+    -fx-text-fill: #FFFFFF;
+}
+
+.radio-button:hover {
+    -fx-curosr: hand
+}
+
+.button {
+    -fx-background-color:  #3548ff;
+    -fx-text-fill: #FFFFFF;
+}
+
+.button:hover {
+    -fx-background-color:  #1C32FA;
+}
+
+.list-view {
+    -fx-background-color: #545252;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-alignment: center;
+}
+
+.list-view .list-cell {
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #545255;
+    -fx-border-color: #000000;
+    -fx-border-width: 1px;
+    -fx-alignment: center;
+}
+
+.list-view .list-cell:filled:selected {
+    -fx-background-color: #87DB76;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 1px;
+}
+
+.tab-pane {
+    -fx-text-fill: #FFFFFF
+}
+
+.tab-pane .tab-header-area .headers-region {
+    -fx-background-color: #545252;
+    -fx-text-fill: #FFFFFF;
+}
+
+.tab-pane .tab-header-area {
+    -fx-padding: 5;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: #6E6E6E;
+    -fx-text-fill: #FFFFFF;
+    -fx-alignment: center;
+    -fx-border-color: #333333;
+    -fx-border-width: 1px;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab : hover{
+    -fx-background-color: #616161;
+    -fx-cursor: hand;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab .text {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+
+
+#changePasswordButton, #editMyAccountButton {
+    -fx-background-color:  #3548ff;
+    -fx-text-fill: #FFFFFF;
+}
+
+#changePasswordButton:hover, #editMyAccountButton:hover {
+    -fx-background-color:  #1C32FA;
+}
+
+.button:pressed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+#gradeManagementHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#gradeManagementHBox:hover > #gradeManagementImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#gradeManagementHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#gradeOverviewHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#gradeOverviewHBox:hover > #gradeOverviewImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#gradeOverviewHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#statisticsHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#statisticsHBox:hover > #statisticsImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#statisticsHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#studentProfilesHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#studentProfilesHBox:hover > #studentProfilesImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#studentProfilesHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#classManagementHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#classManagementHBox:hover > #classManagementImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#classManagementHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#subjectManagementHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#subjectManagementHBox:hover > #subjectManagementImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#subjectManagementHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#notificationsHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#notificationsHBox:hover > #notificationsImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#notificationsHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#messagesHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#messagesHBox:hover > #messagesImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#messagesHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#settingsHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#settingsHBox:hover > #settingsImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#settingsHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#logoutHBox:hover {
+    -fx-background-color: #333333;
+}
+
+#logoutHBox:hover > #logoutImage {
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+#logoutHBox:pressed {
+    -fx-background-color: #444444;
+}
+
+#settingsImageView:hover {
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+#subjectsMyAccountHBox:hover, #classesMyAccountHBox:hover, #phoneNumberMyAccountHBox:hover, #emailMyAccountHBox:hover, #peselMyAccountHBox:hover, #suenameMyAccountHBox:hover, #nameMyAccountHBox:hover {
+    -fx-background-color: #333333;
+}
+
+
