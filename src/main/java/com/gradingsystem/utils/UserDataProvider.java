@@ -220,6 +220,20 @@ public class UserDataProvider {
         }
     }
 
+    public static String getAllFieldsFromTable(String tableName) {
+        ServerConnection serverConnection = new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String request = "GET_ALL_DATA_FROM_TABLE|"+ tableName;
+        String response = serverConnection.sendRequest(request);
+        serverConnection.disconnect();
+
+        if(response.equals("GET_TABLE_DATA_FAILURE")) {
+            return null;
+        } else {
+            return response;
+        }
+    }
+
     public static String[] getStudentSubjectsAndGrades() {
         ServerConnection serverConnection= new ServerConnection("localhost", 1025);
         serverConnection.connect();
@@ -237,4 +251,29 @@ public class UserDataProvider {
         return new String[]{"GET_STUDENT_SUBJECTS_DATA_FAILURE"};
     }
 
+    public static String getStudentByField(String field, String value) {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+
+        String request = "";
+        if(field.equals("First Name")) {
+            request = "GET_STUDENT_BY_NAME|" + value;
+        } else if (field.equals("Last Name")) {
+            request = "GET_STUDENT_BY_SURNAME|" + value;
+        } else if (field.equals("Pesel")) {
+            request = "GET_STUDENT_BY_PESEL|" + value;
+        } else if (field.equals("E-mail")) {
+            request = "GET_STUDENT_BY_EMAIL|" + value;
+        } else if (field.equals("Phone Number")) {
+            request = "GET_STUDENT_BY_PHONE_NUMBER|" + value;
+        } else if (field.equals("Class")) {
+            request = "GET_STUDENTS_FROM_CLASS|" + value;
+        }
+
+        String response = serverConnection.sendRequest(request);
+
+        serverConnection.disconnect();
+
+        return response;
+    }
 }

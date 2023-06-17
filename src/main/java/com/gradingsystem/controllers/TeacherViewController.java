@@ -92,7 +92,8 @@ public class TeacherViewController {
     public void statisticsClick() {
     }
 
-    public void studentProfilesClick() {
+    public void studentProfilesClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "student-profiles-view", "teacher-style", this);
     }
 
     public void classManagementClick(MouseEvent event) throws IOException {

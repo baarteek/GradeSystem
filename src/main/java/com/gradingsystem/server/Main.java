@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -86,12 +87,30 @@ public class Main {
                             case "GET_STUDENT_SUBJECTS_AND_GRADES":
                                 response = handleGetStudentSubjectsAndGrades(parts[1]);
                                 break;
+                            case "GET_STUDENT_BY_NAME":
+                                response = handleGetStudentByName(parts);
+                                break;
+                            case "GET_STUDENT_BY_SURNAME":
+                                response = handleGetStudentBySurname(parts);
+                                break;
+                            case "GET_STUDENT_BY_PESEL":
+                                response = handleGetStudentByPesel(parts);
+                                break;
+                            case "GET_STUDENT_BY_EMAIL":
+                                response = handleGetStudentByEmail(parts);
+                                break;
+                            case "GET_STUDENT_BY_PHONE_NUMBER":
+                                response = handleGetStudentByPhoneNumber(parts);
+                                break;
+                            case "GET_STUDENTS_FROM_CLASS":
+                                response = handleGetStudentsFromClass(parts);
+                                break;
                         }
 
                         bufferedWriter.write(response);
                         bufferedWriter.flush();
                         clientSocket.close();
-                    } catch (IOException e) {
+                    } catch (IOException | SQLException e) {
                         throw new RuntimeException(e);
                     }
                 });
@@ -256,6 +275,51 @@ public class Main {
         String userDataResult = "";
         userDataResult = Database.checkIfDataExists(tableName, new String[]{columnNames}, new String[]{values});
         return userDataResult;
+    }
+
+    private static String handleGetStudentByName(String[] parts) throws SQLException {
+        String name = parts[1];
+        String[] student = Database.getStudentByName(name);
+        return formatStudentResponse(student);
+    }
+
+    private static String handleGetStudentBySurname(String[] parts) throws SQLException {
+        String surname = parts[1];
+        String[] student = Database.getStudentBySurname(surname);
+        return formatStudentResponse(student);
+    }
+
+    private static String handleGetStudentByPesel(String[] parts) throws SQLException {
+        String pesel = parts[1];
+        String[] student = Database.getStudentByPesel(pesel);
+        return formatStudentResponse(student);
+    }
+
+    private static String handleGetStudentByEmail(String[] parts) throws SQLException {
+        String email = parts[1];
+        String[] student = Database.getStudentByEmail(email);
+        return formatStudentResponse(student);
+    }
+
+    private static String handleGetStudentByPhoneNumber(String[] parts) throws SQLException {
+        String phoneNumber = parts[1];
+        String[] student = Database.getStudentByPhoneNumber(phoneNumber);
+        return formatStudentResponse(student);
+    }
+
+    private static String handleGetStudentsFromClass(String[] parts) throws SQLException {
+        String className = parts[1];
+        String[] student = Database.getStudentsFromClass(className);
+        return formatStudentResponse(student);
+    }
+
+    // This method formats the student data into a string for the response
+    private static String formatStudentResponse(String[] student) {
+        if (student != null) {
+            return "GET_STUDENT_SUCCESS|" + String.join("|", student);
+        } else {
+            return "GET_STUDENT_FAILURE";
+        }
     }
 
     private static String handleGetStudentSubjectsAndGrades(String userId) {

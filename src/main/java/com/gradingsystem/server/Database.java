@@ -590,6 +590,81 @@ public class Database {
         return sb.toString();
     }
 
+    public static String[] getStudentByName(String name) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE imie = ?");
+        statement.setString(1, name);
+        String students = fetchStudents(statement);
+        if (students.isEmpty()) {
+            return null;
+        }
+        return students.split("\\|");
+    }
+
+    public static String[] getStudentBySurname(String surname) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE nazwisko = ?");
+        statement.setString(1, surname);
+        String students = fetchStudents(statement);
+        if (students.isEmpty()) {
+            return null;
+        }
+        return students.split("\\|");
+    }
+
+    public static String[] getStudentByPesel(String pesel) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE pesel = ?");
+        statement.setString(1, pesel);
+        String students = fetchStudents(statement);
+        if (students.isEmpty()) {
+            return null;
+        }
+        return students.split("\\|");
+    }
+
+    public static String[] getStudentByEmail(String email) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE email = ?");
+        statement.setString(1, email);
+        String students = fetchStudents(statement);
+        if (students.isEmpty()) {
+            return null;
+        }
+        return students.split("\\|");
+    }
+
+    public static String[] getStudentByPhoneNumber(String phoneNumber) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE telefon = ?");
+        statement.setString(1, phoneNumber);
+        String students = fetchStudents(statement);
+        if (students.isEmpty()) {
+            return null;
+        }
+        return students.split("\\|");
+    }
+
+    public static String[] getStudentsFromClass(String className) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("SELECT uczen.* FROM uczen JOIN klasa ON uczen.klasa_id = klasa.klasa_id WHERE klasa.nazwa = ?");
+        statement.setString(1, className);
+        String students = fetchStudents(statement);
+        if (students.isEmpty()) {
+            return null;
+        }
+        return students.split("\\|");
+    }
+
+    private static String fetchStudents(PreparedStatement statement) throws SQLException {
+        ResultSet rs = statement.executeQuery();
+        StringBuilder studentsBuilder = new StringBuilder();
+        while (rs.next()) {
+            studentsBuilder.append(rs.getString("uczen_id")).append(",");
+            studentsBuilder.append(rs.getString("klasa_id")).append(",");
+            studentsBuilder.append(rs.getString("imie")).append(",");
+            studentsBuilder.append(rs.getString("nazwisko")).append(",");
+            studentsBuilder.append(rs.getString("pesel")).append(",");
+            studentsBuilder.append(rs.getString("email")).append(",");
+            studentsBuilder.append(rs.getString("telefon")).append("|");
+        }
+        return studentsBuilder.toString();
+    }
+
     public static String getStudentSubjectsAndGrades(String userId) {
         StringBuilder sb = new StringBuilder();
 

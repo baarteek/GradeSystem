@@ -329,7 +329,8 @@ public class SubjectManagementController {
     public void statisticsClick() {
     }
 
-    public void studentProfilesClick() {
+    public void studentProfilesClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "student-profiles-view", "teacher-style", this);
     }
 
     public void classManagementClick(MouseEvent event) throws IOException {
