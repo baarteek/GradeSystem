@@ -109,6 +109,29 @@ public class MyAccountViewController {
     @FXML
     private VBox accountMenuVBox;
     @FXML
+    private ImageView profileImageView;
+    @FXML
+    private ImageView gradeManagementImage;
+    @FXML
+    private ImageView emailImageView;
+    @FXML
+    private ImageView gradeOverviewImage;
+    @FXML
+    private ImageView statisticsImage;
+    @FXML
+    private ImageView studentProfilesImage;
+    @FXML
+    private ImageView classManagementImage;
+    @FXML
+    private ImageView subjectManagementImage;
+    @FXML
+    private ImageView notificationsImage;
+    @FXML
+    private ImageView messagesImage;
+    @FXML
+    private ImageView settingsImage;
+    @FXML
+    private ImageView logoutImage;
     private Parent root;
     private Stage stage;
     private Scene scene;
@@ -120,23 +143,22 @@ public class MyAccountViewController {
     private String password;
 
     public void initialize() {
+        ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
         String[] userData;
         String cssType;
         if (User.getType() == "teacher") {
             userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
             accountMenuVBox.getChildren().remove(classManagementHBox);
             accountMenuVBox.getChildren().remove(studentProfilesHBox);
-            accountMenuVBox.getChildren().remove(subjectsMyAccountHBox);
+            accountMenuVBox.getChildren().remove(subjectManagementHBox);
             accountMenuVBox.getChildren().remove(menuSeparator5);
             accountMenuVBox.getChildren().remove(menuSeparator6);
+            accountMenuVBox.getChildren().remove(menuSeparator4);
         } else if (User.getType() == "admin") {
             userData = UserDataProvider.getUserData("admin", LoginController.userID);
         }
         else {
             userData = UserDataProvider.getUserData("uczen", LoginController.userID);
-            classesMyAccountHBox.setVisible(false);
-            subjectsMyAccountHBox.setVisible(false);
-            accountDetailsSeparator.setVisible(false);
 
             accountMenuVBox.getChildren().remove(classesMyAccountHBox);
             accountMenuVBox.getChildren().remove(subjectsMyAccountHBox);

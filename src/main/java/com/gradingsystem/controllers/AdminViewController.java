@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -14,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public class AdminViewController {
     @FXML
@@ -46,6 +49,30 @@ public class AdminViewController {
     private HBox settingsHBox;
     @FXML
     private HBox logoutHBox;
+    @FXML
+    private ImageView profileImageView;
+    @FXML
+    private ImageView gradeManagementImage;
+    @FXML
+    private ImageView emailImageView;
+    @FXML
+    private ImageView gradeOverviewImage;
+    @FXML
+    private ImageView statisticsImage;
+    @FXML
+    private ImageView studentProfilesImage;
+    @FXML
+    private ImageView classManagementImage;
+    @FXML
+    private ImageView subjectManagementImage;
+    @FXML
+    private ImageView notificationsImage;
+    @FXML
+    private ImageView messagesImage;
+    @FXML
+    private ImageView settingsImage;
+    @FXML
+    private ImageView logoutImage;
     private Parent root;
     private Stage loginStage;
     private Scene loginScene;
@@ -55,7 +82,8 @@ public class AdminViewController {
     private String phoneNumber;
     private String email;
 
-    public void initialize() {
+    public void initialize() throws IOException {
+        ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
         String[] userData = UserDataProvider.getUserData("admin", LoginController.userID);
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[2];

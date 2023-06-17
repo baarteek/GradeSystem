@@ -63,6 +63,30 @@ public class StudentViewController {
     private Separator menuSeparator6;
     @FXML
     private VBox accountMenuVBox;
+    @FXML
+    private ImageView profileImageView;
+    @FXML
+    private ImageView gradeManagementImage;
+    @FXML
+    private ImageView emailImageView;
+    @FXML
+    private ImageView gradeOverviewImage;
+    @FXML
+    private ImageView statisticsImage;
+    @FXML
+    private ImageView studentProfilesImage;
+    @FXML
+    private ImageView classManagementImage;
+    @FXML
+    private ImageView subjectManagementImage;
+    @FXML
+    private ImageView notificationsImage;
+    @FXML
+    private ImageView messagesImage;
+    @FXML
+    private ImageView settingsImage;
+    @FXML
+    private ImageView logoutImage;
 
 
     private Parent root;
@@ -75,6 +99,7 @@ public class StudentViewController {
     private String email;
 
     public void initialize() {
+        ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
         String[] userData = UserDataProvider.getUserData("uczen", LoginController.userID);
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[3];

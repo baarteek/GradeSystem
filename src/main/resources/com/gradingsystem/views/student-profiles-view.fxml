@@ -33,7 +33,7 @@
                             <children>
                                 <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="270.0">
                                     <children>
-                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="profileImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../icons/user.png" />
                                             </image>
@@ -68,7 +68,7 @@
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="270.0">
                                     <children>
-                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="emailImageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../icons/mail.png" />
                                             </image>

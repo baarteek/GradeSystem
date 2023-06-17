@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -40,6 +41,32 @@ public class ClassManagementController {
     private TextField renameTestField;
     @FXML
     private Button loadStudentsButton;
+    @FXML
+    private ImageView profileImageView;
+    @FXML
+    private ImageView gradeManagementImage;
+    @FXML
+    private ImageView emailImageView;
+    @FXML
+    private ImageView gradeOverviewImage;
+    @FXML
+    private ImageView statisticsImage;
+    @FXML
+    private ImageView studentProfilesImage;
+    @FXML
+    private ImageView classManagementImage;
+    @FXML
+    private ImageView subjectManagementImage;
+    @FXML
+    private ImageView notificationsImage;
+    @FXML
+    private ImageView messagesImage;
+    @FXML
+    private ImageView settingsImage;
+    @FXML
+    private ImageView logoutImage;
+    @FXML
+    private ImageView settingsImageView;
     private Parent root;
     private Stage stage;
     private Scene scene;
@@ -51,6 +78,7 @@ public class ClassManagementController {
     private String password;
 
     public void initialize() {
+        ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
         String[] userData = new String[10];
         if (User.getType() == "teacher") {
             userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
