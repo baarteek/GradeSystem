@@ -238,6 +238,16 @@ public class UserDataProvider {
         }
     }
 
+    public static String getStudentSorted(String sortType, String subjectName) {
+        ServerConnection serverConnection = new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String request = "GET_STUDENT_SORTED|"+ sortType.toUpperCase() + "|" + subjectName;
+        String response = serverConnection.sendRequest(request);
+        serverConnection.disconnect();
+
+        return response;
+    }
+
     public static String[] getStudentSubjectsAndGrades() {
         ServerConnection serverConnection= new ServerConnection("localhost", 1025);
         serverConnection.connect();

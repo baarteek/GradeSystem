@@ -408,6 +408,65 @@ public class Database {
         return students;
     }
 
+    public static String getStudentDetailsSorted(String sortOrder, String subjectName) {
+        String query = "SELECT klasa.nazwa, uczen.uczen_id, uczen.imie, uczen.nazwisko, przedmiot.nazwa, klasa.klasa_id, przedmiot.przedmiot_id\n"
+                + "FROM uczen\n"
+                + "JOIN klasa ON uczen.klasa_id = klasa.klasa_id\n"
+                + "JOIN klasa_przedmiot ON klasa.klasa_id = klasa_przedmiot.klasa_id\n"
+                + "JOIN przedmiot ON klasa_przedmiot.przedmiot_id = przedmiot.przedmiot_id\n"
+                + "WHERE przedmiot.nazwa = ?";
+
+        switch(sortOrder) {
+            case "STUDENT":
+                query += "ORDER BY uczen.uczen_id ASC;";
+                break;
+            case "CLASS":
+                query += "ORDER BY klasa.klasa_id ASC;";
+                break;
+            case "SUBJECT":
+                query += "ORDER BY przedmiot.przedmiot_id ASC;";
+                break;
+            default:
+                query += "ORDER BY uczen.uczen_id ASC;";
+                break;
+        }
+
+
+        ArrayList<String> resultList = new ArrayList<>();
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, subjectName);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String klasa_nazwa = rs.getString(1);
+                int uczen_id = rs.getInt(2);
+                String imie = rs.getString(3);
+                String nazwisko = rs.getString(4);
+                String przedmiot_nazwa = rs.getString(5);
+                int klasa_id = rs.getInt(6);
+                int przedmiot_id = rs.getInt(7);
+
+                resultList.add(klasa_nazwa + ", " + klasa_id + ", " + uczen_id + ", " + imie
+                        + ", " + nazwisko + ", " + przedmiot_nazwa + ", " + przedmiot_id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (String s : resultList) {
+            sb.append(s);
+            sb.append("|");
+        }
+
+        return sb.toString();
+    }
+
+
+
+
+
 
     public static String checkCredentials(String login, String password) {
         String selectUczen = "SELECT * FROM uczen WHERE email = ? AND haslo = ?";

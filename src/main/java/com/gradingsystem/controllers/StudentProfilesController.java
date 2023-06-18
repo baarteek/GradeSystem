@@ -180,7 +180,8 @@ public class StudentProfilesController {
         ViewSwitcher.switchScene(event, root, stage, scene, "login-view", "login-style", this);
     }
 
-    public void gradeManagementClick() {
+    public void gradeManagementClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "grade-management-view", User.getCssFileName(), this);
     }
 
     public void gradeOverviewClick() {

@@ -428,7 +428,8 @@ public class MyAccountViewController {
         return false;
     }
 
-    public void gradeManagementClick() {
+    public void gradeManagementClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "grade-management-view", User.getCssFileName(), this);
     }
 
     public void gradeOverviewClick(MouseEvent event) throws IOException  {

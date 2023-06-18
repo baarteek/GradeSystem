@@ -104,6 +104,9 @@ public class Main {
                             case "GET_STUDENTS_FROM_CLASS":
                                 response = handleGetStudentsFromClass(parts);
                                 break;
+                            case "GET_STUDENT_SORTED":
+                                response = handleGetStudentSorted(parts);
+                                break;
                         }
 
                         bufferedWriter.write(response);
@@ -120,6 +123,15 @@ public class Main {
             throw new RuntimeException(e);
         } finally {
             Database.disconnect();
+        }
+    }
+
+    private static String handleGetStudentSorted(String[] parts) {
+        String result = Database.getStudentDetailsSorted(parts[1], parts[2]);
+        if(result.isEmpty()) {
+            return "GET_STUDENT_SORTED_FAILURE";
+        } else {
+            return result;
         }
     }
 

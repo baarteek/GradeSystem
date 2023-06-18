@@ -111,8 +111,8 @@ public class AdminViewController {
         LoginController.userID = -1;
     }
 
-    public void gradeManagementClick() {
-        System.out.println(LoginController.userID);
+    public void gradeManagementClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "grade-management-view", User.getCssFileName(), this);
     }
 
     public void gradeOverviewClick() {
