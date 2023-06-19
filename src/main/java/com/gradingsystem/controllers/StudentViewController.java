@@ -62,6 +62,10 @@ public class StudentViewController {
     @FXML
     private Separator menuSeparator6;
     @FXML
+    private Separator menuSeparator7;
+    @FXML
+    private Separator menuSeparator8;
+    @FXML
     private VBox accountMenuVBox;
     @FXML
     private ImageView profileImageView;
@@ -119,6 +123,10 @@ public class StudentViewController {
             accountMenuVBox.getChildren().remove(subjectManagementHBox);
             accountMenuVBox.getChildren().remove(menuSeparator5);
             accountMenuVBox.getChildren().remove(menuSeparator6);
+            accountMenuVBox.getChildren().remove(menuSeparator7);
+            accountMenuVBox.getChildren().remove(menuSeparator8);
+            accountMenuVBox.getChildren().remove(notificationsHBox);
+            accountMenuVBox.getChildren().remove(messagesHBox);
 
             accountMenuVBox.requestLayout();
         } else {
