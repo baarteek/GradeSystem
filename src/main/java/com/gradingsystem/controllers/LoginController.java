@@ -116,7 +116,7 @@ public class LoginController {
                     if(radioButtonStudent.isSelected()) {
                         User.setType("student");
                         User.setCssFileName("student-style");
-                        ViewSwitcher.switchScene(event, root, studentStage, studentScene, "student-view", "teacher-style", this);
+                        ViewSwitcher.switchScene(event, root, studentStage, studentScene, "student-view", "student-style", this);
                     } else {
                         errorLabel.setText("You can not log in as a teacher");
                     }

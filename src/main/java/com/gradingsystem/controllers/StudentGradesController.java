@@ -164,7 +164,9 @@ public class StudentGradesController {
 
             if (!Character.isDigit(gradeString.charAt(0))) {
                 String subject = gradesData[i].substring(0, startIndex - 2);
-                subjectMap.put(subject, null);
+                if (!subjectMap.containsKey(subject)) {
+                    subjectMap.put(subject, null);
+                }
             }
             else {
                 String subject = gradesData[i].substring(0, startIndex - 2);
