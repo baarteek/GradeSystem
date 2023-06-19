@@ -111,6 +111,8 @@ public class MyAccountViewController {
     @FXML
     private Separator menuSeparator8;
     @FXML
+    private Separator accountOtherFieldsSeperator;
+    @FXML
     private VBox accountMenuVBox;
     @FXML
     private ImageView profileImageView;
@@ -135,6 +137,8 @@ public class MyAccountViewController {
     @FXML
     private ImageView settingsImage;
     @FXML
+    private Label accountOtherFieldsLabel;
+    @FXML
     private ImageView logoutImage;
     private Parent root;
     private Stage stage;
@@ -152,34 +156,15 @@ public class MyAccountViewController {
         String cssType;
         if (User.getType() == "teacher") {
             userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
-            accountMenuVBox.getChildren().remove(classManagementHBox);
-            accountMenuVBox.getChildren().remove(studentProfilesHBox);
-            accountMenuVBox.getChildren().remove(subjectManagementHBox);
-            accountMenuVBox.getChildren().remove(menuSeparator5);
-            accountMenuVBox.getChildren().remove(menuSeparator6);
-            accountMenuVBox.getChildren().remove(menuSeparator4);
+
+            hideElementsForTeacher();
         } else if (User.getType() == "admin") {
             userData = UserDataProvider.getUserData("admin", LoginController.userID);
         }
         else {
             userData = UserDataProvider.getUserData("uczen", LoginController.userID);
 
-            accountMenuVBox.getChildren().remove(classesMyAccountHBox);
-            accountMenuVBox.getChildren().remove(subjectsMyAccountHBox);
-            accountMenuVBox.getChildren().remove(gradeManagementHBox);
-            accountMenuVBox.getChildren().remove(menuSeparator2);
-            accountMenuVBox.getChildren().remove(studentProfilesHBox);
-            accountMenuVBox.getChildren().remove(menuSeparator4);
-            accountMenuVBox.getChildren().remove(classManagementHBox);
-            accountMenuVBox.getChildren().remove(subjectManagementHBox);
-            accountMenuVBox.getChildren().remove(menuSeparator5);
-            accountMenuVBox.getChildren().remove(menuSeparator6);
-            accountMenuVBox.getChildren().remove(menuSeparator7);
-            accountMenuVBox.getChildren().remove(menuSeparator8);
-            accountMenuVBox.getChildren().remove(notificationsHBox);
-            accountMenuVBox.getChildren().remove(messagesHBox);
-
-            accountMenuVBox.requestLayout();
+            hideElementsForStudent();
         }
 
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
@@ -208,6 +193,47 @@ public class MyAccountViewController {
             alert.showAndWait();
         }
 
+    }
+
+    private void hideElementsForTeacher() {
+        accountMenuVBox.getChildren().remove(classManagementHBox);
+        accountMenuVBox.getChildren().remove(studentProfilesHBox);
+        accountMenuVBox.getChildren().remove(subjectManagementHBox);
+        accountMenuVBox.getChildren().remove(menuSeparator5);
+        accountMenuVBox.getChildren().remove(menuSeparator6);
+        accountMenuVBox.getChildren().remove(menuSeparator4);
+
+    }
+
+    private void hideElementsForStudent() {
+        accountMenuVBox.getChildren().remove(classesMyAccountHBox);
+        accountMenuVBox.getChildren().remove(subjectsMyAccountHBox);
+        accountMenuVBox.getChildren().remove(gradeManagementHBox);
+        accountMenuVBox.getChildren().remove(menuSeparator2);
+        accountMenuVBox.getChildren().remove(studentProfilesHBox);
+        accountMenuVBox.getChildren().remove(menuSeparator4);
+        accountMenuVBox.getChildren().remove(classManagementHBox);
+        accountMenuVBox.getChildren().remove(subjectManagementHBox);
+        accountMenuVBox.getChildren().remove(menuSeparator5);
+        accountMenuVBox.getChildren().remove(menuSeparator6);
+        accountMenuVBox.getChildren().remove(menuSeparator7);
+        accountMenuVBox.getChildren().remove(menuSeparator8);
+        accountMenuVBox.getChildren().remove(notificationsHBox);
+        accountMenuVBox.getChildren().remove(messagesHBox);
+
+        accountOtherFieldsSeperator.setVisible(false);
+        accountOtherFieldsLabel.setVisible(false);
+        nameMyAccountRadioButton.setVisible(false);
+        surnameMyAccountRadioButton.setVisible(false);
+        peselMyAccountRadioButton.setVisible(false);
+        emailMyAccountRadioButton.setVisible(false);
+        phoneNumberMyAccountRadioButton.setVisible(false);
+        otherFieldsRadioButton.setVisible(false);
+        newValueMyAccountLabel.setVisible(false);
+        valueMyAccountTestField.setVisible(false);
+        editMyAccountButton.setVisible(false);
+
+        accountMenuVBox.requestLayout();
     }
 
     private void updateUserFields() {
