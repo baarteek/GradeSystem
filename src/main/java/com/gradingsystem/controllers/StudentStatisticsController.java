@@ -145,7 +145,21 @@ public class StudentStatisticsController {
     }
 
     private void renderRanking(String[] studentsRanking) {
+        ListViewStudentsRanking.getItems().add("Grade point average ");
+        ListViewStudentsRanking.getItems().add("");
 
+        for (int i = 1; i < studentsRanking.length; i++) {
+            String[] entryData = studentsRanking[i].split(" ");
+
+            String id = entryData[0];
+            String imie = entryData[1];
+            String nazwisko = entryData[2];
+            String ocena = entryData[3];
+
+            String displayText = id + " " + imie + " " + nazwisko + " " + ocena;
+
+            ListViewStudentsRanking.getItems().add("Rank " + i + ": " + displayText);
+        }
     }
 
     public void updateUserFields() {
