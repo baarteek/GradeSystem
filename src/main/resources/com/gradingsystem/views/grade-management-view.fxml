@@ -515,7 +515,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="41.0" prefWidth="1320.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="250.0" text="Add Grades">
+                                                      <Button mnemonicParsing="false" onAction="#setAddGradeButton" prefHeight="35.0" prefWidth="250.0" text="Add Grades">
                                                          <font>
                                                             <Font name="System Bold Italic" size="16.0" />
                                                          </font>

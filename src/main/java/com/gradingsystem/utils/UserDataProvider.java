@@ -248,6 +248,16 @@ public class UserDataProvider {
         return response;
     }
 
+    public static boolean addGrade(String studentId, String subjectId, String grade, String weight) {
+        ServerConnection serverConnection = new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+        String request = "ADD_GRADE|"+ studentId + "|" + subjectId + "|" + grade + "|" + weight;
+        String response = serverConnection.sendRequest(request);
+        serverConnection.disconnect();
+
+        return response.equals("ADD_GRADE_SUCCESS");
+    }
+
     public static String[] getStudentSubjectsAndGrades() {
         ServerConnection serverConnection= new ServerConnection("localhost", 1025);
         serverConnection.connect();

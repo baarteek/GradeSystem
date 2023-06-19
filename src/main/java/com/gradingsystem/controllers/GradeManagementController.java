@@ -1,18 +1,23 @@
 package com.gradingsystem.controllers;
 
+import com.gradingsystem.server.Database;
 import com.gradingsystem.userinfo.User;
 import com.gradingsystem.utils.UserDataProvider;
 import com.gradingsystem.utils.ViewSwitcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.*;
@@ -127,6 +132,9 @@ public class GradeManagementController {
         sortChoiceBox.getItems().addAll("Class", "Subject", "Student");
         sortChoiceBox2.getItems().addAll("Class", "Subject", "Student");
         sortChoiceBox3.getItems().addAll("Class", "Subject", "Student");
+        addGradeTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        editGradeTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        removeGradesTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     private void updateUserFields() {
@@ -225,7 +233,7 @@ public class GradeManagementController {
         tableView.getColumns().clear();
         List<String> dataList = Arrays.asList(data.split("\\|"));
         System.out.println(dataList);
-        String[] columnNames = {"Klasa", "Klasa ID", "Uczeń ID", "Imię", "Nazwisko", "Przedmiot", "Przedmiot ID"};
+        String[] columnNames = {"Class", "Class ID", "Student ID", "First Name", "Last Name", "Subject", "Subject ID"};
         for (String columnName : columnNames) {
             TableColumn<Map, String> column = new TableColumn<>(columnName);
             column.setCellValueFactory(new MapValueFactory(columnName));
@@ -242,6 +250,89 @@ public class GradeManagementController {
         }
         tableView.setItems(items);
     }
+
+    public void setAddGradeButton() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+
+        ObservableList<Map<String, String>> selectedItems = addGradeTableView.getSelectionModel().getSelectedItems();
+        if(selectedItems.isEmpty()) {
+            alert.setContentText("Select students from the table");
+            alert.showAndWait();
+        } else{
+            Pair<Integer, Double> gradAndWeight = addGradeModalWindow();
+            if(gradAndWeight == null) {
+                alert.setContentText("Grade not added");
+                alert.showAndWait();
+            } else {
+                boolean isAdded = true;
+                for(Map item: selectedItems) {
+                    String studentID = (String) item.get("Student ID");
+                    String subjectID = (String) item.get("Subject ID");
+                    String grade = String.valueOf(gradAndWeight.getKey());
+                    String weight = String.valueOf(gradAndWeight.getValue());
+                    if(!UserDataProvider.addGrade(studentID, subjectID, grade, weight)) {
+                        isAdded = false;
+                    }
+                }
+                if(isAdded) {
+                    alert.setContentText("Added new grades");
+                    alert.showAndWait();
+                } else {
+                    alert.setContentText("Grade not added");
+                    alert.showAndWait();
+                }
+            }
+        }
+    }
+
+    private Pair<Integer, Double> addGradeModalWindow() {
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.setTitle("Add Grade");
+
+        dialogStage.setMinWidth(300);
+        dialogStage.setMinHeight(200);
+
+        Label label = new Label("Add a grade");
+        ChoiceBox<Integer> choiceBox = new ChoiceBox<>(FXCollections.observableArrayList(1, 2, 3, 4, 5, 6));
+        choiceBox.setValue(6);
+        TextField weightField = new TextField();
+        weightField.setAlignment(Pos.CENTER);
+        weightField.setPromptText("Enter weight value");
+
+        final Pair<Integer, Double>[] result = new Pair[1];
+        Button okButton = new Button("OK");
+        okButton.setOnAction(e -> {
+            try {
+                double weight = Double.parseDouble(weightField.getText());
+                int grade = choiceBox.getValue();
+                result[0] = new Pair<>(grade, weight);
+                dialogStage.close();
+            } catch (NumberFormatException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("Input Error");
+                alert.setContentText("Please enter a valid number for weight!");
+                alert.showAndWait();
+            }
+        });
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label, choiceBox, weightField, okButton);
+        layout.setAlignment(Pos.CENTER);
+
+        Scene dialogScene = new Scene(layout);
+        dialogStage.setScene(dialogScene);
+        dialogStage.showAndWait();
+
+        return result[0];
+    }
+
+
+
+
 
     public void logout(MouseEvent event) throws IOException {
         ViewSwitcher.switchScene(event, root, stage, scene, "login-view", "login-style", this);

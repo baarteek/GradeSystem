@@ -762,6 +762,69 @@ public class Database {
         return studentsBuilder.toString();
     }
 
+    public static boolean addGrade(int uczenId, int przedmiotId, int ocena, double waga) {
+        try {
+            PreparedStatement ocenaStmt = conn.prepareStatement("INSERT INTO ocena (ocena, waga) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ocenaStmt.setInt(1, ocena);
+            ocenaStmt.setDouble(2, waga);
+            ocenaStmt.executeUpdate();
+
+            ResultSet rs = ocenaStmt.getGeneratedKeys();
+            int ocenaId = -1;
+            if(rs.next()) {
+                ocenaId = rs.getInt(1);
+            }
+
+            PreparedStatement zajeciaStmt = conn.prepareStatement("SELECT zajecia_id FROM zajecia WHERE przedmiot_id = ?");
+            zajeciaStmt.setInt(1, przedmiotId);
+            ResultSet rsZajecia = zajeciaStmt.executeQuery();
+
+            if (!rsZajecia.next()) {
+                return false;
+            }
+
+            int zajeciaId = rsZajecia.getInt(1);
+
+            PreparedStatement zajeciaUczenCheckStmt = conn.prepareStatement("SELECT zajecia_uczen_id FROM zajecia_uczen WHERE uczen_id = ? AND zajecia_id = ?");
+            zajeciaUczenCheckStmt.setInt(1, uczenId);
+            zajeciaUczenCheckStmt.setInt(2, zajeciaId);
+            ResultSet rsZajeciaUczenCheck = zajeciaUczenCheckStmt.executeQuery();
+
+            int zajeciaUczenId;
+
+            if (rsZajeciaUczenCheck.next()) {
+                zajeciaUczenId = rsZajeciaUczenCheck.getInt(1);
+            } else {
+                PreparedStatement zajeciaUczenCreateStmt = conn.prepareStatement("INSERT INTO zajecia_uczen (uczen_id, zajecia_id, rok) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                zajeciaUczenCreateStmt.setInt(1, uczenId);
+                zajeciaUczenCreateStmt.setInt(2, zajeciaId);
+                zajeciaUczenCreateStmt.setString(3, java.time.LocalDate.now().toString().substring(0, 4)); // ustaw rok na aktualny rok
+                zajeciaUczenCreateStmt.executeUpdate();
+
+                ResultSet rsZajeciaUczenCreate = zajeciaUczenCreateStmt.getGeneratedKeys();
+                zajeciaUczenId = -1;
+                if(rsZajeciaUczenCreate.next()) {
+                    zajeciaUczenId = rsZajeciaUczenCreate.getInt(1);
+                }
+            }
+
+            PreparedStatement ocenyUczniowNaZajeciachStmt = conn.prepareStatement("INSERT INTO oceny_uczniow_na_zajeciach (zajecia_uczen_id, ocena_id, data) VALUES (?, ?, ?)");
+            ocenyUczniowNaZajeciachStmt.setInt(1, zajeciaUczenId);
+            ocenyUczniowNaZajeciachStmt.setInt(2, ocenaId);
+            ocenyUczniowNaZajeciachStmt.setString(3, java.time.LocalDate.now().toString());
+            ocenyUczniowNaZajeciachStmt.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+
     public static String getStudentSubjectsAndGrades(String userId) {
         StringBuilder sb = new StringBuilder();
 

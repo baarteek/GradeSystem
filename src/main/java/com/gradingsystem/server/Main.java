@@ -18,6 +18,7 @@ public class Main {
         Database.connect();
         Database.create_tables();
 
+
         try {
             int port = 1025;
             ServerSocket serverSocket = new ServerSocket(port);
@@ -107,6 +108,9 @@ public class Main {
                             case "GET_STUDENT_SORTED":
                                 response = handleGetStudentSorted(parts);
                                 break;
+                            case "ADD_GRADE":
+                                response = handleAddGrade(parts);
+                                break;
                         }
 
                         bufferedWriter.write(response);
@@ -123,6 +127,18 @@ public class Main {
             throw new RuntimeException(e);
         } finally {
             Database.disconnect();
+        }
+    }
+
+    private static String handleAddGrade(String[] parts) {
+        int studentId = Integer.parseInt(parts[1]);
+        int subjectId = Integer.parseInt(parts[2]);
+        int grade = Integer.parseInt(parts[3]);
+        double weight = Double.parseDouble(parts[4]);
+        if(Database.addGrade(studentId, subjectId, grade, weight)) {
+            return "ADD_GRADE_SUCCESS";
+        } else {
+            return "ADD_GRADE_FAILURE";
         }
     }
 
