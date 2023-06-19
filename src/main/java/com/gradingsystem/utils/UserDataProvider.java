@@ -265,6 +265,23 @@ public class UserDataProvider {
         return new String[]{"GET_STUDENT_SUBJECTS_DATA_FAILURE"};
     }
 
+    public static String[] getStudentsRanking() {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+
+        String request = "GET_STUDENTS_RANKING|" + LoginController.userID;
+        String response = serverConnection.sendRequest(request);
+
+        serverConnection.disconnect();
+
+        String[] userData = response.split("\\|");
+
+        if(userData[0].equals("GET_STUDENTS_RANKING_SUCCESS")) {
+            return userData;
+        }
+        return new String[]{"GET_STUDENTS_RANKING_DATA_FAILURE"};
+    }
+
     public static String getStudentByField(String field, String value) {
         ServerConnection serverConnection= new ServerConnection("localhost", 1025);
         serverConnection.connect();

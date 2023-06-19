@@ -86,6 +86,9 @@ public class Main {
                             case "GET_STUDENT_SUBJECTS_AND_GRADES":
                                 response = handleGetStudentSubjectsAndGrades(parts[1]);
                                 break;
+                            case "GET_STUDENTS_RANKING":
+                                response = handleGetStundetsRanking(parts[1]);
+                                break;
                             case "GET_STUDENT_BY_NAME":
                                 response = handleGetStudentByName(parts);
                                 break;
@@ -346,6 +349,17 @@ public class Main {
         }
         else {
             return "GET_STUDENT_SUBJECTS_DATA_SUCCESS|" + subjects;
+        }
+    }
+
+    private static String handleGetStundetsRanking(String userId) {
+        String ranking = Database.getStudentsRanking(userId);
+
+        if (ranking == null) {
+            return "GET_STUDENTS_RANKING_DATA_FAILURE";
+        }
+        else {
+            return "GET_STUDENTS_RANKING_SUCCESS|" + ranking;
         }
     }
 }

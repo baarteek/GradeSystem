@@ -809,6 +809,43 @@ public class Database {
         return sb.toString();
     }
 
+    public static String getStudentsRanking(String userId) {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            String query = "SELECT u.uczen_id, u.imie, u.nazwisko, AVG(ocena.ocena) AS srednia_ocen\n" +
+                    "FROM uczen u\n" +
+                    "JOIN zajecia_uczen zu ON zu.uczen_id = u.uczen_id\n" +
+                    "LEFT JOIN oceny_uczniow_na_zajeciach ounz ON ounz.zajecia_uczen_id = zu.zajecia_uczen_id\n" +
+                    "LEFT JOIN ocena ON ocena.ocena_id = ounz.ocena_id\n" +
+                    "WHERE zu.rok = ?\n" +
+                    "GROUP BY u.uczen_id\n" +
+                    "ORDER BY srednia_ocen DESC";
+
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, "2023");
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                String id = resultSet.getString("uczen_id");
+                String firstName = resultSet.getString("imie");
+                String lastName = resultSet.getString("nazwisko");
+                double averageGrade = resultSet.getDouble("srednia_ocen");
+
+                String record = id + " " + firstName + " " + lastName + " " + averageGrade;
+                sb.append(record).append("|");
+            }
+
+            if (sb.length() > 0) {
+                sb.setLength(sb.length() - 1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Cannot fetch data: " + e.getMessage());
+        }
+
+        return sb.toString();
+    }
+
     public static void add_test_data() {
         add_admin("Adam", "Adminowski", "12345676543", "admin", "102222222", "admin");
 
