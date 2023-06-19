@@ -423,7 +423,7 @@
                <children>
                   <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="128.0" prefWidth="1322.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="1320.0" text="Main view" textAlignment="CENTER" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="1320.0" text="Statistics" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="50.0" />
                            </font>
@@ -467,9 +467,12 @@
                                  </children></AnchorPane>
                         </content>
                       </Tab>
-                      <Tab text="Untitled Tab 2">
+                      <Tab text="Average grade">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="listViewAvgGrade" layoutX="31.0" layoutY="24.0" prefHeight="800.0" prefWidth="1280.0" />
+                                 </children></AnchorPane>
                         </content>
                       </Tab>
                     </tabs>

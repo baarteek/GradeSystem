@@ -20,6 +20,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -108,6 +110,8 @@ public class StudentStatisticsController {
     private TableColumn<String[], String> lastColumn;
     @FXML
     private TableColumn<String[], String> avgColumn;
+    @FXML
+    private ListView listViewAvgGrade;
 
     private Parent root;
     private Stage loginStage;
@@ -122,6 +126,7 @@ public class StudentStatisticsController {
         ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
         String[] userData = UserDataProvider.getUserData("uczen", LoginController.userID);
         String[] studentsRanking = UserDataProvider.getStudentsRanking();
+        String[] gradesData = UserDataProvider.getStudentSubjectsAndGrades();
 
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[3];
@@ -158,6 +163,10 @@ public class StudentStatisticsController {
         if (!studentsRanking[0].equals("GET_STUDENT_SUBJECTS_DATA_FAILURE")) {
             renderRanking(studentsRanking);
         }
+
+        if (!gradesData[0].equals("GET_STUDENT_SUBJECTS_DATA_FAILURE")) {
+            renderGrades(gradesData);
+        }
     }
 
     private void renderRanking(String[] studentsRanking) {
@@ -177,6 +186,87 @@ public class StudentStatisticsController {
             String rank = "" + i;
 
             tableViewRanking.getItems().add(new String[]{rank, id, first, last, avgGrade});
+        }
+    }
+
+    private void renderGrades(String[] gradesData) {
+        Map<String, Map<String, List<Integer>>>  yearMap = extractSubjectGrades(gradesData);
+        displaySubjectGrades(yearMap);
+    }
+
+    private Map<String, Map<String, List<Integer>>> extractSubjectGrades(String[] gradesData) {
+        Map<String, Map<String, List<Integer>>> yearMap = new HashMap<>();
+
+        for (int i = 1; i < gradesData.length; i++) {
+            int startIndex = gradesData[i].indexOf("(") + 1;
+            int endIndex = gradesData[i].indexOf(")");
+            String year = gradesData[i].substring(startIndex, endIndex);
+
+            if (!yearMap.containsKey(year)) {
+                yearMap.put(year, new HashMap<>());
+            }
+
+            Map<String, List<Integer>> subjectMap = yearMap.get(year);
+
+            String gradeString = gradesData[i].substring(gradesData[i].length() - 1);
+
+            if (!Character.isDigit(gradeString.charAt(0))) {
+                String subject = gradesData[i].substring(0, startIndex - 2);
+                if (!subjectMap.containsKey(subject)) {
+                    subjectMap.put(subject, null);
+                }
+            }
+            else {
+                String subject = gradesData[i].substring(0, startIndex - 2);
+                int grade = Integer.parseInt(gradeString);
+
+                if (subjectMap.containsKey(subject)) {
+                    List<Integer> grades = subjectMap.get(subject);
+                    grades.add(grade);
+                } else {
+                    List<Integer> grades = new ArrayList<>();
+                    grades.add(grade);
+                    subjectMap.put(subject, grades);
+                }
+            }
+
+            yearMap.put(year, subjectMap);
+        }
+
+        return yearMap;
+    }
+
+    private void displaySubjectGrades(Map<String, Map<String, List<Integer>>> yearMap) {
+        for (Map.Entry<String, Map<String, List<Integer>>> yearEntry : yearMap.entrySet()) {
+            String year = yearEntry.getKey();
+            Map<String, List<Integer>> subjectMap = yearEntry.getValue();
+
+            listViewAvgGrade.getItems().add("Rok " + year);
+
+            for (Map.Entry<String, List<Integer>> subjectEntry : subjectMap.entrySet()) {
+                String subject = subjectEntry.getKey();
+                List<Integer> grades = subjectEntry.getValue();
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.append(subject).append(": ");
+
+                if (grades != null) {
+                    int gradeSum = 0;
+                    int gradesLen = grades.size();
+
+                    for (int i = 0; i < gradesLen; i++) {
+                        gradeSum += grades.get(1);
+                    }
+
+                    int avgGrade = gradeSum/gradesLen;
+                    sb.append(avgGrade);
+                }
+
+                listViewAvgGrade.getItems().add(sb.toString());
+            }
+
+            listViewAvgGrade.getItems().add("");
         }
     }
 
