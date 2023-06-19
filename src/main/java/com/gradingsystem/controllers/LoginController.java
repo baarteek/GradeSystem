@@ -79,7 +79,7 @@ public class LoginController {
         mainFlowPane.setMargin(titleLabel, new Insets(20, 0, 20, 0));
         mainFlowPane.setMargin(loginFlowPane, new Insets(0, 0, 20, 0));
         mainFlowPane.setMargin(loginButton, new Insets(40, 0, 10, 0));
-        mainFlowPane.setMargin(registerButton, new Insets(40, 0, 10, 0));
+        //mainFlowPane.setMargin(registerButton, new Insets(40, 0, 10, 0));
         mainFlowPane.setMargin(errorLabel, new Insets(10, 0, 0, 0));
         titleLabel.setMaxWidth(Double.MAX_VALUE);
         titleFlowPane.setHgap(Double.MAX_VALUE);

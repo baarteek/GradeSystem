@@ -136,7 +136,8 @@ public class AdminViewController {
     public void notificationsClick() {
     }
 
-    public void messagesClick() {
+    public void messagesClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "register-view", User.getCssFileName(), this);
     }
 
     public void settingsClick(MouseEvent event) throws IOException {

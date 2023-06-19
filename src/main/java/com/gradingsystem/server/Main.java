@@ -18,7 +18,6 @@ public class Main {
         Database.connect();
         Database.create_tables();
 
-
         try {
             int port = 1025;
             ServerSocket serverSocket = new ServerSocket(port);

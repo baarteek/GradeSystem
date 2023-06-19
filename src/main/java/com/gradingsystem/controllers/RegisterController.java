@@ -124,7 +124,7 @@ public class RegisterController {
                 alert.setHeaderText("REGISTER");
                 alert.setContentText("New user added");
                 alert.showAndWait();
-                switchToLoginScene(event);
+                //switchToLoginScene(event);
                 errorLabel.setText("");
             } else if(registerResult[0].equals("REGISTER_FAILURE")) {
                 registerErrorMessage(registerResult[1]);
@@ -146,5 +146,9 @@ public class RegisterController {
 
     public void switchToLoginScene(ActionEvent event) throws IOException {
         ViewSwitcher.switchScene(event, root, stage, loginScene, "login-view", "login-style", this);
+    }
+
+    public void switchToAdminScene(ActionEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, loginScene, "admin-view", "login-style", this);
     }
 }

@@ -193,7 +193,7 @@
                   <BoxBlur height="0.0" iterations="3" width="60.0" />
                </effect>
             </Separator>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#switchToLoginScene" prefHeight="44.0" prefWidth="500.0" text="BACK" textFill="WHITE">
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#switchToAdminScene" prefHeight="44.0" prefWidth="500.0" text="BACK" textFill="WHITE">
                <FlowPane.margin>
                   <Insets />
                </FlowPane.margin>
