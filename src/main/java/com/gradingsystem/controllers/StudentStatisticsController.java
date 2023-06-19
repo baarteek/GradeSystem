@@ -3,16 +3,15 @@ package com.gradingsystem.controllers;
 import com.gradingsystem.userinfo.User;
 import com.gradingsystem.utils.UserDataProvider;
 import com.gradingsystem.utils.ViewSwitcher;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -98,8 +97,17 @@ public class StudentStatisticsController {
     @FXML
     private ImageView logoutImage;
     @FXML
-    private ListView ListViewStudentsRanking;
-
+    private TableView<String[]> tableViewRanking;
+    @FXML
+    private TableColumn<String[], String> rankColumn;
+    @FXML
+    private TableColumn<String[], String> idColumn;
+    @FXML
+    private TableColumn<String[], String> firstColumn;
+    @FXML
+    private TableColumn<String[], String> lastColumn;
+    @FXML
+    private TableColumn<String[], String> avgColumn;
 
     private Parent root;
     private Stage loginStage;
@@ -153,20 +161,22 @@ public class StudentStatisticsController {
     }
 
     private void renderRanking(String[] studentsRanking) {
-        ListViewStudentsRanking.getItems().add("Grade point average ");
-        ListViewStudentsRanking.getItems().add("");
+        rankColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue()[0]));
+        idColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue()[1]));
+        firstColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue()[2]));
+        lastColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue()[3]));
+        avgColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue()[4]));
 
         for (int i = 1; i < studentsRanking.length; i++) {
             String[] entryData = studentsRanking[i].split(" ");
 
             String id = entryData[0];
-            String imie = entryData[1];
-            String nazwisko = entryData[2];
-            String ocena = entryData[3];
+            String first = entryData[1];
+            String last = entryData[2];
+            String avgGrade = entryData[3];
+            String rank = "" + i;
 
-            String displayText = id + " " + imie + " " + nazwisko + " " + ocena;
-
-            ListViewStudentsRanking.getItems().add("Rank " + i + ": " + displayText);
+            tableViewRanking.getItems().add(new String[]{rank, id, first, last, avgGrade});
         }
     }
 

@@ -455,7 +455,15 @@
                         <content>
                           <AnchorPane minHeight="-Infinity" minWidth="0.0" prefHeight="800.0" prefWidth="1326.0">
                                  <children>
-                                    <ListView fx:id="ListViewStudentsRanking" layoutX="29.0" layoutY="14.0" prefHeight="800.0" prefWidth="1250.0" />
+                                    <TableView fx:id="tableViewRanking" layoutX="36.0" layoutY="28.0" prefHeight="700.0" prefWidth="1260.0">
+                                      <columns>
+                                        <TableColumn fx:id="rankColumn" prefWidth="75.0" text="Rank" />
+                                        <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+                                          <TableColumn fx:id="firstColumn" prefWidth="75.0" text="First" />
+                                          <TableColumn fx:id="lastColumn" prefWidth="75.0" text="Last" />
+                                          <TableColumn fx:id="avgColumn" prefWidth="75.0" text="Average grade" />
+                                      </columns>
+                                    </TableView>
                                  </children></AnchorPane>
                         </content>
                       </Tab>
