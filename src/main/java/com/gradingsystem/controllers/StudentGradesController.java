@@ -238,7 +238,8 @@ public class StudentGradesController {
         ViewSwitcher.switchScene(event, root, loginStage, loginScene, "student-grades-view", User.getCssFileName(), this);
     }
 
-    public void statisticsClick() {
+    public void statisticsClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "student-statistics-view", User.getCssFileName(), this);
     }
 
     public void studentProfilesClick() {

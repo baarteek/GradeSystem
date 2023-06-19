@@ -438,7 +438,10 @@ public class MyAccountViewController {
         }
     }
 
-    public void statisticsClick() {
+    public void statisticsClick(MouseEvent event) throws IOException  {
+        if (User.getType() == "student") {
+            ViewSwitcher.switchScene(event, root, stage, scene, "student-statistics-view", User.getCssFileName(), this);
+        }
     }
 
     public void studentProfilesClick(MouseEvent event) throws IOException {
