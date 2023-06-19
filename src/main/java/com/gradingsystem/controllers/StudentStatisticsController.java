@@ -6,8 +6,12 @@ import com.gradingsystem.utils.ViewSwitcher;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -17,6 +21,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class StudentStatisticsController {
     @FXML
@@ -87,6 +93,8 @@ public class StudentStatisticsController {
     private ImageView settingsImage;
     @FXML
     private ImageView logoutImage;
+    @FXML
+    private ListView ListViewStudentsRanking;
 
 
     private Parent root;
@@ -101,6 +109,8 @@ public class StudentStatisticsController {
     public void initialize() {
         ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
         String[] userData = UserDataProvider.getUserData("uczen", LoginController.userID);
+        String[] studentsRanking = UserDataProvider.getStudentsRanking();
+
         if(!userData[0].equals("GET_USER_DATA_FAILURE")) {
             name = userData[3];
             surname = userData[4];
@@ -128,6 +138,14 @@ public class StudentStatisticsController {
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
         }
+
+        if (!studentsRanking[0].equals("GET_STUDENT_SUBJECTS_DATA_FAILURE")) {
+            renderRanking(studentsRanking);
+        }
+    }
+
+    private void renderRanking(String[] studentsRanking) {
+
     }
 
     public void updateUserFields() {
