@@ -281,7 +281,5 @@ public class DatabaseTest {
         Assert.assertFalse("LOGIN_SUCCESS|ADMIN", invalidResult.startsWith("LOGIN_SUCCESS|ADMIN"));
     }
 
-
-
 }
 
