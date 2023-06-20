@@ -389,12 +389,18 @@ public class Database {
     }
 
     public static boolean updateField(String tableName, String fieldName, String newValue, String condition) {
-        String updateQuery = "UPDATE " + tableName + " SET " + fieldName + " = ? WHERE " + condition;
+        String updateQuery = "UPDATE " + tableName + " SET " + fieldName + " = ? WHERE ?";
         PreparedStatement statement = null;
+
+        if (condition.contains(";")) {
+            logger.warn("illegal sign in the condition");
+            return false;
+        }
 
         try {
             statement = conn.prepareStatement(updateQuery);
             statement.setString(1, newValue);
+            statement.setString(2, condition);
 
             int affectedRows = statement.executeUpdate();
 
@@ -468,8 +474,14 @@ public class Database {
 
         ArrayList<String> resultList = new ArrayList<>();
         try {
+            if (subjectName.contains(";")) {
+                logger.warn("illegal sign in the condition");
+                throw new Exception("illegal sign in the condition");
+            }
+
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, subjectName);
+
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -488,6 +500,9 @@ public class Database {
             logger.debug("cannot get students detail sorted");
             e.printStackTrace();
         }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         StringBuilder sb = new StringBuilder();
         for (String s : resultList) {
@@ -504,6 +519,11 @@ public class Database {
         String selectAdmin = "SELECT * FROM admin WHERE email = ? AND haslo = ?";
 
         try {
+            if (password.contains(";")) {
+                logger.warn("illegal sign in the condition");
+                throw new Exception("illegal sign in the condition");
+            }
+
             PreparedStatement stmtUczen = conn.prepareStatement(selectUczen);
             stmtUczen.setString(1, login);
             stmtUczen.setString(2, password);
@@ -530,10 +550,12 @@ public class Database {
             System.out.println("Error during checking credentials");
             logger.debug("Error during checking credentials");
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return "LOGIN_FAILURE|ST";
     }
-
 
     public static String checkIfDataExists(String tableName, String[] columnNames, String[] values) {
         if (columnNames.length != values.length) {
@@ -543,6 +565,9 @@ public class Database {
         for (int i = 0; i < columnNames.length; i++) {
             String query = "SELECT * FROM " + tableName + " WHERE " + columnNames[i] + " = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                if (values[i].contains(";")) {
+                    throw new Exception("illegal sign in the condition");
+                }
                 stmt.setString(1, values[i]);
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {;
@@ -553,6 +578,8 @@ public class Database {
             } catch (SQLException e) {
                 System.out.println("An error occurred while checking data: " + e.getMessage());
                 logger.debug("Error while checking if data exists");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return "SUCCESS";
@@ -607,6 +634,11 @@ public class Database {
         ResultSet resultSet = null;
 
         try {
+            if (searchedName.contains(";")) {
+                logger.warn("illegal sign in the condition");
+                throw new Exception("illegal sign in the condition");
+            }
+
             statement = conn.prepareStatement(selectQuery);
             statement.setString(1, searchedName);
             resultSet = statement.executeQuery();
@@ -624,6 +656,8 @@ public class Database {
             }
         } catch (SQLException e) {
             logger.debug("cannot get user data");
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (resultSet != null) {
@@ -650,12 +684,18 @@ public class Database {
         int rowsAffected = 0;
 
         try (PreparedStatement statement = conn.prepareStatement(updateQuery)) {
+            if (value.contains(";")) {
+                logger.warn("illegal sign in the condition");
+                throw new Exception("illegal sign in the condition");
+            }
 
             statement.setString(1, value);
             statement.setInt(2, userID);
 
             rowsAffected = statement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -703,6 +743,11 @@ public class Database {
     public static String getTableData(String tableName, String columns, String conditions) {
         StringBuilder sb = new StringBuilder();
         try {
+            if (conditions.contains(";")) {
+                logger.warn("illegal sign in the condition");
+                throw new Exception("illegal sign in the condition");
+            }
+
             String query = "SELECT " + columns + " FROM " + tableName + " WHERE " + conditions;
             PreparedStatement pstmt = conn.prepareStatement(query);
             ResultSet resultSet = pstmt.executeQuery();
@@ -723,6 +768,8 @@ public class Database {
             logger.debug("Cannot fetch data from table");
             System.out.println("Cannot fetch data from " + tableName);
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return sb.toString();
     }
@@ -730,6 +777,12 @@ public class Database {
     public static String[] getStudentByName(String name) throws SQLException {
         PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE imie = ?");
         statement.setString(1, name);
+
+        if (name.contains(";")) {
+            logger.warn("illegal sign in the condition");
+            return null;
+        }
+
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
             logger.debug("cannot get student");
@@ -741,6 +794,12 @@ public class Database {
     public static String[] getStudentBySurname(String surname) throws SQLException {
         PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE nazwisko = ?");
         statement.setString(1, surname);
+
+        if (surname.contains(";")) {
+            logger.warn("illegal sign in the condition");
+            return null;
+        }
+
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
             logger.debug("cannot get student");
@@ -752,6 +811,12 @@ public class Database {
     public static String[] getStudentByPesel(String pesel) throws SQLException {
         PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE pesel = ?");
         statement.setString(1, pesel);
+
+        if (pesel.contains(";")) {
+            logger.warn("illegal sign in the condition");
+            return null;
+        }
+
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
             logger.debug("cannot get student");
@@ -763,6 +828,12 @@ public class Database {
     public static String[] getStudentByEmail(String email) throws SQLException {
         PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE email = ?");
         statement.setString(1, email);
+
+        if (email.contains(";")) {
+            logger.warn("illegal sign in the condition");
+            return null;
+        }
+
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
             logger.debug("cannot get student");
@@ -774,6 +845,12 @@ public class Database {
     public static String[] getStudentByPhoneNumber(String phoneNumber) throws SQLException {
         PreparedStatement statement = conn.prepareStatement("SELECT * FROM uczen WHERE telefon = ?");
         statement.setString(1, phoneNumber);
+
+        if (phoneNumber.contains(";")) {
+            logger.warn("illegal sign in the condition");
+            return null;
+        }
+
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
             logger.debug("cannot get student");
@@ -785,6 +862,12 @@ public class Database {
     public static String[] getStudentsFromClass(String className) throws SQLException {
         PreparedStatement statement = conn.prepareStatement("SELECT uczen.* FROM uczen JOIN klasa ON uczen.klasa_id = klasa.klasa_id WHERE klasa.nazwa = ?");
         statement.setString(1, className);
+
+        if (className.contains(";")) {
+            logger.warn("illegal sign in the condition");
+            return null;
+        }
+
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
             logger.debug("cannot get studenst from class");
@@ -872,6 +955,11 @@ public class Database {
         StringBuilder sb = new StringBuilder();
 
         try {
+            if (userId.contains(";")) {
+                logger.warn("illegal sign in the condition");
+                throw new Exception("illegal sign in the condition");
+            }
+
             String query = "SELECT p.nazwa, ocena.ocena, zu.rok " +
                     "FROM przedmiot p " +
                     "JOIN zajecia ON zajecia.przedmiot_id = p.przedmiot_id " +
@@ -911,6 +999,8 @@ public class Database {
         } catch (SQLException e) {
             logger.debug("cannot fetch subjects and grades");
             System.out.println("Cannot fetch data from: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return sb.toString();
@@ -920,6 +1010,11 @@ public class Database {
         StringBuilder sb = new StringBuilder();
 
         try {
+            if (userId.contains(";")) {
+                logger.warn("illegal sign in the condition");
+                throw new Exception("illegal sign in the condition");
+            }
+
             String query = "SELECT u.uczen_id, u.imie, u.nazwisko, AVG(ocena.ocena) AS srednia_ocen\n" +
                     "FROM uczen u\n" +
                     "JOIN zajecia_uczen zu ON zu.uczen_id = u.uczen_id\n" +
@@ -949,6 +1044,8 @@ public class Database {
         } catch (SQLException e) {
             logger.debug("cannot fetch students ranking");
             System.out.println("Cannot fetch data: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         return sb.toString();
@@ -958,6 +1055,11 @@ public class Database {
         StringBuilder sb = new StringBuilder();
 
         try {
+            if (userId.contains(";")) {
+                logger.warn("illegal sign in the condition");
+                throw new Exception("illegal sign in the condition");
+            }
+
             String query = "SELECT uczen_id, imie, nazwisko FROM uczen";
             PreparedStatement pstmt = conn.prepareStatement(query);
             ResultSet resultSet = pstmt.executeQuery();
@@ -977,6 +1079,8 @@ public class Database {
         } catch (SQLException e) {
             logger.debug("cannot fetch all students");
             System.out.println("Cannot fetch students data: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         return sb.toString();
@@ -986,6 +1090,11 @@ public class Database {
         StringBuilder sb = new StringBuilder();
 
         try {
+            if (userId.contains(";")) {
+                logger.warn("illegal sign in the condition");
+                throw new Exception("illegal sign in the condition");
+            }
+
             String query = "SELECT DISTINCT u.uczen_id, u.imie, u.nazwisko\n" +
                     "FROM uczen u\n" +
                     "JOIN zajecia_uczen zu ON zu.uczen_id = u.uczen_id\n" +
@@ -1011,6 +1120,8 @@ public class Database {
         } catch (SQLException e) {
             logger.debug("cannot fetch all students from group");
             System.out.println("Cannot fetch students data: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         return sb.toString();
