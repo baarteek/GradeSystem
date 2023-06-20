@@ -375,7 +375,8 @@ public class SubjectManagementController {
     public void gradeOverviewClick() {
     }
 
-    public void statisticsClick() {
+    public void statisticsClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "statistics-view", User.getCssFileName(), this);
     }
 
     public void studentProfilesClick(MouseEvent event) throws IOException {
