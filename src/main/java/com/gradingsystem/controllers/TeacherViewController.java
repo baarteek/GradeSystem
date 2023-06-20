@@ -115,7 +115,8 @@ public class TeacherViewController {
     public void gradeOverviewClick() {
     }
 
-    public void statisticsClick() {
+    public void statisticsClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "statistics-view", User.getCssFileName(), this);
     }
 
 

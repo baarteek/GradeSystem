@@ -476,6 +476,8 @@ public class MyAccountViewController {
     public void statisticsClick(MouseEvent event) throws IOException  {
         if (User.getType() == "student") {
             ViewSwitcher.switchScene(event, root, stage, scene, "student-statistics-view", User.getCssFileName(), this);
+        } else{
+                ViewSwitcher.switchScene(event, root, stage, scene, "statistics-view", User.getCssFileName(), this);
         }
     }
 
