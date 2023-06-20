@@ -3,9 +3,6 @@ package com.gradingsystem.utils;
 import com.gradingsystem.controllers.LoginController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-
-import java.util.*;
 
 public class UserDataProvider {
     public static String[] getUserData(String tableName, int userID) {
@@ -275,6 +272,23 @@ public class UserDataProvider {
         return new String[]{"GET_STUDENT_SUBJECTS_DATA_FAILURE"};
     }
 
+    public static String[] getStudentSubjectsAndGrades(int id) {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+
+        String request = "GET_STUDENT_SUBJECTS_AND_GRADES|" + id;
+        String response = serverConnection.sendRequest(request);
+
+        serverConnection.disconnect();
+
+        String[] userData = response.split("\\|");
+
+        if(userData[0].equals("GET_STUDENT_SUBJECTS_DATA_SUCCESS")) {
+            return userData;
+        }
+        return new String[]{"GET_STUDENT_SUBJECTS_DATA_FAILURE"};
+    }
+
     public static String[] getStudentsRanking() {
         ServerConnection serverConnection= new ServerConnection("localhost", 1025);
         serverConnection.connect();
@@ -316,5 +330,39 @@ public class UserDataProvider {
         serverConnection.disconnect();
 
         return response;
+    }
+
+    public static String[] getAllStudents() {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+
+        String request = "GET_ALL_STUDENTS|" + LoginController.userID;
+        String response = serverConnection.sendRequest(request);
+
+        serverConnection.disconnect();
+
+        String[] userData = response.split("\\|");
+
+        if(userData[0].equals("GET_ALL_STUDENTS_SUCCESS")) {
+            return userData;
+        }
+        return new String[]{"GET_ALL_STUDENTS_DATA_FAILURE"};
+    }
+
+    public static String[] getAllStudentsFromTeacherGroups(int teacherId) {
+        ServerConnection serverConnection= new ServerConnection("localhost", 1025);
+        serverConnection.connect();
+
+        String request = "GET_ALL_STUDENTS_FROM_TEACHER_GROUP|" + teacherId;
+        String response = serverConnection.sendRequest(request);
+
+        serverConnection.disconnect();
+
+        String[] userData = response.split("\\|");
+
+        if(userData[0].equals("GET_ALL_STUDENTS_FROM_TEACHER_GROUP_SUCCESS")) {
+            return userData;
+        }
+        return new String[]{"GET_ALL_STUDENTS_FROM_TEACHER_GROUP_DATA_FAILURE"};
     }
 }

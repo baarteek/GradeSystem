@@ -377,7 +377,8 @@ public class GradeManagementController {
         ViewSwitcher.switchScene(event, root, stage, scene, "grade-management-view", User.getCssFileName(), this);
     }
 
-    public void gradeOverviewClick() {
+    public void gradeOverviewClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "grade-overview-view", User.getCssFileName(), this);
     }
 
     public void statisticsClick(MouseEvent event) throws IOException {

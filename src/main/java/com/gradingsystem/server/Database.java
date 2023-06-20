@@ -915,6 +915,66 @@ public class Database {
         return sb.toString();
     }
 
+    public static String getAllStudents(String userId) {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            String query = "SELECT uczen_id, imie, nazwisko FROM uczen";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                String id = resultSet.getString("uczen_id");
+                String firstName = resultSet.getString("imie");
+                String lastName = resultSet.getString("nazwisko");
+
+                String record = id + " " + firstName + " " + lastName;
+                sb.append(record).append("|");
+            }
+
+            if (sb.length() > 0) {
+                sb.setLength(sb.length() - 1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Cannot fetch students data: " + e.getMessage());
+        }
+
+        return sb.toString();
+    }
+
+    public static String getAllStudentsFromGroup(String userId) {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            String query = "SELECT DISTINCT u.uczen_id, u.imie, u.nazwisko\n" +
+                    "FROM uczen u\n" +
+                    "JOIN zajecia_uczen zu ON zu.uczen_id = u.uczen_id\n" +
+                    "JOIN zajecia z ON zu.zajecia_id = z.zajecia_id\n" +
+                    "WHERE z.nauczyciel_id = ?";
+
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, userId);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                String id = resultSet.getString("uczen_id");
+                String firstName = resultSet.getString("imie");
+                String lastName = resultSet.getString("nazwisko");
+
+                String record = id + " " + firstName + " " + lastName;
+                sb.append(record).append("|");
+            }
+
+            if (sb.length() > 0) {
+                sb.setLength(sb.length() - 1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Cannot fetch students data: " + e.getMessage());
+        }
+
+        return sb.toString();
+    }
+
     public static void add_test_data() {
         add_admin("Adam", "Adminowski", "12345676543", "admin", "102222222", "admin");
 

@@ -89,6 +89,12 @@ public class Main {
                             case "GET_STUDENTS_RANKING":
                                 response = handleGetStundetsRanking(parts[1]);
                                 break;
+                            case "GET_ALL_STUDENTS":
+                                response = handleGetAllStudents(parts[1]);
+                                break;
+                            case "GET_ALL_STUDENTS_FROM_TEACHER_GROUP":
+                                response = handleGetAllStudentsFromGroup(parts[1]);
+                                break;
                             case "GET_STUDENT_BY_NAME":
                                 response = handleGetStudentByName(parts);
                                 break;
@@ -375,6 +381,28 @@ public class Main {
         }
         else {
             return "GET_STUDENTS_RANKING_SUCCESS|" + ranking;
+        }
+    }
+
+    private static String handleGetAllStudents(String userId) {
+        String ranking = Database.getAllStudents(userId);
+
+        if (ranking == null) {
+            return "GET_ALL_STUDENTS_DATA_FAILURE";
+        }
+        else {
+            return "GET_ALL_STUDENTS_SUCCESS|" + ranking;
+        }
+    }
+
+    private static String handleGetAllStudentsFromGroup(String userId) {
+        String ranking = Database.getAllStudentsFromGroup(userId);
+
+        if (ranking == null) {
+            return "GET_ALL_STUDENTS_FROM_TEACHER_GROUP_DATA_FAILURE";
+        }
+        else {
+            return "GET_ALL_STUDENTS_FROM_TEACHER_GROUP_SUCCESS|" + ranking;
         }
     }
 }

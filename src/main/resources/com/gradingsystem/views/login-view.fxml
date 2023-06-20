@@ -104,7 +104,7 @@
                   <Insets />
                </FlowPane.margin>
             </HBox>
-            <TextField fx:id="loginTextField" alignment="CENTER" promptText="E-MAIL" text="a@a">
+            <TextField fx:id="loginTextField" alignment="CENTER" promptText="E-MAIL">
                <FlowPane.margin>
                   <Insets bottom="40.0" top="30.0" />
                </FlowPane.margin>
@@ -118,7 +118,7 @@
                   <DropShadow />
                </effect>
             </TextField>
-            <PasswordField fx:id="passwordField" alignment="TOP_CENTER" promptText="PASSWORD" text="admin">
+            <PasswordField fx:id="passwordField" alignment="TOP_CENTER" promptText="PASSWORD">
                <font>
                   <Font size="20.0" />
                </font>

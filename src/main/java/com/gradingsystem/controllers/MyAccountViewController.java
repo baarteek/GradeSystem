@@ -476,6 +476,9 @@ public class MyAccountViewController {
         if (User.getType() == "student") {
             ViewSwitcher.switchScene(event, root, stage, scene, "student-grades-view", User.getCssFileName(), this);
         }
+        else {
+            ViewSwitcher.switchScene(event, root, stage, scene, "grade-overview-view", User.getCssFileName(), this);
+        }
     }
 
     public void statisticsClick(MouseEvent event) throws IOException  {
