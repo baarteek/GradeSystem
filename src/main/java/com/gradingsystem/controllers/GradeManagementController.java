@@ -111,6 +111,11 @@ public class GradeManagementController {
     private Separator menuSeparator5;
     @FXML
     private Separator menuSeparator7;
+    @FXML
+    private Separator menuSeparator8;
+    @FXML
+    private HBox notificationsHBox;
+
     private Parent root;
     private Stage stage;
     private Scene scene;
@@ -153,6 +158,11 @@ public class GradeManagementController {
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
         }
+
+        accountMenuVBox.getChildren().remove(menuSeparator7);
+        accountMenuVBox.getChildren().remove(menuSeparator8);
+        accountMenuVBox.getChildren().remove(notificationsHBox);
+
         addOptionsToSubjectChoiceBox(selectSubject1ChoiceBox);
         addOptionsToSubjectChoiceBox(selectSubject2ChoiceBox);
         addOptionsToSubjectChoiceBox(selectSubject3ChoiceBox);

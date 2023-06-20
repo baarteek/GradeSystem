@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -70,6 +71,12 @@ public class TeacherViewController {
     private ImageView settingsImage;
     @FXML
     private ImageView logoutImage;
+    @FXML
+    private Separator menuSeparator7;
+    @FXML
+    private Separator menuSeparator8;
+    @FXML
+    private VBox accountMenuVBox;
     private Parent root;
     private Stage loginStage;
     private Scene loginScene;
@@ -96,6 +103,10 @@ public class TeacherViewController {
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
         }
+
+        accountMenuVBox.getChildren().remove(menuSeparator7);
+        accountMenuVBox.getChildren().remove(menuSeparator8);
+        accountMenuVBox.getChildren().remove(notificationsHBox);
     }
 
     public void updateUserFields() {

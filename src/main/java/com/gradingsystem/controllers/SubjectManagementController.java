@@ -81,6 +81,12 @@ public class SubjectManagementController {
     private ImageView logoutImage;
     @FXML
     private ImageView settingsImageView;
+    @FXML
+    private Separator menuSeparator7;
+    @FXML
+    private Separator menuSeparator8;
+    @FXML
+    private HBox notificationsHBox;
     private Parent root;
     private Stage stage;
     private Scene scene;
@@ -118,6 +124,9 @@ public class SubjectManagementController {
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
         }
+        accountMenuVBox.getChildren().remove(menuSeparator7);
+        accountMenuVBox.getChildren().remove(menuSeparator8);
+        accountMenuVBox.getChildren().remove(notificationsHBox);
 
         classesListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         classesToLinkListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

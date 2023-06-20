@@ -160,6 +160,9 @@ public class MyAccountViewController {
             hideElementsForTeacher();
         } else if (User.getType() == "admin") {
             userData = UserDataProvider.getUserData("admin", LoginController.userID);
+            accountMenuVBox.getChildren().remove(menuSeparator7);
+            accountMenuVBox.getChildren().remove(menuSeparator8);
+            accountMenuVBox.getChildren().remove(notificationsHBox);
         }
         else {
             userData = UserDataProvider.getUserData("uczen", LoginController.userID);
@@ -203,7 +206,9 @@ public class MyAccountViewController {
         accountMenuVBox.getChildren().remove(menuSeparator5);
         accountMenuVBox.getChildren().remove(menuSeparator6);
         accountMenuVBox.getChildren().remove(menuSeparator4);
-
+        accountMenuVBox.getChildren().remove(menuSeparator7);
+        accountMenuVBox.getChildren().remove(menuSeparator8);
+        accountMenuVBox.getChildren().remove(notificationsHBox);
     }
 
     private void hideElementsForStudent() {

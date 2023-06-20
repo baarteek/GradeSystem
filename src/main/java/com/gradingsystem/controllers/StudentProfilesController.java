@@ -15,6 +15,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -61,6 +63,14 @@ public class StudentProfilesController {
     private ImageView logoutImage;
     @FXML
     private ImageView settingsImageView;
+    @FXML
+    private Separator menuSeparator7;
+    @FXML
+    private Separator menuSeparator8;
+    @FXML
+    private HBox notificationsHBox;
+    @FXML
+    private VBox accountMenuVBox;
     private Parent root;
     private Stage stage;
     private Scene scene;
@@ -94,6 +104,11 @@ public class StudentProfilesController {
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
         }
+
+        accountMenuVBox.getChildren().remove(menuSeparator7);
+        accountMenuVBox.getChildren().remove(menuSeparator8);
+        accountMenuVBox.getChildren().remove(notificationsHBox);
+
         fillTableWithStudentData();
         filedsChoiceBox.getItems().addAll("First Name", "Last Name", "Pesel", "E-mail", "Phone Number", "Class");
         initializeTableView(studentDetailsTableView);

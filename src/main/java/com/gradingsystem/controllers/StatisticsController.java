@@ -115,6 +115,10 @@ public class StatisticsController {
     @FXML
     private Separator menuSeparator7;
     @FXML
+    private Separator menuSeparator8;
+    @FXML
+    private HBox notificationsHBox;
+    @FXML
     private TableView studentRankingTableView;
 
     private Parent root;
@@ -160,6 +164,10 @@ public class StatisticsController {
             alert.showAndWait();
         }
         setStudentRanking();
+
+        accountMenuVBox.getChildren().remove(menuSeparator7);
+        accountMenuVBox.getChildren().remove(menuSeparator8);
+        accountMenuVBox.getChildren().remove(notificationsHBox);
     }
 
     private void updateUserFields() {
