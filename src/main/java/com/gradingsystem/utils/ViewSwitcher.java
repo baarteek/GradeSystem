@@ -93,7 +93,6 @@ public class ViewSwitcher {
             setImage(thisclass, gradeOverviewImage, path + "/eye.png");
             setImage(thisclass, statisticsImage, path + "/statistics.png");
             setImage(thisclass, notificationsImage, path + "/notifications.png");
-            setImage(thisclass, messagesImage, path + "/chat.png");
             setImage(thisclass, settingsImage, path + "/settings.png");
             setImage(thisclass, logoutImage, path + "/logout.png");
             setImage(thisclass, emailImageView, path + "/mail.png");

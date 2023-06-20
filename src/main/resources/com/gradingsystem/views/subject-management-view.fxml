@@ -329,7 +329,7 @@
                                         <Image url="@../icons/chat.png" />
                                     </image>
                                 </ImageView>
-                                <Label prefHeight="36.0" prefWidth="222.0" text="Messages" textFill="WHITE">
+                                <Label prefHeight="36.0" prefWidth="222.0" text="Register" textFill="WHITE">
                                     <HBox.margin>
                                         <Insets left="15.0" />
                                     </HBox.margin>

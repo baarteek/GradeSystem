@@ -25,7 +25,7 @@
     <children>
         <AnchorPane fx:id="sideAnchorePane" prefHeight="800.0" prefWidth="280.0">
             <children>
-                <VBox prefHeight="800.0" prefWidth="280.0">
+                <VBox fx:id="accountMenuVBox" prefHeight="800.0" prefWidth="280.0">
                     <children>
                         <VBox prefHeight="90.0" prefWidth="270.0">
                             <children>
@@ -193,7 +193,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </HBox>
-                        <Separator prefWidth="200.0">
+                        <Separator fx:id="menuSeparator3" prefWidth="200.0">
                             <effect>
                                 <ColorAdjust brightness="-0.7" />
                             </effect>
@@ -224,7 +224,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </HBox>
-                        <Separator prefWidth="200.0">
+                        <Separator fx:id="menuSeparator4" prefWidth="200.0">
                             <effect>
                                 <ColorAdjust brightness="-0.7" />
                             </effect>
@@ -252,7 +252,7 @@
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                         </HBox>
-                        <Separator prefWidth="200.0">
+                        <Separator fx:id="menuSeparator5" prefWidth="200.0">
                             <effect>
                                 <ColorAdjust brightness="-0.7" />
                             </effect>
@@ -314,7 +314,7 @@
                                 </Label>
                             </children>
                         </HBox>
-                        <Separator prefWidth="200.0">
+                        <Separator fx:id="menuSeparator7" prefWidth="200.0">
                             <effect>
                                 <ColorAdjust brightness="-0.7" />
                             </effect>
@@ -329,7 +329,7 @@
                                         <Image url="@../icons/chat.png" />
                                     </image>
                                 </ImageView>
-                                <Label prefHeight="36.0" prefWidth="222.0" text="Messages" textFill="WHITE">
+                                <Label prefHeight="36.0" prefWidth="222.0" text="Register" textFill="WHITE">
                                     <HBox.margin>
                                         <Insets left="15.0" />
                                     </HBox.margin>
