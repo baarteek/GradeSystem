@@ -251,16 +251,18 @@ public class StudentStatisticsController {
 
                 sb.append(subject).append(": ");
 
-                if (grades != null) {
+                if (grades != null && !grades.isEmpty()) {
                     int gradeSum = 0;
                     int gradesLen = grades.size();
 
-                    for (int i = 0; i < gradesLen; i++) {
-                        gradeSum += grades.get(1);
+                    for (int grade : grades) {
+                        gradeSum += grade;
                     }
 
-                    int avgGrade = gradeSum/gradesLen;
+                    int avgGrade = gradeSum / gradesLen;
                     sb.append(avgGrade);
+                } else {
+                    sb.append("Brak oceny");
                 }
 
                 listViewAvgGrade.getItems().add(sb.toString());
@@ -269,6 +271,7 @@ public class StudentStatisticsController {
             listViewAvgGrade.getItems().add("");
         }
     }
+
 
     public void updateUserFields() {
         userNameLabel.setText(name + " " + surname);

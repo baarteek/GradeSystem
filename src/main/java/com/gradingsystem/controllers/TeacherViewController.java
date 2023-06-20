@@ -108,7 +108,8 @@ public class TeacherViewController {
         LoginController.userID = -1;
     }
 
-    public void gradeManagementClick() {
+    public void gradeManagementClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, loginStage, loginScene, "grade-management-view", User.getCssFileName(), this);
     }
 
     public void gradeOverviewClick() {
@@ -125,8 +126,6 @@ public class TeacherViewController {
     public void notificationsClick() {
     }
 
-    public void messagesClick() {
-    }
 
     public void settingsClick(MouseEvent event) throws IOException {
         ViewSwitcher.switchScene(event, root, loginStage, loginScene, "myaccount-view", User.getCssFileName(), this);

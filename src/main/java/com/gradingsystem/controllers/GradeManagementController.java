@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -92,6 +93,24 @@ public class GradeManagementController {
     private TableView editGradeTableView;
     @FXML
     private TableView removeGradesTableView;
+    @FXML
+    private VBox accountMenuVBox;
+    @FXML
+    private HBox classManagementHBox;
+    @FXML
+    private HBox subjectManagementHBox;
+    @FXML
+    private HBox studentProfilesHBox;
+    @FXML
+    private HBox messagesHBox;
+    @FXML
+    private Separator menuSeparator3;
+    @FXML
+    private Separator menuSeparator4;
+    @FXML
+    private Separator menuSeparator5;
+    @FXML
+    private Separator menuSeparator7;
     private Parent root;
     private Stage stage;
     private Scene scene;
@@ -107,6 +126,14 @@ public class GradeManagementController {
         String[] userData = new String[10];
         if (User.getType() == "teacher") {
             userData = UserDataProvider.getUserData("nauczyciel", LoginController.userID);
+            accountMenuVBox.getChildren().remove(classManagementHBox);
+            accountMenuVBox.getChildren().remove(subjectManagementHBox);
+            accountMenuVBox.getChildren().remove(studentProfilesHBox);
+            accountMenuVBox.getChildren().remove(messagesHBox);
+            accountMenuVBox.getChildren().remove(menuSeparator3);
+            accountMenuVBox.getChildren().remove(menuSeparator4);
+            accountMenuVBox.getChildren().remove(menuSeparator5);
+            accountMenuVBox.getChildren().remove(menuSeparator7);
         } else if (User.getType() == "admin") {
             userData = UserDataProvider.getUserData("admin", LoginController.userID);
         }
@@ -143,7 +170,6 @@ public class GradeManagementController {
     }
 
     private void addOptionsToSubjectChoiceBox(ChoiceBox choiceBox) {
-        if(User.getType().equals("admin")) {
             String subjects = UserDataProvider.getAllFieldsFromTable("przedmiot");
             String[] entries = subjects.split("\\|");
             List<String> names = new ArrayList<>();
@@ -154,7 +180,6 @@ public class GradeManagementController {
             }
 
             choiceBox.setItems(FXCollections.observableArrayList(names));
-        }
     }
 
     public void setLoadStudentsButton() {
@@ -364,6 +389,7 @@ public class GradeManagementController {
     }
 
     public void messagesClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "register-view", User.getCssFileName(), this);
     }
 
     public void settingsClick(MouseEvent event) throws IOException {

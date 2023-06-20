@@ -221,34 +221,6 @@
                   </HBox>
                   <Separator prefWidth="200.0">
                      <effect>
-                        <ColorAdjust brightness="-0.7" />
-                     </effect>
-                  </Separator>
-                  <HBox fx:id="messagesHBox" alignment="CENTER_LEFT" onMouseClicked="#messagesClick" prefHeight="70.0" prefWidth="280.0">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                     <children>
-                        <ImageView fx:id="messagesImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/chat.png" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="36.0" prefWidth="222.0" text="Messages" textFill="WHITE">
-                           <HBox.margin>
-                              <Insets left="15.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </HBox>
-                  <Separator prefWidth="200.0">
-                     <effect>
                         <Lighting specularExponent="25.0">
                            <bumpInput>
                               <Shadow />

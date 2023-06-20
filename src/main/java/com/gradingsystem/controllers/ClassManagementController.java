@@ -347,6 +347,7 @@ public class ClassManagementController {
     }
 
     public void messagesClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "register-view", User.getCssFileName(), this);
     }
 
     public void settingsClick(MouseEvent event) throws IOException {

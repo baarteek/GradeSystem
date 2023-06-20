@@ -199,6 +199,7 @@ public class MyAccountViewController {
         accountMenuVBox.getChildren().remove(classManagementHBox);
         accountMenuVBox.getChildren().remove(studentProfilesHBox);
         accountMenuVBox.getChildren().remove(subjectManagementHBox);
+        accountMenuVBox.getChildren().remove(messagesHBox);
         accountMenuVBox.getChildren().remove(menuSeparator5);
         accountMenuVBox.getChildren().remove(menuSeparator6);
         accountMenuVBox.getChildren().remove(menuSeparator4);
@@ -494,6 +495,7 @@ public class MyAccountViewController {
     }
 
     public void messagesClick(MouseEvent event) throws IOException {
+        ViewSwitcher.switchScene(event, root, stage, scene, "register-view", User.getCssFileName(), this);
     }
 
 }

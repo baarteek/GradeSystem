@@ -1,5 +1,6 @@
 package com.gradingsystem.controllers;
 
+import com.gradingsystem.userinfo.User;
 import com.gradingsystem.utils.ServerConnection;
 import com.gradingsystem.utils.Validator;
 import com.gradingsystem.utils.ViewSwitcher;
@@ -149,6 +150,6 @@ public class RegisterController {
     }
 
     public void switchToAdminScene(ActionEvent event) throws IOException {
-        ViewSwitcher.switchScene(event, root, stage, loginScene, "admin-view", "login-style", this);
+        ViewSwitcher.switchScene(event, root, stage, loginScene, "admin-view", User.getCssFileName(), this);
     }
 }
