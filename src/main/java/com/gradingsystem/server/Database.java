@@ -17,6 +17,17 @@ public class Database {
         }
     }
 
+    public static void connect(String dbName) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            conn = DriverManager.getConnection(dbName);
+            System.out.println("Connected with database.");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void disconnect() {
         try {
             if (conn != null) {
@@ -462,11 +473,6 @@ public class Database {
 
         return sb.toString();
     }
-
-
-
-
-
 
     public static String checkCredentials(String login, String password) {
         String selectUczen = "SELECT * FROM uczen WHERE email = ? AND haslo = ?";
@@ -951,5 +957,9 @@ public class Database {
         add_klasa_przedmiot(1, 3);
         add_klasa_przedmiot(2, 2);
         add_klasa_przedmiot(3, 1);
+    }
+
+    public static Connection getConn() {
+        return conn;
     }
 }

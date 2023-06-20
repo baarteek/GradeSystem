@@ -135,7 +135,6 @@ public class LoginController {
         }
     }
 
-
     private boolean checkLoginValidity() {
         if(loginTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
             errorLabel.setText("Fill in all fields");

@@ -154,7 +154,7 @@ public class StudentGradesController {
         displaySubjectGrades(yearMap);
     }
 
-    private Map<String, Map<String, List<Integer>>> extractSubjectGrades(String[] gradesData) {
+    public static Map<String, Map<String, List<Integer>>> extractSubjectGrades(String[] gradesData) {
         Map<String, Map<String, List<Integer>>> yearMap = new HashMap<>();
 
         for (int i = 1; i < gradesData.length; i++) {

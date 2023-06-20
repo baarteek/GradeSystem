@@ -190,50 +190,8 @@ public class StudentStatisticsController {
     }
 
     private void renderGrades(String[] gradesData) {
-        Map<String, Map<String, List<Integer>>>  yearMap = extractSubjectGrades(gradesData);
+        Map<String, Map<String, List<Integer>>>  yearMap = StudentGradesController.extractSubjectGrades(gradesData);
         displaySubjectGrades(yearMap);
-    }
-
-    private Map<String, Map<String, List<Integer>>> extractSubjectGrades(String[] gradesData) {
-        Map<String, Map<String, List<Integer>>> yearMap = new HashMap<>();
-
-        for (int i = 1; i < gradesData.length; i++) {
-            int startIndex = gradesData[i].indexOf("(") + 1;
-            int endIndex = gradesData[i].indexOf(")");
-            String year = gradesData[i].substring(startIndex, endIndex);
-
-            if (!yearMap.containsKey(year)) {
-                yearMap.put(year, new HashMap<>());
-            }
-
-            Map<String, List<Integer>> subjectMap = yearMap.get(year);
-
-            String gradeString = gradesData[i].substring(gradesData[i].length() - 1);
-
-            if (!Character.isDigit(gradeString.charAt(0))) {
-                String subject = gradesData[i].substring(0, startIndex - 2);
-                if (!subjectMap.containsKey(subject)) {
-                    subjectMap.put(subject, null);
-                }
-            }
-            else {
-                String subject = gradesData[i].substring(0, startIndex - 2);
-                int grade = Integer.parseInt(gradeString);
-
-                if (subjectMap.containsKey(subject)) {
-                    List<Integer> grades = subjectMap.get(subject);
-                    grades.add(grade);
-                } else {
-                    List<Integer> grades = new ArrayList<>();
-                    grades.add(grade);
-                    subjectMap.put(subject, grades);
-                }
-            }
-
-            yearMap.put(year, subjectMap);
-        }
-
-        return yearMap;
     }
 
     private void displaySubjectGrades(Map<String, Map<String, List<Integer>>> yearMap) {
