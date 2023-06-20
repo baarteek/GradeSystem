@@ -3,8 +3,13 @@ package com.gradingsystem.server;
 import java.sql.*;
 import java.util.*;
 
+import com.gradingsystem.utils.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Database {
     private static Connection conn = null;
+    private static final Logger logger = LogManager.getLogger(Database.class);
 
     public static void connect() {
         try {
@@ -13,6 +18,7 @@ public class Database {
             System.out.println("Connected with database.");
         }
         catch (Exception e) {
+            logger.debug("Cannot connect with database");
             e.printStackTrace();
         }
     }
@@ -24,6 +30,7 @@ public class Database {
             System.out.println("Connected with database.");
         }
         catch (Exception e) {
+            logger.debug("Cannot connect with database");
             e.printStackTrace();
         }
     }
@@ -154,6 +161,7 @@ public class Database {
         create_table(wiadomosc);
         create_table(klasa_przedmiot);
         create_table(admin);
+        logger.info("Tables created");
     }
 
     private static void create_table(String sql) {
@@ -161,6 +169,7 @@ public class Database {
             Statement stmt = conn.createStatement();
             stmt.execute(sql);
         } catch (SQLException e) {
+            logger.debug("cannot create table");
             System.out.println(e.getMessage());
         }
     }
@@ -173,6 +182,7 @@ public class Database {
             stmtKlasa.executeUpdate();
 
         } catch (SQLException e) {
+            logger.debug("cannot add new klasa");
             System.out.println("Insert into klasa error");
         }
     }
@@ -190,6 +200,7 @@ public class Database {
             stmtUczen.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Insert into uczen error");
+            logger.debug("cannot add new uczen");
             e.printStackTrace();
         }
     }
@@ -207,6 +218,7 @@ public class Database {
             stmtAdmin.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Insert into admin error");
+            logger.debug("cannot add new admin");
             e.printStackTrace();
         }
     }
@@ -225,6 +237,7 @@ public class Database {
 
         } catch (SQLException e) {
             System.out.println("Insert into nauczyciel error");
+            logger.debug("cannot add new nauczyciel");
         }
     }
 
@@ -237,6 +250,7 @@ public class Database {
 
         } catch (SQLException e) {
             System.out.println("Insert into przedmiot error");
+            logger.debug("cannot add new przedmiot");
         }
     }
 
@@ -250,6 +264,7 @@ public class Database {
 
         } catch (SQLException e) {
             System.out.println("Insert into zajecia error");
+            logger.debug("cannot add new zajecia");
         }
     }
 
@@ -263,6 +278,7 @@ public class Database {
 
         } catch (SQLException e) {
             System.out.println("Insert into zajecia_uczen error");
+            logger.debug("cannot add new zajecia uczen");
         }
     }
 
@@ -275,6 +291,7 @@ public class Database {
 
         } catch (SQLException e) {
             System.out.println("Insert into ocena error");
+            logger.debug("cannot add new ocena");
         }
     }
 
@@ -287,6 +304,7 @@ public class Database {
 
         } catch (SQLException e) {
             System.out.println("Insert into klasa_przedmiot error");
+            logger.debug("cannot add new klasa przedmiot");
         }
     }
 
@@ -301,6 +319,7 @@ public class Database {
 
         } catch (SQLException e) {
             System.out.println("Insert into oceny_uczniow_na_zajeciach error");
+            logger.debug("cannot add oceny uczniow na zajeciach");
         }
     }
 
@@ -315,6 +334,7 @@ public class Database {
 
         } catch (SQLException e) {
             System.out.println("Insert into konwersacje error");
+            logger.debug("cannot add konwersacje");
         }
     }
 
@@ -361,6 +381,7 @@ public class Database {
             }
         } catch (SQLException e) {
             System.out.println("Cannot fetch from " + tableName);
+            logger.debug("Cannot fetch all fields");
             e.printStackTrace();
         }
 
@@ -391,6 +412,7 @@ public class Database {
                 }
             }
         }
+        logger.debug("cannot update field");
         return false;
     }
 
@@ -414,6 +436,7 @@ public class Database {
             }
         } catch (SQLException e) {
             System.out.println("Cannot fetch uczniowie bez klasy");
+            logger.debug("cannot fetch students without class");
             e.printStackTrace();
         }
         return students;
@@ -462,6 +485,7 @@ public class Database {
                         + ", " + nazwisko + ", " + przedmiot_nazwa + ", " + przedmiot_id);
             }
         } catch (SQLException e) {
+            logger.debug("cannot get students detail sorted");
             e.printStackTrace();
         }
 
@@ -504,6 +528,7 @@ public class Database {
             }
         } catch (SQLException e) {
             System.out.println("Error during checking credentials");
+            logger.debug("Error during checking credentials");
             e.printStackTrace();
         }
         return "LOGIN_FAILURE|ST";
@@ -521,11 +546,13 @@ public class Database {
                 stmt.setString(1, values[i]);
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {;
+                        logger.debug("Data doesn't exists");
                         return "FAILURE|"+columnNames[i].toUpperCase();
                     }
                 }
             } catch (SQLException e) {
                 System.out.println("An error occurred while checking data: " + e.getMessage());
+                logger.debug("Error while checking if data exists");
             }
         }
         return "SUCCESS";
@@ -553,6 +580,7 @@ public class Database {
                 return userData.toString();
             }
         } catch (SQLException e) {
+            logger.debug("cannot get user data");
             e.printStackTrace();
         } finally {
             if (resultSet != null) {
@@ -595,6 +623,7 @@ public class Database {
                 return userData.toString();
             }
         } catch (SQLException e) {
+            logger.debug("cannot get user data");
             e.printStackTrace();
         } finally {
             if (resultSet != null) {
@@ -633,6 +662,7 @@ public class Database {
         if (rowsAffected > 0) {
             return "CHANGE_USER_DATA_SUCCESS";
         } else {
+            logger.debug("cannot change user data");
             return "CHANGE_USER_DATA_FAILURE";
         }
     }
@@ -647,12 +677,15 @@ public class Database {
 
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
+                logger.debug("A row was deleted successfully!");
                 System.out.println("A row was deleted successfully!");
                 return true;
             } else {
+                logger.debug("No row was deleted.");
                 System.out.println("No row was deleted.");
             }
         } catch (SQLException e) {
+            logger.debug("Error while deleting the row");
             System.out.println("An error occurred while deleting the row.");
             e.printStackTrace();
         } finally {
@@ -687,6 +720,7 @@ public class Database {
                 sb.setLength(sb.length() - 1);
             }
         } catch (SQLException e) {
+            logger.debug("Cannot fetch data from table");
             System.out.println("Cannot fetch data from " + tableName);
             e.printStackTrace();
         }
@@ -698,6 +732,7 @@ public class Database {
         statement.setString(1, name);
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
+            logger.debug("cannot get student");
             return null;
         }
         return students.split("\\|");
@@ -708,6 +743,7 @@ public class Database {
         statement.setString(1, surname);
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
+            logger.debug("cannot get student");
             return null;
         }
         return students.split("\\|");
@@ -718,6 +754,7 @@ public class Database {
         statement.setString(1, pesel);
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
+            logger.debug("cannot get student");
             return null;
         }
         return students.split("\\|");
@@ -728,6 +765,7 @@ public class Database {
         statement.setString(1, email);
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
+            logger.debug("cannot get student");
             return null;
         }
         return students.split("\\|");
@@ -738,6 +776,7 @@ public class Database {
         statement.setString(1, phoneNumber);
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
+            logger.debug("cannot get student");
             return null;
         }
         return students.split("\\|");
@@ -748,6 +787,7 @@ public class Database {
         statement.setString(1, className);
         String students = fetchStudents(statement);
         if (students.isEmpty()) {
+            logger.debug("cannot get studenst from class");
             return null;
         }
         return students.split("\\|");
@@ -828,9 +868,6 @@ public class Database {
         }
     }
 
-
-
-
     public static String getStudentSubjectsAndGrades(String userId) {
         StringBuilder sb = new StringBuilder();
 
@@ -872,6 +909,7 @@ public class Database {
             }
 
         } catch (SQLException e) {
+            logger.debug("cannot fetch subjects and grades");
             System.out.println("Cannot fetch data from: " + e.getMessage());
         }
 
@@ -909,6 +947,7 @@ public class Database {
                 sb.setLength(sb.length() - 1);
             }
         } catch (SQLException e) {
+            logger.debug("cannot fetch students ranking");
             System.out.println("Cannot fetch data: " + e.getMessage());
         }
 
@@ -936,6 +975,7 @@ public class Database {
                 sb.setLength(sb.length() - 1);
             }
         } catch (SQLException e) {
+            logger.debug("cannot fetch all students");
             System.out.println("Cannot fetch students data: " + e.getMessage());
         }
 
@@ -969,54 +1009,11 @@ public class Database {
                 sb.setLength(sb.length() - 1);
             }
         } catch (SQLException e) {
+            logger.debug("cannot fetch all students from group");
             System.out.println("Cannot fetch students data: " + e.getMessage());
         }
 
         return sb.toString();
-    }
-
-    public static void add_test_data() {
-        add_admin("Adam", "Adminowski", "12345676543", "admin", "102222222", "admin");
-
-        add_klasa("3A");
-        add_klasa("3B");
-        add_klasa("3C");
-
-        add_uczen( "Jan", "Kowalski", "12345678901", "jan.kowalski@school.com", "123456789", "password1");
-        add_uczen( "Anna", "Nowak", "12345678902", "anna.nowak@school.com", "234567890", "password2");
-        add_uczen( "Piotr", "Kowalski", "12345678903", "piotr.kowalski@school.com", "345678901", "password3");
-        add_uczen( "Maria", "Kowalczyk", "12345678904", "maria.kowalczyk@school.com", "456789012", "password4");
-
-        add_nauczyciel("Adam", "Nowak", "12345678905", "adam.nowak@school.com", "567890123", "password5");
-        add_nauczyciel("Katarzyna", "Kowalska", "12345678906", "katarzyna.kowalska@school.com", "678901234", "password6");
-
-        add_przedmiot("matematyka");
-        add_przedmiot("j. polski");
-        add_przedmiot("historia");
-
-        add_zajecia(1, 1);
-        add_zajecia(1, 2);
-        add_zajecia(2, 3);
-
-        add_zajecia_uczen(1, 1, "2023");
-        add_zajecia_uczen(2, 1, "2023");
-        add_zajecia_uczen(2, 2, "2023");
-        add_zajecia_uczen(1, 2, "2022");
-
-        add_ocena(4, 1);
-        add_ocena(5, 2);
-        add_ocena(3, 1);
-
-        add_oceny_uczniow_na_zajeciach(1, 1, "2023-05-01");
-        add_oceny_uczniow_na_zajeciach(1, 2, "2023-05-01");
-        add_oceny_uczniow_na_zajeciach(3, 3, "2023-05-01");
-
-        add_konwersacje(false, true, 1, 2);
-        add_konwersacje(true, false, 2, 1);
-
-        add_klasa_przedmiot(1, 3);
-        add_klasa_przedmiot(2, 2);
-        add_klasa_przedmiot(3, 1);
     }
 
     public static Connection getConn() {

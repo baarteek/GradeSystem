@@ -13,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -85,6 +87,7 @@ public class TeacherViewController {
     private String pesel;
     private String phoneNumber;
     private String email;
+    private static final Logger logger = LogManager.getLogger(TeacherViewController.class);
 
     public void initialize() {
         ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
@@ -102,6 +105,8 @@ public class TeacherViewController {
             alert.setHeaderText("USER DATA");
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
+
+            logger.error("Failed to fetch user data");
         }
 
         accountMenuVBox.getChildren().remove(menuSeparator7);

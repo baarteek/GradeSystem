@@ -16,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.*;
@@ -106,6 +108,7 @@ public class StudentGradesController {
     private String pesel;
     private String phoneNumber;
     private String email;
+    private static final Logger logger = LogManager.getLogger(StudentGradesController.class);
 
     public void initialize() {
         ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
@@ -142,6 +145,8 @@ public class StudentGradesController {
             alert.setHeaderText("USER DATA");
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
+
+            logger.error("Failed to fetch user data");
         }
 
         if (!gradesData[0].equals("GET_STUDENT_SUBJECTS_DATA_FAILURE")) {
@@ -161,6 +166,7 @@ public class StudentGradesController {
             int startIndex = gradesData[i].indexOf("(") + 1;
             int endIndex = gradesData[i].indexOf(")");
             String year = gradesData[i].substring(startIndex, endIndex);
+            logger.debug("year: " + year);
 
             if (!yearMap.containsKey(year)) {
                 yearMap.put(year, new HashMap<>());
@@ -169,9 +175,11 @@ public class StudentGradesController {
             Map<String, List<Integer>> subjectMap = yearMap.get(year);
 
             String gradeString = gradesData[i].substring(gradesData[i].length() - 1);
+            logger.debug("grade: " + gradeString);
 
             if (!Character.isDigit(gradeString.charAt(0))) {
                 String subject = gradesData[i].substring(0, startIndex - 2);
+                logger.debug("subject: " + subject);
                 if (!subjectMap.containsKey(subject)) {
                     subjectMap.put(subject, null);
                 }
@@ -199,12 +207,15 @@ public class StudentGradesController {
     private void displaySubjectGrades(Map<String, Map<String, List<Integer>>> yearMap) {
         for (Map.Entry<String, Map<String, List<Integer>>> yearEntry : yearMap.entrySet()) {
             String year = yearEntry.getKey();
+            logger.debug("year: " + year);
             Map<String, List<Integer>> subjectMap = yearEntry.getValue();
 
             subjectsList.getItems().add("Rok " + year);
 
+
             for (Map.Entry<String, List<Integer>> subjectEntry : subjectMap.entrySet()) {
                 String subject = subjectEntry.getKey();
+                logger.debug("subject: " + subject);
                 List<Integer> grades = subjectEntry.getValue();
 
                 StringBuilder sb = new StringBuilder();

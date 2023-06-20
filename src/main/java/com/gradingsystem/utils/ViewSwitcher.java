@@ -10,11 +10,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
 
 public class ViewSwitcher {
+    private static final Logger logger = LogManager.getLogger(ViewSwitcher.class);
+
     public static void switchScene(MouseEvent event, Parent root, Stage stage, Scene scene, String viewName, String cssName, Object thisClass) throws IOException {
         try {
             String viewPath = "/com/gradingsystem/views/" + viewName +".fxml";
@@ -25,6 +29,7 @@ public class ViewSwitcher {
             scene.getStylesheets().add(thisClass.getClass().getResource(cssPath).toExternalForm());
             stage.setScene(scene);
             stage.show();
+            logger.debug("Scene switched");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
@@ -41,6 +46,7 @@ public class ViewSwitcher {
             scene.getStylesheets().add(thisClass.getClass().getResource(cssPath).toExternalForm());
             stage.setScene(scene);
             stage.show();
+            logger.debug("Scene switched");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
@@ -71,6 +77,7 @@ public class ViewSwitcher {
             setImage(thisclass, logoutImage, path + "/logout.png");
             setImage(thisclass, emailImageView, path + "/mail.png");
             setImage(thisclass, settingsImageView, path + "/settings.png");
+            logger.debug("Admin Icons");
         } else if (User.getType().equals("student")) {
             path = "/com/gradingsystem/icons/studentIcons";
             setImage(thisclass, profileImageView, path + "/user.png");
@@ -86,6 +93,7 @@ public class ViewSwitcher {
             setImage(thisclass, logoutImage, path + "/logout.png");
             setImage(thisclass, emailImageView, path + "/mail.png");
             setImage(thisclass, settingsImageView, path + "/settings.png");
+            logger.debug("Student Icons");
         } else if (User.getType().equals("teacher")) {
             path = "/com/gradingsystem/icons/teacherIcons";
             setImage(thisclass, profileImageView, path + "/user.png");
@@ -97,6 +105,7 @@ public class ViewSwitcher {
             setImage(thisclass, logoutImage, path + "/logout.png");
             setImage(thisclass, emailImageView, path + "/mail.png");
             setImage(thisclass, settingsImageView, path + "/settings.png");
+            logger.debug("Teacher Icons");
         }
     }
 

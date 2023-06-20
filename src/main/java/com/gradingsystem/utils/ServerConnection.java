@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ServerConnection {
     private String serverAddress;
@@ -14,6 +16,7 @@ public class ServerConnection {
     private Socket socket;
     private OutputStream outputStream;
     private BufferedReader reader;
+    private static final Logger logger = LogManager.getLogger(ServerConnection.class);
 
     public ServerConnection(String serverAddress, int serverPort) {
         this.serverAddress = serverAddress;
@@ -26,6 +29,7 @@ public class ServerConnection {
             outputStream = socket.getOutputStream();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
         } catch (Exception e) {
+            logger.debug("Cannot connect to server");
             e.printStackTrace();
         }
     }
@@ -36,6 +40,7 @@ public class ServerConnection {
                 socket.close();
             }
         } catch (Exception e) {
+            logger.debug("Cannot disconnect from server");
             e.printStackTrace();
         }
     }
@@ -48,6 +53,7 @@ public class ServerConnection {
             response = reader.readLine();
             System.out.println(response);
         } catch (Exception e) {
+            logger.debug("Cannot send request");
             e.printStackTrace();
         }
         return response;

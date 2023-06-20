@@ -22,6 +22,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.*;
@@ -130,6 +132,7 @@ public class StatisticsController {
     private String phoneNumber;
     private String email;
     private String password;
+    private static final Logger logger = LogManager.getLogger(StatisticsController.class);
 
     public void initialize() {
         ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
@@ -162,6 +165,8 @@ public class StatisticsController {
             alert.setHeaderText("USER DATA");
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
+
+            logger.error("Failed to fetch user data");
         }
         setStudentRanking();
 

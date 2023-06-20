@@ -23,6 +23,8 @@ import java.util.Map;
 import com.gradingsystem.userinfo.User;
 
 import javafx.scene.layout.HBox;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class LoginController {
@@ -69,6 +71,7 @@ public class LoginController {
     private Stage adminStage;
     private Scene adminScene;
     private Parent root;
+    private static final Logger logger = LogManager.getLogger(LoginController.class);
 
     public static int userID;
 

@@ -15,6 +15,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class AdminViewController {
     @FXML
@@ -85,6 +88,8 @@ public class AdminViewController {
     private String pesel;
     private String phoneNumber;
     private String email;
+    private static final Logger logger = LogManager.getLogger(AdminViewController.class);
+
 
     public void initialize() throws IOException {
         ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
@@ -102,6 +107,8 @@ public class AdminViewController {
             alert.setHeaderText("USER DATA");
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
+
+            logger.error("Failed to fetch user data");
         }
 
         accountMenuVBox.getChildren().remove(menuSeparator7);

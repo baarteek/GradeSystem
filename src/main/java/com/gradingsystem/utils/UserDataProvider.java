@@ -3,8 +3,12 @@ package com.gradingsystem.utils;
 import com.gradingsystem.controllers.LoginController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserDataProvider {
+    private static final Logger logger = LogManager.getLogger(Validator.class);
+
     public static String[] getUserData(String tableName, int userID) {
         ServerConnection serverConnection= new ServerConnection("localhost", 1025);
         serverConnection.connect();
@@ -22,8 +26,10 @@ public class UserDataProvider {
         String[] userData = response.split("\\|");
 
         if(userData[0].equals("GET_USER_DATA_SUCCESS")) {
+            logger.debug("Cannot fetch data");
             return userData;
         }
+        logger.debug("Cannot fetch data");
         return new String[]{"GET_USER_DATA_FAILURE"};
     }
 
@@ -112,6 +118,7 @@ public class UserDataProvider {
             for (int i = 0; i < studentsDataArray.length; i++) {
                 String studentDataString = studentsDataArray[i];
                  if (studentDataString.isEmpty()) {
+                     logger.debug("no students without class");
                      return null;
                  }
 
@@ -133,6 +140,7 @@ public class UserDataProvider {
             }
             return observableStudentsData;
         }
+        logger.debug("no students without class");
         return null;
     }
 
@@ -157,6 +165,7 @@ public class UserDataProvider {
             }
             return listItems;
         }
+        logger.debug("cannot get all fields from class");
         return null;
     }
 
@@ -191,6 +200,7 @@ public class UserDataProvider {
         if(response.equals("UPDATE_FIELDS_SUCCESS")) {
             return true;
         }
+        logger.debug("cannot update field");
         return false;
     }
 
@@ -204,6 +214,7 @@ public class UserDataProvider {
         if(response.equals("DELETE_RECORD_SUCCESS")) {
             return true;
         }
+        logger.debug("cannot delete record");
         return false;
     }
 
@@ -215,6 +226,7 @@ public class UserDataProvider {
         serverConnection.disconnect();
 
         if(response.equals("GET_TABLE_DATA_FAILURE")) {
+            logger.debug("cannot get data by table name, condition, column");
             return null;
         } else {
             return response;
@@ -231,6 +243,7 @@ public class UserDataProvider {
         if(response.equals("GET_TABLE_DATA_FAILURE")) {
             return null;
         } else {
+            logger.debug("cannot get all fields");
             return response;
         }
     }
@@ -269,6 +282,7 @@ public class UserDataProvider {
         if(userData[0].equals("GET_STUDENT_SUBJECTS_DATA_SUCCESS")) {
             return userData;
         }
+        logger.debug("cannot get student subjects and grades");
         return new String[]{"GET_STUDENT_SUBJECTS_DATA_FAILURE"};
     }
 
@@ -286,6 +300,7 @@ public class UserDataProvider {
         if(userData[0].equals("GET_STUDENT_SUBJECTS_DATA_SUCCESS")) {
             return userData;
         }
+        logger.debug("cannot get student subjects and grades");
         return new String[]{"GET_STUDENT_SUBJECTS_DATA_FAILURE"};
     }
 
@@ -303,6 +318,7 @@ public class UserDataProvider {
         if(userData[0].equals("GET_STUDENTS_RANKING_SUCCESS")) {
             return userData;
         }
+        logger.debug("cannot get students ranking");
         return new String[]{"GET_STUDENTS_RANKING_DATA_FAILURE"};
     }
 
@@ -346,6 +362,7 @@ public class UserDataProvider {
         if(userData[0].equals("GET_ALL_STUDENTS_SUCCESS")) {
             return userData;
         }
+        logger.debug("cannot get all students");
         return new String[]{"GET_ALL_STUDENTS_DATA_FAILURE"};
     }
 
@@ -363,6 +380,7 @@ public class UserDataProvider {
         if(userData[0].equals("GET_ALL_STUDENTS_FROM_TEACHER_GROUP_SUCCESS")) {
             return userData;
         }
+        logger.debug("cannot get all students from a teacher group");
         return new String[]{"GET_ALL_STUDENTS_FROM_TEACHER_GROUP_DATA_FAILURE"};
     }
 }

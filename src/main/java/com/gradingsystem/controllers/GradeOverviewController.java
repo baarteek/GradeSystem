@@ -15,6 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
@@ -110,6 +112,7 @@ public class GradeOverviewController {
     private String email;
     private String password;
     private String id;
+    private static final Logger logger = LogManager.getLogger(GradeOverviewController.class);
 
     public void initialize() {
         ViewSwitcher.switchMenuIcons(this, gradeManagementImage, gradeOverviewImage, statisticsImage, studentProfilesImage, classManagementImage, subjectManagementImage, notificationsImage, messagesImage, settingsImage, logoutImage, emailImageView,  profileImageView, settingsImageView);
@@ -146,6 +149,8 @@ public class GradeOverviewController {
             alert.setHeaderText("USER DATA");
             alert.setContentText("Failed to fetch user data");
             alert.showAndWait();
+
+            logger.error("Failed to fetch user data");
         }
         accountMenuVBox.getChildren().remove(menuSeparator7);
         accountMenuVBox.getChildren().remove(menuSeparator8);
@@ -195,6 +200,7 @@ public class GradeOverviewController {
             Map<String, List<Integer>> subjectMap = yearEntry.getValue();
 
             studentGrades.getItems().add("Rok " + year);
+            logger.debug("Year: " + year);
 
             for (Map.Entry<String, List<Integer>> subjectEntry : subjectMap.entrySet()) {
                 String subject = subjectEntry.getKey();
@@ -203,10 +209,12 @@ public class GradeOverviewController {
                 StringBuilder sb = new StringBuilder();
 
                 sb.append(subject).append(": ");
+                logger.debug("Subject: " + subject);
 
                 if (grades != null) {
                     for (int i = 0; i < grades.size(); i++) {
                         sb.append(grades.get(i));
+                        logger.debug("Grade: " + grades.get(i));
 
                         if (i < grades.size() - 1) {
                             sb.append(", ");

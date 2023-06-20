@@ -16,6 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.security.auth.PrivateCredentialPermission;
 import java.io.IOException;
@@ -59,6 +61,7 @@ public class RegisterController {
     private Stage stage;
     private Scene loginScene;
     private Parent root;
+    private static final Logger logger = LogManager.getLogger(RegisterController.class);
 
     @FXML
     private void initialize() {
