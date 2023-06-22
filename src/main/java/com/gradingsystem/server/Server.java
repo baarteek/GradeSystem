@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static com.gradingsystem.server.Database.*;
 
-public class Main {
+public class Server {
     public static void main(String[] args) {
         Database.connect();
         Database.create_tables();
